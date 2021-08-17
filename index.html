@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<title>M.Amin Hasanpour</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="styles/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="js/snap.svg-min.js"></script>
+<script src="js/main.js"></script>
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body, html {
+  height: 100%;
+  color: #777;
+  line-height: 1.8;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+  background-image: url('images/parallax1.jpg');
+  min-height: 100%;
+}
+
+/* Second image (Portfolio) */
+.bgimg-2 {
+  background-image: url("images/parallax2.jpg");
+  min-height: 400px;
+}
+
+/* Third image (Contact) */
+.bgimg-3 {
+  background-image: url("images/parallax3.jpg");
+  min-height: 400px;
+}
+
+/* TODO: make flowers smelly*/
+@media (min-width:1180px) {
+  /* flower background of first section (About) */
+  .flower-1 {
+    background-image: url("images/flowers/flower 1-1.jpg"), url("images/flowers/flower 1-2.jpg");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left 8%, right 80%;
+    background-size: calc((100% - 980px)/2 * 0.5 + 50px);
+  }
+  
+  /* flower background of second section (Portfolio) */
+  .flower-2 {
+    background-image: url("images/flowers/flower 2.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: right 10%;
+    background-size: calc((100% - 980px)/2 * 0.5 + 50px);
+  }
+  
+  
+  /* flower background of third section (Contact) */
+  .flower-3 {
+    background-image: url("images/flowers/flower 3.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 95% top;
+    background-size: calc((100% - 980px)/2 * 0.5 + 150px);
+  }
+
+  .garden {
+    display: block!important;
+    position: relative;
+    width: 100%;
+    height: 300px;
+  }
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+    min-height: 400px;
+  }
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  display: inline-block;
+  height: 400px;
+  margin: 1rem;
+  width: 80%;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card_image {
+  width: 100%;
+  max-height: 150px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.22);
+}
+
+.card_title {
+  position: relative;
+  font-size: 18px;
+  color: black;
+  font-weight: 900;
+  margin-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.card_description {
+  font-size: 12px;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.button {
+  display: inline-block;
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #707070;
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing:2px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  color: #707070;
+}
+
+.button:after {
+  position: absolute;
+  transition: 0.3s;
+  content: '';
+  width: 0;
+  bottom: 0;
+  height: 120%;
+  left: -10%;
+  background: #cccccc;
+  transform: skewX(15deg);
+  z-index: -1;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: white;
+  border-color: white;
+}
+
+.button:hover:after {
+  left: -10%;
+  width: 120%;
+}
+</style>
+
+<head>
+  <script src="https://kit.fontawesome.com/9469697f79.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="#home" class="w3-bar-item w3-button">HOME</a>
+    <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+    <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> PORTFOLIO</a>
+    <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
+    <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">PORTFOLIO</a>
+    <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
+  </div>
+</div>
+
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+  <!--
+  <div class="w3-display-middle" style="white-space:nowrap;">
+    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">MY <span class="w3-hide-small">WEBSITE</span> LOGO</span>
+  </div>
+  -->
+</div>
+
+<!-- Container (About Section) -->
+<div class="flower-1">
+<div class="w3-content w3-container w3-padding-64" id="about">
+  <h3 class="w3-center">ABOUT ME</h3>
+  <p class="w3-center"><em>I am curious</em></p>
+  <p>Now I'm studying at Sharif University of Technology. Worked on a personal project about data collection and visualization (summer of 2017), and that was the start point. 
+  Then worked on another project, "power window" of cars. Passed the internship at Hardtech-HackerSpace company. My bachelors thesis was continuation of my personal project, 
+  titled: "Design and fabrication of a platform for receiving, storing and displaying data" (local boards - server side - Android application). Also all this time I had some 
+  side projects. And the best part of the story is that there is a wonderful way ahead ...</p>
+  <div class="w3-row">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <p><b><i class="fa fa-user w3-margin-right"></i>Mohammad Amin Hasanpour</b></p><br>
+      <img src="images/my-photo.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-padding-large">
+      <p>Welcome to my website. I am <span style="color: #9999ff;">Mohammad Amin Hasanpour</span>. If you are here it means you are interested to know who I am and what am I good at. So let me help you.</p>
+      <p>Ok. What do you call a person who learns C++, Java, Python, website front-end programming, back-end programming, Microcontrollers programming, PCB designing, Android programming, etc. for its fun?
+    <span style="color: #9999ff;">Self-motivated</span> person? So I am. And what if all that efforts happened in two years across education? I'll be glad if you call the person <span style="color: #9999ff;">diligent</span>.</p>
+      <p>Hmmm... I wanna talk about 
+    <span style="color: #ff3300;">c</span><span style="color: #e6b800;">r</span><span style="color: #0099ff;">e</span><span style="color: #00cc00;">a</span><span style="color: #ff0066;">t</span><span style="color: #6666ff;">i</span><span style="color: #00ffcc;">v</span><span style="color: #cc9900;">i</span><span style="color: #ff33cc;">t</span><span style="color: #3399ff;">y</span>
+    but I'm not allowed :)</p>
+    </div>
+  </div>
+  <p class="w3-large w3-center w3-padding-16">Im really good at:</p>
+  <div class="w3-row w3-center w3-dark-grey w3-padding-16">
+    <div class="w3-third w3-section w3-wide">
+    <i class="fas fa-plane-departure"></i>Learning
+    </div>
+    <div class="w3-third w3-section w3-wide">
+    <i class="fa fa-code"></i>Programming
+    </div>
+    <div class="w3-third w3-section w3-wide">
+    <i class="fas fa-palette"></i>Developing
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Second Parallax Image with Portfolio Text -->
+<div class="bgimg-2 w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+    <span class="w3-xxlarge w3-text-white w3-wide">PORTFOLIO</span>
+  </div>
+</div>
+
+<!-- Container (Portfolio Section) -->
+<div class="flower-2">
+<div class="w3-content w3-container w3-padding-64" id="portfolio">
+  <h3 class="w3-center">MY PROJECTS</h3>
+  <p class="w3-center"><em>Here are some of my projects<br> For more details, click on the projects</em></p><br>
+  
+  
+  <div class="w3-row w3-center w3-light-grey w3-padding-16">
+    <div class="w3-third w3-section">
+		<i class="card" onclick="location.href = 'DragonEye/index.html'">
+			<img src="images/DragonEye_LQ.jpg" alt="first project" class="card_image">
+			<p class="card_title">
+				DragonEye
+			</p>
+			<p class="card_description">
+				Design and fabrication of a platform for receiving, storing and displaying data. This purpose has been accomplished by designing a gateway board, setting a server and developing an Android application
+			</p>
+		</i>
+    </div>
+    <div class="w3-third w3-section">
+		<i class="card" onclick="location.href = 'https://buynowstores.com/'">
+			<img src="images/BuyNow.jpg" alt="first project" class="card_image">
+			<p class="card_title">
+				BuyNow
+			</p>
+			<p class="card_description">
+				Smart refrigerator. Diagnosing picked products, subtracting their price from users credit
+			</p>
+		</i>
+    </div>
+    <div class="w3-third w3-section">
+		<i class="card">
+			<img src="images/Camlight_2.jpg" alt="first project" class="card_image">
+			<p class="card_title">
+				Camlight
+			</p>
+			<p class="card_description">
+				Indicates the recording and standby cameras. Information is taken from Blackmagic ATEM Television Studio HD
+			</p>
+		</i>
+    </div>
+  </div>
+  
+  <br>
+  <br>
+  <br>
+  <h3 class="w3-center">MY RESUME</h3>
+  <p class="w3-center"><em>You can download my resume from here<br>last updated: 9/24/2019</em></p>
+  <div class="w3-center">
+    <a href="resume/resume.pdf" download="M.Amin Hasanpour resume" target="_blank"><div class="button"><i class="fas fa-cloud-download-alt"></i> DOWNLOAD</div></a>
+  </div>
+</div>
+</div>
+
+<!-- Third Parallax Image with Portfolio Text -->
+<div class="bgimg-3 w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+     <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div class="flower-3">
+<div class="w3-content w3-container w3-padding-64" id="contact">
+  <h3 class="w3-center">MESSAGE ME</h3>
+  <p class="w3-center"><em>I enjoy reading your feedbacks while drinking cup of <i class="fa fa-coffee"></i></em></p>
+
+  <div class="w3-row w3-padding-32 w3-section">
+    <div class="w3-col m4 w3-container">
+      <img src="images/contact.webp" class="w3-image w3-round w3-hide-small" style="position: relative; width:100%; margin-top: 30px">
+    </div>
+    <div class="w3-col m8 w3-panel">
+      <div class="w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Tehran, Iran<br>
+        <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> +989330707987<br>
+        <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> amin.h920@yahoo.com<br>
+        <i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br>
+        <i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br>
+        <i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br>
+        <i class="fab fa-quora fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.quora.com/profile/Amin-Hassanpour-1<br>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--
+/* flower garden (under Contact) */
+.garden_flower {
+  background-image: url("images/flowers/flower 99.jpg"), url("images/flowers/flower 91.jpg"), 
+                    url("images/flowers/flower 98.jpg"), url("images/flowers/flower 92.jpg"),
+                    url("images/flowers/butterfly 1.png");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: 25% bottom, 40% bottom, 60% bottom, 70% bottom, 15% calc(100% - 150px);
+  background-size: 150px, 150px, 150px, 150px, 120px;
+}
+-->
+
+<!-- Flower garden -->
+<div class="garden" style="display: none;">
+  <img src="images/flowers/flower 4-1.png" style="position: absolute; bottom: 0; left: 20%; width: 150px;">
+  <img src="images/flowers/flower 4-2.png" style="position: absolute; bottom: 0; left: 35%; width: 150px;">
+  <img src="images/flowers/flower 4-3.png" style="position: absolute; bottom: 0; left: 55%; width: 150px;">
+  <img src="images/flowers/flower 4-4.png" style="position: absolute; bottom: 0; left: 65%; width: 150px;">
+  <img src="images/flowers/butterfly 1.png" style="position: absolute; bottom: 170px; left: 12%; width: 130px;">
+  <svg width="100%" height="50%" version="1.1" id="gardenwind" onload="wind_loop()"></svg>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+</footer>
+ 
+<script>
+// Change style of navbar on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+    var navbar = document.getElementById("myNavbar");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+    } else {
+        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+    }
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function toggleFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
