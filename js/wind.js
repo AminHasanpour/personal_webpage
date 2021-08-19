@@ -2,10 +2,10 @@
 // ============================== WIND IN GARDEN ==============================
 // ============================================================================
 
-var s = null;
-var id = "gardenwind"
-var interval_min = 5;
-var interval_max = 10;
+var wind_s = null;
+var wind_id = "gardenwind"
+var wind_interval_min = 5;
+var wind_interval_max = 10;
 var wind_colors = ["#b3d9ff", "#99ccff", "#80bfff", "#66b3ff", "#4da6ff", 
                    "#3399ff", "#1a8cff", "#0080ff", "#0073e6", "#0066cc"];
 var multi_wind_chance = 0.3;
@@ -13,24 +13,24 @@ var double_stroke_chance = 1;
 
 // This function calls itself every random second and makes a wind blow each time
 function wind_loop(){
-  if (s == null){
-    s = Snap("#" + id);
-    if (s == null){
-        console.log("s is null!")
+  if (wind_s == null){
+    wind_s = Snap("#" + wind_id);
+    if (wind_s == null){
+        console.log("wind_s is null!")
     }
   }
-  s.clear();
+  wind_s.clear();
   blow_a_wind();
   
   // call ourselve after random time
-  var rand = interval_min + Math.random() * (interval_max - interval_min);
+  var rand = wind_interval_min + Math.random() * (wind_interval_max - wind_interval_min);
   setTimeout(wind_loop, rand * 1000);
 }
 
 // blow a random wind, with a chance it can call itself to have more winds in a row
 function blow_a_wind(){
-  var w_cont = document.getElementById(id).clientWidth;
-  var h_cont = document.getElementById(id).clientHeight;
+  var w_cont = document.getElementById(wind_id).clientWidth;
+  var h_cont = document.getElementById(wind_id).clientHeight;
   var x_r = 0.1 * w_cont + Math.random() * 0.7 * w_cont;
   var y_r = 0.15 * h_cont + Math.random() * 0.7 * h_cont;
   var speed = Math.random();
@@ -59,7 +59,7 @@ function blow_a_wind(){
     }});
   var color = wind_colors[Math.floor(speed*wind_colors.length)]
   
-  var p = s.path(svg_path);
+  var p = wind_s.path(svg_path);
   var p_len = p.getTotalLength();
   p.attr({
     fill: "transparent",
@@ -95,7 +95,7 @@ function blow_a_wind(){
         dy: -6.6 * c_r * 0.7,
       }});
     
-    var p_d = s.path(svg_path_d);
+    var p_d = wind_s.path(svg_path_d);
     var p_len_d = p_d.getTotalLength();
     p_d.attr({
       fill: "transparent",
