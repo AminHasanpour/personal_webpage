@@ -22,7 +22,7 @@ var codestr_p1 = `# "DisCoolVer" v3.0.7
   * > Don't worry, u've just been hacked
   * (scary-face) O_O u should be kidding, right?
   * > Yea, sry but u should have seen ur face XD. I'm thinking now that I can 
-  *   type in the console, we may have fun. Likeee ... hmmm... lets write some 
+  *   type in the console, we may have fun. Likeee ... hmmm... let's write some 
   *   code!!!
   * >   
   * >   /)ii/)
@@ -45,10 +45,10 @@ magic.beautify("console")
 
 var codestr_p2 = `
 """
-  * > This module even can beautify ur face :), kids call it photoshop nowdays.
+  * > This module even can beautify ur face :), kids call it photoshop nowadays.
   *   u can access it by magic.beautify("face")
   *
-  * > Now we will use Deep Learning to find out if u r cool, no offence :]
+  * > Now we will use Deep Learning to find out if u r cool, no offense :]
 """
 import os
 import numpy as np
@@ -161,12 +161,12 @@ print("You are COOL!")
   * > Sheeesh!!! u r cool! (surprized? XD)
   * (happy-face looking angry at me :|)
   *
-  * > I even tested this model on my friend named "Alex" and it 
+  * > I also tested this model on my friend named "Alex" and it 
   *   predicted that he isn't cool. So I guess the model works well.
   *
   * > We did it, we made the first "Cool Finder" on the earth. Actually
   *   I did it but..., who cares?! we can tell people u helped :) (even
-  *   my supervisors' name r on the front page of my theses :|)
+  *   my supervisors' names r on the front page of my theses :|)
   *
   * > I had a good time, I hope for u too :) Bye Bye ...
 """

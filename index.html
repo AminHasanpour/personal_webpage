@@ -33,28 +33,29 @@ body, html {
   background-size: cover;
 }
 
-/* First image (Logo. Full height) */
+/* First image (Logo) */
 .bgimg-1 {
   background-image: url('images/parallax1.jpg');
-  min-height: 100%;
+  background-attachment: scroll !important;
+  min-height: 400px;
 }
 
 /* Second image (Portfolio) */
 .bgimg-2 {
   background-image: url("images/parallax2.jpg");
-  min-height: 100%;
+  min-height: 400px;
 }
 
-/* Third image (Contact) */
+/* Third image (Deep Learning) */
 .bgimg-3 {
   background-image: url("images/parallax3.jpg");
-  min-height: 100%;
+  min-height: 400px;
 }
 
-/* fourth image (Deep Learning) */
+/* fourth image (Contact) */
 .bgimg-4 {
   background-image: url("images/parallax4.jpg");
-  min-height: 100%;
+  min-height: 400px;
 }
 
 /* TODO: make flowers smelly*/
@@ -77,7 +78,7 @@ body, html {
     background-size: calc((100% - 980px)/2 * 0.5 + 50px);
   }
   
-  /* flower background of third section (Contact) */
+  /* flower background of fourth section (Contact) */
   .flower-4 {
     background-image: url("images/flowers/flower 3.png");
     background-repeat: no-repeat;
@@ -110,7 +111,6 @@ body, html {
 @media only screen and (max-device-width: 1600px) {
   .bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
     background-attachment: scroll;
-    min-height: 400px;
   }
 }
 
@@ -119,8 +119,8 @@ body, html {
   border-radius: 14px;
   display: inline-block;
   height: 400px;
-  margin: 1rem;
-  width: 80%;
+  width: 95%;
+  max-width: 250px;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -132,7 +132,9 @@ body, html {
 
 .card_image {
   width: 100%;
-  max-height: 150px;
+  height: 150px;
+  object-fit: cover;
+  overflow: hidden;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.22);
@@ -205,6 +207,14 @@ body, html {
   display: flex; 
   flex-direction: column-reverse;
   overflow: auto;
+}
+
+.pale {
+  color: #cccccc;
+}
+
+.pale:hover {
+  color: #777;
 }
 </style>
 
@@ -313,7 +323,7 @@ body, html {
       </div>
       <div class="w3-third w3-section">
       <i class="card" onclick="location.href = 'https://buynowstores.com/'">
-        <img src="images/BuyNow.jpg" alt="first project" class="card_image">
+        <img src="images/BuyNow.jpg" alt="second project" class="card_image">
         <p class="card_title">
           BuyNow
         </p>
@@ -324,7 +334,7 @@ body, html {
       </div>
       <div class="w3-third w3-section">
       <i class="card">
-        <img src="images/Camlight_2.jpg" alt="first project" class="card_image">
+        <img src="images/Camlight.jpg" alt="third project" class="card_image">
         <p class="card_title">
           Camlight
         </p>
@@ -359,7 +369,16 @@ body, html {
 <div class="flower-3">
   <div class="w3-content w3-container w3-padding-top-64" style="padding-bottom: 16px;" id="dl">
     <h3 class="w3-center">DEEP LEARNING ADVENTURE</h3>
-    <p class="w3-center"><em>"Love happens at first sight"<br>Deep Learning made me believe</i></em></p>
+    <p class="w3-center"><em>"Love happens at first sight"<br>Deep Learning made me believe</em></p>
+    <p>I had very good knowledge and experience of microcontrollers programming and a huge interest in the field of IoT when I finished my undergraduate studies.
+      Then I was looking for a good master's thesis subject that I got familiar with deep learning: Wow, oh wow... some simple units connect to each other, 
+      making a network with a huge computation capability. Then an optimization algorithm finds the right parameters for the network to do the task. Even big ideas 
+      in this field are so simple and intuitive. Isn't that all so beautiful?
+    </p>
+    <p>This way, for the last few years, I've spent all my time learning deep learning, and I'm looking to do some cool cutting-edge research for my Ph.D. To know 
+      what I've done in deep learning, check out my 
+      <a href="DeepLearning/index.html", style="color: #04AA6D;">deep learning page</a>.
+    </p>
   </div>
 </div>
 
@@ -373,7 +392,7 @@ body, html {
   </div>
 </div>
 
-<!-- Third Parallax Image with Contact Text -->
+<!-- Fourth Parallax Image with Contact Text -->
 <div class="bgimg-4 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
      <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
@@ -384,7 +403,7 @@ body, html {
 <div class="flower-4">
   <div class="w3-content w3-container w3-padding-64" id="contact">
     <h3 class="w3-center">MESSAGE ME</h3>
-    <p class="w3-center"><em>I enjoy reading your feedbacks while drinking cup of <i class="fa fa-coffee"></i></em></p>
+    <p class="w3-center"><em>I like when my messaging apps have a red circle on top of their icon. So feel free to contact me.</em></p>
 
     <div class="w3-row w3-padding-32 w3-section">
       <div class="w3-col m4 w3-container">
@@ -395,10 +414,10 @@ body, html {
           <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Tehran, Iran<br>
           <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> +989330707987<br>
           <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> amin.h920@yahoo.com<br>
-          <i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br>
-          <i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br>
-          <i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br>
-          <i class="fab fa-quora fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.quora.com/profile/Amin-Hassanpour-1<br>
+          <span class="pale"><i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br></span>
+          <span class="pale"><i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br></span>
+          <span class="pale"><i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br></span>
+          <span class="pale"><i class="fab fa-quora fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.quora.com/profile/Amin-Hassanpour-1<br></span>
         </div>
       </div>
     </div>

@@ -1,0 +1,62 @@
+$(function() {
+  $("#tabs").tabs({
+    show: { effect: "blind", direction: "left", duration: 300 }
+  });
+  $( "#accordion" ).accordion();
+
+  var btn = $('#accordion li a');
+  var wrapper = $('#accordion li');
+
+  $(btn).on('click', function() {
+    $(btn).removeClass('active');
+    $(btn).parent().find('.addon').removeClass('fadein');
+    
+    $(this).addClass('active');
+    $(this).parent().find('.addon').addClass('fadein');
+  });
+});
+
+
+/* Scrollable */
+
+$(document).ready(function () {
+    if (window.matchMedia("(min-width:1180px)").matches) {
+        var Scrollbar = window.Scrollbar;
+        Scrollbar.use(window.OverscrollPlugin);
+        var customScroll = Scrollbar.init(document.querySelector('.js-scroll-list'), {
+        plugins: {
+            overscroll: true
+        }
+        });
+    
+        var listItem = $('.js-scroll-list-item');
+        listItem.eq(0).addClass('item-focus');
+    
+        customScroll.addListener(function (status) {
+    
+        $('.scroll-downs').css('opacity', '0');
+        $('.scroll-downs').css('height', '0');
+        
+        var top = status.offset.y;
+        // console.log(top);
+    
+        var parentTop = 1;
+        var $lis = $('.js-scroll-list-item');
+        for (var i = 0; i < $lis.length; i++) {
+            var $li = $($lis[i]);
+            var liTop = $li.position().top;
+            var liRelTop = liTop - parentTop;
+    
+            if (liRelTop + $li.parent().scrollTop() > top) {
+            if (!$li.hasClass('item-focus')) {
+                $li.prev().addClass('item-hide');
+                $lis.removeClass('item-focus');
+            }
+            $li.removeClass('item-hide');
+            $li.addClass('item-focus');
+            break;
+            }
+        }
+        });
+    }
+  });
