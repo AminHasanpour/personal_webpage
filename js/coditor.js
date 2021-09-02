@@ -17,7 +17,7 @@ var codestr_p1 = `# "DisCoolVer" v3.0.7
   * .  lo
   *  .  lo
   *   .   o
-  * > Hey, whats up?
+  * > Hey, what's up?
   * Oh my GOD; what's happening?!
   * > Don't worry, u've just been hacked
   * (scary-face) O_O u should be kidding, right?
@@ -37,7 +37,7 @@ var codestr_p1 = `# "DisCoolVer" v3.0.7
 """
 
 """
-  * > First beautify the console
+  * > First, beautify the console
 """
 from weirdo import magic
 magic.beautify("console")
