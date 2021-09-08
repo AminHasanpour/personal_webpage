@@ -3,6 +3,7 @@
 <title>M.Amin Hasanpour</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../styles/loader.css">
 <link rel="stylesheet" href="../styles/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -113,6 +114,15 @@ body, html {
 </head>
 
 <body>
+
+<div class="loader_screen">
+  <div class="loader"></div>
+  <div class="loader_text">
+    <p>We are loading</p>
+    <p>You can get more information about me on the <a href="../index.html", style="color: #9999ff; text-decoration: none;">home page</a></p>
+    <p class="loader_skip">Tired of waiting? <span style="color: #9999ff; cursor: pointer;" onclick="remove_loader_screen()">skip the loading page</span></p>
+  </div>
+</div>
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top" style="color: #4a4a4a">
@@ -428,6 +438,25 @@ body, html {
 </footer>
  
 <script>
+// Loading screen
+setTimeout(pop_skip_loader, 5000);
+function pop_skip_loader() {
+  var skip = document.getElementsByClassName("loader_skip")[0];
+  skip.style.visibility = "visible";
+  skip.style.opacity = 1;
+  skip.style.top = 0;
+}
+
+function remove_loader_screen() {
+  var loader = document.getElementsByClassName("loader_screen")[0];
+  loader.style.visibility = "hidden";
+  loader.style.opacity = 0;
+}
+
+window.onload = function() {
+  remove_loader_screen()
+}
+
 // Modal Image Gallery
 function onClick(element) {
   document.getElementById("img01").src = element.id;
@@ -437,14 +466,13 @@ function onClick(element) {
 }
 
 // Change style of navbar on scroll
-window.onscroll = function() {myFunction()};
-function myFunction() {
-    var navbar = document.getElementById("myNavbar");
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
-    } else {
-        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
-    }
+window.onscroll = function() {
+  var navbar = document.getElementById("myNavbar");
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+  } else {
+      navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+  }
 }
 
 // Used to toggle the menu on small screens when clicking on the menu button
