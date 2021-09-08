@@ -51,7 +51,7 @@ body, html {
 
 /* Fourth image (Contact) */
 .bgimg-4 {
-  background-image: url("images/coffee_beans-wallpaper-3840x2160.jpg");
+  background-image: url("../images/parallax4.jpg");
   min-height: 400px;
 }
 
@@ -189,7 +189,7 @@ body, html {
   <div class="w3-row">
     <div class="w3-col m6 w3-center w3-padding-large">
       <p><b><i class="fas fa-microchip"></i> Local Boards</b></p><br>
-      <img src="images/Boards_Together.png" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+      <img src="images/Boards_Together.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
     </div>
 
     <div class="w3-col m6 w3-padding-large">
@@ -336,37 +336,37 @@ body, html {
   <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
   <div class="w3-row-padding w3-center">
     <div class="w3-col m3">
-      <img src="images/Gallery/1.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board (Top Layer)">
+      <img src="images/Gallery/1.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board (Top Layer)" id="images/Gallery/1_HQ.jpg">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/2.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board (Bottom Layer)">
+      <img src="images/Gallery/2.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board (Bottom Layer)" id="images/Gallery/2_HQ.jpg">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/3.png" style="background:#737373" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Boards Together">
+      <img src="images/Gallery/3.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Boards Together" id="images/Gallery/3_HQ.png">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/4.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Power Detector Board">
+      <img src="images/Gallery/4.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Power Detector Board" id="images/Gallery/4_HQ.jpg">
     </div>
   </div>
 
   <div class="w3-row-padding w3-center w3-section">
     <div class="w3-col m3">
-      <img src="images/Gallery/5.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board_Beauty">
+      <img src="images/Gallery/5.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Gateway Board_Beauty" id="images/Gallery/5_HQ.jpg">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/6.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="All in one shot">
+      <img src="images/Gallery/6.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="All in one shot" id="images/Gallery/6_HQ.jpg">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/7.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Created By 'Black3rror'">
+      <img src="images/Gallery/7.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Created By 'Black3rror'" id="images/Gallery/7_HQ.jpg">
     </div>
 
     <div class="w3-col m3">
-      <img src="images/Gallery/8.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Dragon Logo">
+      <img src="images/Gallery/8.jpg" onclick="onClick(this)" class="w3-hover-opacity gallery_image" alt="Dragon Logo" id="images/Gallery/8_HQ.jpg">
     </div>
   </div>
 </div>
@@ -395,7 +395,7 @@ body, html {
 
     <div class="w3-row w3-padding-32 w3-section">
       <div class="w3-col m4 w3-container">
-        <img src="../images/contact.webp" class="w3-image w3-round w3-hide-small" style="position: relative; width:100%; margin-top: 30px">
+        <img src="../images/contact.jpg" class="w3-image w3-round w3-hide-small" style="position: relative; width:100%; margin-top: 30px">
       </div>
       <div class="w3-col m8 w3-panel">
         <div class="w3-large w3-margin-bottom">
@@ -430,7 +430,7 @@ body, html {
 <script>
 // Modal Image Gallery
 function onClick(element) {
-  document.getElementById("img01").src = element.src;
+  document.getElementById("img01").src = element.id;
   document.getElementById("modal01").style.display = "block";
   var captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
