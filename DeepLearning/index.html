@@ -917,6 +917,19 @@ function toggleFunction() {
         x.className = x.className.replace(" w3-show", "");
     }
 }
+
+// Record the info
+var url_string = window.location.href;
+var url = new URL(url_string);
+var rec = url.searchParams.get("rec");
+var id = url.searchParams.get("i");
+
+if (rec == null)
+  rec = "true";
+
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open("GET", "https://ee.sharif.edu/~mohammadamin.hasanpour/inforec/inforec.php?source=DeepLearning&id="+id+"&rec="+rec, false);
+xmlHttp.send( null );
 </script>
 
 </body>
