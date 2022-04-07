@@ -468,14 +468,33 @@ function remove_loader_screen() {
   var loader = document.getElementsByClassName("loader_screen")[0];
   loader.style.visibility = "hidden";
   loader.style.opacity = 0;
+
+  if (url.searchParams.get("nav") == "true")
+    setTimeout(function(){location.href = "#dl"}, 5000);
 }
 
 window.onload = function() {
   remove_loader_screen()
 }
 
-// Change style of navbar on scroll
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.bottom >= 0 &&
+        rect.right >= 0 &&
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+var coditor_block = document.getElementById('coditor_nn_block');
 window.onscroll = function() {
+  var coditor_start = isInViewport(coditor_block);
+  if (coditor_start == true) {
+    write_code(0);
+  }
+
+  // Change style of navbar on scroll
   var navbar = document.getElementById("myNavbar");
   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
       navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
