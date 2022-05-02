@@ -93,7 +93,7 @@ function train_nn(){
   var pass_time = lines.length * l_d_draw_delay   // time needed to do a pass
   draw_d_lines(0, l_d_draw_delay, +1)
   setTimeout(draw_d_lines, pass_time + 500, 0, l_d_draw_delay, -1)
-  setTimeout(update_weights, 2*pass_time + 500, 2)
+  setTimeout(update_weights, 2*pass_time + 500, 1.5)
   setTimeout(update_lines, 2*pass_time + 1000)
 }
 
@@ -183,7 +183,7 @@ function draw_d_lines(i, ms, direction){
 function update_weights(lr){
   for (var i=0 ; i<lines.length ; i++){
     var tmp = lr * (2*Math.random()-1)
-    lines[i].val += Math.min(Math.max(tmp, -4), 4)
+    lines[i].val = Math.min(Math.max(tmp, -4), 4)
   }
 }
 
