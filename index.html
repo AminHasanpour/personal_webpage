@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles/loader.css">
 <link rel="stylesheet" href="styles/w3.css">
+<link rel="stylesheet" href="styles/scrollable_slider.css">
+<link rel="stylesheet" href="styles/email_box.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="js/snap.svg-min.js"></script>
@@ -12,6 +14,15 @@
 <script src="js/nn.js"></script>
 <script src="js/prism.js" data-manual></script>
 <script src="js/coditor.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/smooth-scrollbar.js"></script>
+<script src="js/overscroll.js"></script>
+<script src="js/scrollable_slider.js"></script>
+<script src="js/loading_text.js"></script>
+<script src="js/email_box.js"></script>
+<script src="js/email.min.js"></script>
+<script src="js/gsap.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 
@@ -27,41 +38,47 @@ body, html {
 }
 
 /* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
+.bgimg-home, .bgimg-dl, .bgimg-learning, .bgimg-projects, .bgimg-contact {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-/* First image (Logo) */
-.bgimg-1 {
-  background-image: url('images/parallax1.jpg');
+/* Home background */
+.bgimg-home {
+  background-image: url('images/bg_home.jpg');
   background-attachment: scroll !important;
   min-height: 400px;
 }
 
-/* Second image (Projects) */
-.bgimg-2 {
-  background-image: url("images/parallax2.jpg");
+/* Deep Learning background */
+.bgimg-dl {
+  background-image: url("images/bg_dl.jpg");
   min-height: 400px;
 }
 
-/* Third image (Deep Learning) */
-.bgimg-3 {
-  background-image: url("images/parallax3.jpg");
+/* Learning background */
+.bgimg-learning {
+  background-image: url("images/bg_learning.jpg");
   min-height: 400px;
 }
 
-/* fourth image (Contact) */
-.bgimg-4 {
-  background-image: url("images/parallax4.jpg");
+/* Projects background */
+.bgimg-projects {
+  background-image: url("images/bg_projects.jfif");
   min-height: 400px;
 }
 
-/* TODO: make flowers smelly*/
+/* Contact background */
+.bgimg-contact {
+  background-image: url("images/bg_contact.jpg");
+  min-height: 400px;
+}
+
+/* TODO: make flowers smell*/
 @media (min-width:1180px) {
-  /* flower background of first section (About) */
+  /* flower background number 1 */
   .flower-1 {
     background-image: url("images/flowers/flower 1-1.jpg"), url("images/flowers/flower 1-2.jpg");
     background-repeat: no-repeat;
@@ -70,7 +87,7 @@ body, html {
     background-size: calc((100% - 980px)/2 * 0.5 + 50px);
   }
   
-  /* flower background of second section (Projects) */
+  /* flower background number 2 */
   .flower-2 {
     background-image: url("images/flowers/flower 2.png");
     background-repeat: no-repeat;
@@ -79,8 +96,8 @@ body, html {
     background-size: calc((100% - 980px)/2 * 0.5 + 50px);
   }
   
-  /* flower background of fourth section (Contact) */
-  .flower-4 {
+  /* flower background number 3 */
+  .flower-3 {
     background-image: url("images/flowers/flower 3.jpg");
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -107,7 +124,7 @@ body, html {
 
 /* Turn off parallax scrolling for tablets and phones */
 @media only screen and (max-device-width: 1600px) {
-  .bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
+  .bgimg-home, .bgimg-dl, .bgimg-learning, .bgimg-projects, .bgimg-contact {
     background-attachment: scroll;
   }
 }
@@ -121,12 +138,15 @@ body, html {
   height: 400px;
   width: 95%;
   max-width: 250px;
-  cursor: pointer;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.card_clickable {
+  cursor: pointer;
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-.card:hover {
+.card_clickable:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
@@ -159,7 +179,7 @@ body, html {
   padding-right: 15px;
 }
 
-.button {
+.fancy_button {
   display: inline-block;
   margin: 10px;
   padding: 20px;
@@ -174,7 +194,7 @@ body, html {
   color: #707070;
 }
 
-.button:after {
+.fancy_button:after {
   position: absolute;
   transition: 0.3s;
   content: '';
@@ -187,13 +207,13 @@ body, html {
   z-index: -1;
 }
 
-.button:hover {
+.fancy_button:hover {
   cursor: pointer;
   color: white;
   border-color: white;
 }
 
-.button:hover:after {
+.fancy_button:hover:after {
   left: -10%;
   width: 120%;
 }
@@ -222,47 +242,67 @@ body, html {
 .pale:hover {
   color: #777;
 }
+
+.one-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.one-line:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+.one-line:hover .pale {
+  color: #9999ff;
+}
 </style>
+
 
 <head>
   <script src="https://kit.fontawesome.com/9469697f79.js" crossorigin="anonymous"></script>
 </head>
+
 
 <body>
 
 <div class="loader_screen">
   <div class="loader"></div>
   <div class="loader_text">
-    <p>We are loading</p>
-    <p>You can get more information about my Deep Learning adventure in the related section, or on the <a href="DeepLearning/index.html", style="color: #9999ff; text-decoration: none;">deep learning page</a></p>
+    <p id="loader_main_text">We are loading</p>
     <p class="loader_skip">Tired of waiting? <span style="color: #9999ff; cursor: pointer;" onclick="remove_loader_screen()">skip the loading page</span></p>
   </div>
 </div>
 
+
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
-  <div class="w3-bar" id="myNavbar">
+  <div class="w3-bar" id="navbar">
     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
       <i class="fa fa-bars"></i>
     </a>
     <a href="#home" class="w3-bar-item w3-button">HOME</a>
     <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+    <a href="#dl" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-heart"></i> DEEP LEARNING</a>
+    <a href="#learning" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-graduation-cap"></i> LEARNING</a>
     <a href="#projects" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> PROJECTS</a>
-    <a href="#dl" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-graduation-cap"></i> DEEP LEARNING</a>
     <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
     <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
-    <a href="#projects" class="w3-bar-item w3-button" onclick="toggleFunction()">PROJECTS</a>
     <a href="#dl" class="w3-bar-item w3-button" onclick="toggleFunction()">DEEP LEARNING</a>
+    <a href="#learning" class="w3-bar-item w3-button" onclick="toggleFunction()">LEARNING</a>
+    <a href="#projects" class="w3-bar-item w3-button" onclick="toggleFunction()">PROJECTS</a>
     <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
   </div>
 </div>
 
-<!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+
+<!-- Home Background -->
+<div class="bgimg-home w3-display-container w3-opacity-min" id="home">
   <!--
   <div class="w3-display-middle" style="white-space:nowrap;">
     <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">MY <span class="w3-hide-small">WEBSITE</span> LOGO</span>
@@ -275,27 +315,23 @@ body, html {
   <div class="w3-content w3-container w3-padding-64" id="about">
     <h3 class="w3-center">ABOUT ME</h3>
     <p class="w3-center"><em>I am curious</em></p>
-    <p>I've got my bachelor's degree from K. N. Toosi University of Technology with a GPA of 3.67/4.0. The landmark of this part of my life was my interest and effort towards 
-      learning practical skills, which led to many projects that I'm proud of. Then, I've got my master's degree in electrical engineering from the Sharif University of Technology with a GPA of 4.0/4.0. Currently, my interest is in deep learning, and 
-      I've put tremendous effort into building a solid foundation in different branches of it. Therefore, I'm excited to pursue my Ph.D. in this field. The best is yet to come ...</p>
+    <p>I earned my bachelor's degree from K. N. Toosi University of Technology. A defining aspect of this part of my life was my strong interest in acquiring practical skills, leading to several projects of which I am proud. Following that, I received my master's degree in electrical engineering from Sharif University of Technology. During this period, I got the chance to freely roam around the world of AI and build a solid foundation in different branches of it. Currently, I'm a Ph.D. student in DTU, following my dreams of creating a better future. The best is yet to come ...</p>
+    <p>My research interests include Deep Learning and TinyML. In my Ph.D., I'm exploring new methods to make AI models more efficient, as well as the best ways companies can integrate AI into their products. This research opens up opportunities for emerging applications that can benefit from improved privacy, reduced energy consumption, and enhanced performance.</p>
     <div class="w3-row">
       <div class="w3-col m6 w3-center w3-padding-large">
         <p><b><i class="fa fa-user w3-margin-right"></i>Mohammad Amin Hasanpour</b></p><br>
         <img src="images/my-photo.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
       </div>
 
-      <!-- Hide this text on small devices -->
       <div class="w3-col m6 w3-padding-large">
-        <p>Welcome to my website. I am <span style="color: #9999ff;">Mohammad Amin Hasanpour</span>. If you are here, you probably want to know who I am and what I am good at. So let me help you.</p>
-        <p>Fun fact: I've learned C++, Java, Python, website front-end and back-end programming, microcontrollers programming, PCB designing, Android programming, etc., for its fun. So, no one 
-          will judge you if you call me <span style="color: #9999ff;">Self-motivated</span> (I will, if you call me a geek :)) What if all that efforts happened in two years across education? You want 
-          to call me <span style="color: #9999ff;">diligent</span>? Thank you :]</p>
-        <p>Hmmm... I wanna talk about 
+        <p>Welcome to my less-than-professional website. My name is <span style="color: #9999ff;">Mohammad Amin Hasanpour</span>, and since you're here, I'm guessing you're curious about who I am. So, let's dive right in!</p>
+        <p>I've taught myself C++, Java, Python, front-end and back-end web development, microcontroller programming, PCB design, Android app development, and more - just for the fun of it. So, if you want to call me <span style="color: #9999ff;">Self-motivated</span>, I won't complain (But please, no “geek” labels, OK?). Now, imagine cramming all that learning into just two years alongside my education… <span style="color: #9999ff;">diligent</span> is a word I wouldn't mind hearing! Thank you :]</p>
+        <p>Oh, and about my 
       <span style="color: #ff3300;">c</span><span style="color: #e6b800;">r</span><span style="color: #0099ff;">e</span><span style="color: #00cc00;">a</span><span style="color: #ff0066;">t</span><span style="color: #6666ff;">i</span><span style="color: #00ffcc;">v</span><span style="color: #cc9900;">i</span><span style="color: #ff33cc;">t</span><span style="color: #3399ff;">y</span>
-      but, you may think I'm cocky :)</p>
+      ? I'll keep it humble - no need for me to come off as cocky, right?</p>
       </div>
     </div>
-    <p class="w3-large w3-center w3-padding-16">I'm really good at:</p>
+    <!-- <p class="w3-large w3-center w3-padding-16">I'm really good at:</p>
     <div class="w3-row w3-center w3-dark-grey w3-padding-16">
       <div class="w3-third w3-section w3-wide">
       <i class="fas fa-plane-departure"></i>Learning
@@ -306,27 +342,172 @@ body, html {
       <div class="w3-third w3-section w3-wide">
       <i class="fas fa-palette"></i>Developing
       </div>
+    </div> -->
+  </div>
+</div>
+
+
+<!-- Deep Learning Background -->
+<div class="bgimg-dl w3-display-container w3-opacity-min">
+  <!--
+  <div class="w3-display-middle">
+     <span class="w3-xxlarge w3-text-white w3-wide">DEEP LEARNING</span>
+  </div>
+  -->
+</div>
+
+<!-- Container (Deep Learning Section) -->
+<div>
+  <div class="w3-content w3-container w3-padding-top-64" style="padding-bottom: 16px;" id="dl">
+    <h3 class="w3-center">DEEP LEARNING</h3>
+    <p class="w3-center"><em>"Love happens at first sight"<br>Deep Learning made me believe</em></p>
+    <p>In 2019, I was searching for a subject for my master's thesis that I stumbled upon deep learning. Wow, oh, wow...  you have these simple units connecting to each other, forming a network with immense computational power. Then, an optimization algorithm comes into play, fine-tuning the parameters so the network can carry out a specific task. Even the biggest ideas in this field are so simple and intuitive. Isn't that just beautiful?
+    </p>
+    <p>Given the prior interest in embedded systems and IoT, it should be no surprise that I ended up in the TinyML world. I consider myself lucky to be working on a subject that I'm genuinely passionate about, and I'm excited to see where this passion will lead me.
+    </p>
+  </div>
+</div>
+
+<div class="w3-row", id="coditor_nn_block" style="display: none;" onmouseenter="write_code(0);">
+  <div class="w3-col m6 w3-padding-large" style="height: 100%;">
+    <pre id="editor_container"><code class="language-python" id="editor"></code></pre>
+  </div>
+
+  <div class="w3-col m6 w3-padding-large" style="height: 100%;">
+    <svg width="100%" height="100%" version="1.1" id="neuralnet"></svg>
+  </div>
+</div>
+
+
+<!-- Learning Background -->
+<div class="bgimg-learning w3-display-container w3-opacity-min">
+  <div class="w3-display-middle">
+    <span class="w3-xxlarge w3-text-white w3-wide">LEARNING</span>
+  </div>
+</div>
+
+<!-- Container (Learning Section) -->
+<div class="w3-content w3-container w3-padding-64" id="learning">
+  <h3 class="w3-center">LEARNING ADVENTURE</h3>
+  <p class="w3-center"><em>Changing the connections</em></p>
+  <p>
+    Sometimes, having too many learning sources can be confusing, and this is especially true for deep learning. My solution? I kept diving into multiple articles, books, and videos. Along the way, I've picked up knowledge (and likely written some code) in the following areas of deep learning:<br>
+    <div class="one-line">Basic: <span class="pale"> Layers (Dense, BatchNorm, Dropout, ...) - Regularization Techniques (Dropout, BatchNorm, Data augmentation, DropConnect, ...) - Loss functions (Hinge loss, Cross Entropy losses, MSE, MAE, ...) - Optimization algorithms (SGD, SGD+Momentum, Nestrov momentum, Adagrad, RMSProp, Adam) - Preprocessing</span></div>
+    <div class="one-line">Computer Vision: <span class="pale">Layers (Conv., TransConv., GDN, IGDN, Pooling, ...)</span></div>
+    <div class="one-line">Recurrent Neural Networks: <span class="pale">Layers (Simple RNN, LSTM, GRU, Conv. LSTM, Bidirectionals)</span></div>
+    <div class="one-line">TinyML: <span class="pale">Quantization - Pruning - Clustering - Neuron Merging - Knowledge Distillation - Early Exit Networks - NAS - ...</span></div>
+    <div class="one-line">Generative Adversarial Networks: <span class="pale">CGAN - DCGAN - CycleGAN - ...</span></div>
+    <div class="one-line">Reinforcement Learning: <span class="pale">Essentials</span></div>
+    <div class="one-line">Network Structures: <span class="pale">AE (AE, VAE, CAE, ...) - Classification (AlexNet, VGG, GoogLeNet, ResNe(x)t, NiN, FractalNet, DenseNet, SqueezeNet, ...) - Detection ((Fast(er)) R-CNN, SPPNet, YOLO, ...) - Segmentation (Mask R-CNN, SegNet, U-Net, ...)
+    </span></div>
+    <div class="one-line">Applications: <span class="pale">Face detection and recognition - NLP and translation - Telecommunication coding - Data generation - Style transfer - Word embedding - ...</span></div>
+    Etc.
+  </p>
+  <p>  
+    Through this process, I've found the following sources so helpful.
+  </p>
+  
+  <div class="w3-row items-v-center">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <p><b>CS231n (Stanford)</b></p><br>
+      <img src="images/CS231n.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" width="500" height="333">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <p>
+        One of the best learning resources for me was the video series on Convolutional Neural Networks for Visual Recognition (CS231n) from Stanford University. I watched both the 2016 and 2017 course videos, and while Andrej Karpathy took center stage in the first one, I found the 2017 version even more engaging. The way they explained the concepts was so beautiful and intuitive - I absolutely loved it. Hats off to them!
+      </p>
+    </div>
+  </div>
+  
+  <hr>
+
+  <div class="w3-row items-v-center">
+    <div class="w3-col m6 w3-center w3-padding-large  w3-hide-medium w3-hide-large">
+      <p><b>Coursera</b></p><br>
+      <img src="images/coursera.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+    
+    <div class="w3-col m6 w3-padding-large">
+      <p>
+        One of the famous learning sources available online is the Deep Learning Specialization instructed by Andrew NG, a pioneer in deep learning, available on Coursera.
+        The specialization consists of five courses, titled: Neural Networks and Deep Learning - Improving Deep Neural Networks - Structuring Machine Learning Projects - Convolutional Neural Networks - Sequence Models. These courses start from the basic elements and cover a lot of deep learning subjects in detail. With the exercises and quizzes offered in each course, you can make sure you truly grasp the material. Although each course is designed to take about four weeks to complete, thanks to my prior knowledge, I was able to finish some of them in under two days, all with a perfect score of 100/100 (including the optional parts) :)
+      </p>
+    </div>
+    
+    <div class="w3-col m6 w3-center w3-padding-large  w3-hide-small">
+      <p><b>Coursera</b></p><br>
+      <img src="images/coursera.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+  </div>
+
+  <hr>
+  
+  <div class="w3-row items-v-center">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <p><b>Introduction to Deep Learning (MIT)</b></p><br>
+      <img src="images/MIT intro to dl.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" width="500" height="333">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <p>
+        MIT's 6.S191 course (Introduction to Deep Learning) is another excellent learning resource. It's concise yet highly informative, covering the essential topics in deep learning. They even go beyond the typical scope of most deep learning courses, touching on more advanced subjects like Reinforcement Learning.
+      </p>
+    </div>
+  </div>
+  
+  <hr>
+
+  <div class="w3-row items-v-center">
+    <div class="w3-col m6 w3-center w3-padding-large  w3-hide-medium w3-hide-large">
+      <p><b>Deep Learning (Book)</b></p><br>
+      <img src="images/deep learning book.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+    
+    <div class="w3-col m6 w3-padding-large">
+      <p>
+        This book is perfect for anyone wanting to learn deep learning from the ground up, especially if you enjoy math. Just take a look at the authors: Ian Goodfellow and Yoshua Bengio (I have a bit of a weird feeling about the third author - I can't shake the sense that he might have been their typing machine :). Anyway, this book actually serves as the main reference for deep learning courses at universities. While its content is excellent, it does take quite a bit of time. I only made it halfway through Part II before life got in the way. Hopefully, I'll be able to finish it in my free time...
+      </p>
+    </div>
+    
+    <div class="w3-col m6 w3-center w3-padding-large  w3-hide-small">
+      <p><b>Deep Learning (Book)</b></p><br>
+      <img src="images/deep learning book.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Photo of Me" width="500" height="333">
+    </div>
+  </div>
+  
+  <hr>
+
+  <div class="w3-row items-v-center">
+    <div class="w3-col m6 w3-center w3-padding-large">
+      <p><b>Efficient ML (MIT)</b></p><br>
+      <img src="images/MIT efficient ml.png" class="w3-round w3-image w3-opacity w3-hover-opacity-off" width="500" height="333">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <p>
+        When it comes to TinyML, who else can you name to be more influential than Song Han? MIT's 6.5940 course (Efficient ML) is a great resource for learning about the latest techniques in deep learning. The course covers a wide range of topics, including model compression, quantization, and pruning. It's a must-watch for anyone interested in making deep learning models more efficient.
+      </p>
     </div>
   </div>
 </div>
 
-<!-- Second Parallax Image with Projects Text -->
-<div class="bgimg-2 w3-display-container w3-opacity-min">
-  <div class="w3-display-middle">
+
+<!-- Projects Background -->
+<div class="bgimg-projects w3-display-container w3-opacity-min">
+  <!-- <div class="w3-display-middle">
     <span class="w3-xxlarge w3-text-white w3-wide">PROJECTS</span>
-  </div>
+  </div> -->
 </div>
 
 <!-- Container (Projects Section) -->
 <div class="flower-2">
   <div class="w3-content w3-container w3-padding-64" id="projects">
-    <h3 class="w3-center">MY UNDERGRAD PROJECTS</h3>
-    <p class="w3-center"><em>Here are some of my projects I've done in B.Sc. You can find my deep learning work in the related section.<br>For more details, click on the project.</em></p><br>
+    <h3 class="w3-center">BACHELOR PROJECTS</h3><br>
     
-    
-    <div class="w3-row w3-center w3-light-grey w3-padding-16">
+    <div class="w3-row w3-center w3-padding-16">
       <div class="w3-third w3-section">
-      <i class="card" onclick="location.href = 'DragonEye/index.html'">
+      <i class="card card_clickable" onclick="window.open('DragonEye/index.html')">
         <img src="images/DragonEye_LQ.jpg" alt="first project" class="card_image">
         <p class="card_title">
           DragonEye
@@ -337,7 +518,7 @@ body, html {
       </i>
       </div>
       <div class="w3-third w3-section">
-      <i class="card" onclick="location.href = 'https://buynowstores.com/'">
+      <i class="card card_clickable" onclick="window.open('https://buynowstores.com/')">
         <img src="images/BuyNow.jpg" alt="second project" class="card_image">
         <p class="card_title">
           BuyNow
@@ -359,76 +540,635 @@ body, html {
       </i>
       </div>
     </div>
+
+    <br>
+    <br>
+    <br>
+    <h3 class="w3-center">MASTER THESIS</h3>
+    <div class="w3-row">
+      <div class="w3-col m6 w3-padding-large">
+        <p>
+          One effective method to improve coding algorithms in the transmission of messages is obtained by paying more attention to the amount of information contained in each part of the message and transmit information accordingly.
+          Based on this simple but practical idea, we proposed two methods that can significantly impact the performance of the existing coding algorithms. As you can see in the chart, they were able to reduce bitrate by even more than 
+          25% while achieving the same quality as before.
+        </p>
+      </div>
+      
+      <div class="w3-col m6 w3-center w3-padding-large">
+        <img src="images/master thesis results.png" class="w3-round w3-image" alt="Master thesis results" width="500" height="333">
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <h3 class="w3-center">PHD PROJECTS</h3><br>
+    
+    <div class="w3-row w3-center w3-padding-16">
+      <div class="w3-third w3-section">
+      <i class="card card_clickable" onclick="window.open('Benchmarking/index.html')">
+        <img src="images/benchmarking.png" alt="first project" class="card_image">
+        <p class="card_title">
+          Benchmarking eAI Tools
+        </p>
+        <p class="card_description">
+          In this project, we made an automation system for eAI tools that we've also used to benchmark them. It can help you easily generate your models, convert them to C/C++ code using various optimization techniques, compile and test them on your device.
+        </p>
+      </i>
+      </div>
+      <div class="w3-third w3-section">
+      <i class="card card_clickable" onclick="window.open('https://ieeexplore.ieee.org/document/10677798')">
+        <img src="images/cavitation.png" alt="second project" class="card_image">
+        <p class="card_title">
+          Cavitation Detection
+        </p>
+        <p class="card_description">
+          Centrifugal pumps' cavitation detection based on vibration signal. We were able to reach very good performance by applying SVM and deep learning models to a unique dataset curated by Grundfos.
+        </p>
+      </i>
+      </div>
+      <div class="w3-third w3-section">
+      <i class="card">
+        <img src="images/more_projects.jpg" alt="third project" class="card_image">
+        <p class="card_title">
+          More Projects
+        </p>
+        <p class="card_description">
+          Please kindly hold on as I give power to my ideas. There are more projects to come...
+        </p>
+      </i>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <pre><h3 class="w3-center">&lt CODE  /&gt</h3></pre>
+    <p class="w3-center"><em>The art of creating</em></p>
+    <p>
+      For me, coding is the most enjoyable part of any project - it's like solving a puzzle by creating something new. When it came to deep learning, I used it to deepen my understanding of concepts and to further test my ideas. Here are some of the codes I've written in Google Colab:
+    </p>
+    
+    <!--
+      TODO: paper image as secondary image (image on image)
+      Bug: when clicking link, the text disappears
+      BUG: top-bar comes on top of navbar
+    -->
+    <div id="tabs">
+      <ul id="accordion" class = "js-scroll-list">
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a class="active" href="#tabs-1">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Keras cheat sheet</span>
+            </div>
+          </a>
+            <div class="addon fadein">
+              <span>
+                A collection of useful functions and code snippets in Keras. Grouped and structured for ease of use.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1Rgr1fZhmIykvBAH9zM-TxeEkVS7DiXDH?usp=sharing">Colab link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-2">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MNIST high level</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Check the affect of different hyperparameters on the MNIST problem and compare them all together.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1K1ElXPS80w0ybqxlZHMAvRk43u__cRI_?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-3">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MNIST Deep Level</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Create custom parts needed to implement a deep model (e.g. layers, model, optimizer) using Keras.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1ovIB1k6BZODp_jNe0BgiOll_dsSjlMpo?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-4">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MNIST random classification</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Check if deep models really learn or they just memorize.
+              </span>
+              <a class="para-a" target="_blank" href="https://arxiv.org/abs/1706.05394">Related Paper</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1_duDP-zcNC_JMJ7LixfH_H1Rm9bo73xt?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-5">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">MNIST sequential learning</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Check if a model which learned some labels can learn new labels better.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1431M-GiJ5R67UVPrb4ngc2d_WVURui57?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-6">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">CIFAR10 from scratch</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                It's always enjoyable to see what you know in action. Here we've written a deep models code from scratch (just numpy).
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1YB9oWFYuvDAYQdaWvhiwo_Z61cI3aj56?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-7">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">CNN object detection</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                The task of object detection (predicting bounding boxes) on the NWPU VHR-10 dataset.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1qdhqu252m3D69RWCGKls49Yxv6LAvCSL?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-8">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MS-VAN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing the structure proposed in the related paper for the task of object detection on the NWPU VHR-10 dataset.
+              </span>
+              <a class="para-a" target="_blank" href="https://ieeexplore.ieee.org/document/8513990">Related paper</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/10oy7GQQ7YTkhM1xmE8VzmCOHMPmFfvjg?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-9">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Blob AEs</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing AE, VAE and Disentangled VAE to learn useful features of blob images.
+              </span>
+              <a class="para-a" target="_blank" href="https://openreview.net/forum?id=Sy2fzU9gl">Related Paper</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1Yh4XLybaXIg_QKSonNnBdZvLMZiocxOM?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-10">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MNIST AEs</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing AE, VAE and Disentangled VAE to learn useful features of MNIST images.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/14nEPnuGpueUsSBmztrD6QcrXDq_XayKh?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-11">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">Variable length AE</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                To have an AE which uses different lengths of latent space to represent different images (based on their complexity).
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1LVXGNluul1BscUqmfJ7IezM6cFbXekTF?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-12">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Deep JSCC image transmission</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implement the model proposed in related paper.
+              </span>
+              <a class="para-a" target="_blank" href="https://arxiv.org/abs/1809.01733">Related Paper</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/11XHUpJ6CZRZ6Oq_Yt0kPig8GPAVsqOF8?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-13">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">Efficient SIT - DIE</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Using an existing coding algorithm (Deep JSCC image transmission) in an efficient way. To this end a copy of decoder implemented in the transmitter side.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1PdE2ak9gz7AAuUn-1lgbisTcuxq3bA18?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-14">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">Efficient SIT - PIE</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Using an existing coding algorithm (Deep JSCC image transmission) in an efficient way. To this end a neural network predictor is used in the transmitter side.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1Os27KyA1qluokaPCrILTRonG03DXGnG2?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-15">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">JPEG with DIE</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Improving performance of JPEG via DIE method.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/16FdHqgwTal1oJrH1Hn9C47tUMRpMM8B8?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-16">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">Semantic image transmission</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                The meaning of the image is important in transmission, not the reconstruction of pixels.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1bUpXGfFlbblyMRxv49LX2zUznwsqsRr6?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-17">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">JSCC with RNN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Improve the structure of "deep JSCC image transmission" network by using RNN based layers.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1Hsc52sSjRuS421zYYl2Dt4q6-srdwvJc?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-18">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Keras char RNN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing different types of RNN including custom layer RNN in Keras.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1Rjhkfx7EcuNQRZ2hXQdmVdkZ2MHlTu-X?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-19">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Mini char RNN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing a vanilla RNN from scratch (just numpy). Inspired by the gist from Andrej Karpathy.
+              </span>
+              <a class="para-a" target="_blank" href="https://gist.github.com/karpathy/d4dee566867f8291f086">Related Gist</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1j2ZRLmtWJujUNiqjJndqbrTF5V_hl_g7?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-20">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Simple RNN composer</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Creating brand new song using Simple RNN based network.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1luDjRF9Q31hcQ3N-oCl3NA3U17rjCOQm?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-21">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">LSTM composer</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Creating brand new song using LSTM based network.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/19ODEzrorlA_w1h4R2aTRy7858mm6ceaO?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-22">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">GAN composer</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Creating brand new song using GAN based network.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1ODjfZbzAK2VJmIFCq7Z9hF9-z2TDb5nk?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-23">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">MNIST DCGAN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Using DCGAN structure to generate MNIST like images.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1LLUiIJO3YRPqCVGPehlRzP7evxdg66SN?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-24">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">CycleGAN</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing basic CycleGAN and testing different datasets on it.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1giVk4snhLm0sCDZl3K3XGLDWO_MCzBO-?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-25">
+            <div class="tag">
+              <div class="icon icon-research">
+                <i class="fa fa-microscope"></i>
+              </div>
+              <span class="title">CIFAR100 adversarial attack</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Training a model which learns to attack the CIFAR100 classifier.
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1ujE36ukHgoiAhnnQgdCPdmp6yzcl1DvX?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-26">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">Style transfer</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Implementing the model proposed in related paper.
+              </span>
+              <a class="para-a" target="_blank" href="https://arxiv.org/abs/1508.06576">Related paper</a>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1AdVXk_npt7JG8MH1Z6yGcHjVtcdvxg9c?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-27">
+            <div class="tag">
+              <div class="icon icon-learn">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <span class="title">RL cartpole racing</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Using reinforcement learning to play the game of cartpole racing. The goal is to run as far as possible without dropping the pole. The result is that the agent beated me so hard!
+              </span>
+              <a class="para-a" target="_blank" href="https://colab.research.google.com/drive/1nv9myspwcEDJk6YSQ-7geXRFZv1pu7Lv?usp=sharing">Colab Link</a>
+            </div>
+        </li>
+        <li class = "scroll-list-item js-scroll-list-item">
+          <a href="#tabs-28">
+            <div class="tag">
+              <div class="icon icon-more">
+                <i class="fa fa-ellipsis-h"></i>
+              </div>
+              <span class="title">And More Stuff</span>
+            </div>
+          </a>
+            <div class="addon">
+              <span>
+                Certainly I coded much more, but some of them were not lucky enough to be here :)
+              </span>
+            </div>
+        </li>
+      </ul>
+      <div class="browser">
+        <div class="top-bar">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="window-tab" id="tabs-1"><img src="images/colab/keras cheat sheet.jpg"></div>
+        <div class="window-tab" id="tabs-2"><img src="images/colab/MNIST high level.jpg"></div>
+        <div class="window-tab" id="tabs-3"><img src="images/colab/MNIST deep level.jpg"></div>
+        <div class="window-tab" id="tabs-4"><img src="images/colab/MNIST random classification.jpg"></div>
+        <div class="window-tab" id="tabs-5"><img src="images/colab/MNIST sequential learning.jpg"></div>
+        <div class="window-tab" id="tabs-6"><img src="images/colab/CIFAR10 from scratch.jpg"></div>
+        <div class="window-tab" id="tabs-7"><img src="images/colab/CNN object detection.jpg"></div>
+        <div class="window-tab" id="tabs-8"><img src="images/colab/MS_VAN.jpg"></div>
+        <div class="window-tab" id="tabs-9"><img src="images/colab/blob AEs.jpg"></div>
+        <div class="window-tab" id="tabs-10"><img src="images/colab/MNIST AEs.jpg"></div>
+        <div class="window-tab" id="tabs-11"><img src="images/colab/variable length AEs.jpg"></div>
+        <div class="window-tab" id="tabs-12"><img src="images/colab/JSCC for image.jpg"></div>
+        <div class="window-tab" id="tabs-13"><img src="images/colab/DIE.jpg"></div>
+        <div class="window-tab" id="tabs-14"><img src="images/colab/PIE.jpg"></div>
+        <div class="window-tab" id="tabs-15"><img src="images/colab/JPEG with DIE.jpg"></div>
+        <div class="window-tab" id="tabs-16"><img src="images/colab/semantic image transmission.jpg"></div>
+        <div class="window-tab" id="tabs-17"><img src="images/colab/JSCC with RNN.jpg"></div>
+        <div class="window-tab" id="tabs-18"><img src="images/colab/keras char RNN.jpg"></div>
+        <div class="window-tab" id="tabs-19"><img src="images/colab/mini char RNN.jpg"></div>
+        <div class="window-tab" id="tabs-20"><img src="images/colab/composer simple RNN.jpg"></div>
+        <div class="window-tab" id="tabs-21"><img src="images/colab/composer LSTM.jpg"></div>
+        <div class="window-tab" id="tabs-22"><img src="images/colab/composer GAN.jpg"></div>
+        <div class="window-tab" id="tabs-23"><img src="images/colab/MNIST DCGAN.jpg"></div>
+        <div class="window-tab" id="tabs-24"><img src="images/colab/CycleGAN.jpg"></div>
+        <div class="window-tab" id="tabs-25"><img src="images/colab/CIFAR100 adversarial attack.jpg"></div>
+        <div class="window-tab" id="tabs-26"><img src="images/colab/style transfer.jpg"></div>
+        <div class="window-tab" id="tabs-27"><img src="images/colab/RL cartpole racing.gif"></div>
+        <div class="window-tab" id="tabs-28"><img src="images/colab/more.jfif"></div>
+      </div>
+    </div>
+
+    <div class="scroll-downs">
+      <div class="mousey">
+        <div class="scroller"></div>
+      </div>
+    </div>
     
     <br>
     <br>
     <br>
-    <h3 class="w3-center">MY RESUME</h3>
-    <p class="w3-center"><em>You can download my CV from here<br>last updated: 9/27/2021</em></p>
+    <h3 class="w3-center">RESUME</h3>
+    <p class="w3-center"><em>You can download my CV from here<br>last updated: 4/11/2024</em></p>
     <div class="w3-center">
-      <a href="resume/Hasanpour_CV.pdf" download="Hasanpour_CV.pdf" target="_blank"><div class="button"><i class="fas fa-cloud-download-alt"></i> DOWNLOAD</div></a>
+      <a href="resume/Hasanpour_CV.pdf" download="Hasanpour_CV.pdf" target="_blank"><div class="fancy_button"><i class="fas fa-cloud-download-alt"></i> DOWNLOAD</div></a>
     </div>
   </div>
 </div>
 
-<!-- Third Parallax Image with Deep Learning Text -->
-<div class="bgimg-3 w3-display-container w3-opacity-min">
-  <!--
-  <div class="w3-display-middle">
-     <span class="w3-xxlarge w3-text-white w3-wide">DEEP LEARNING</span>
-  </div>
-  -->
-</div>
 
-<!-- Container (Deep Learning Section) -->
-<div class="flower-3">
-  <div class="w3-content w3-container w3-padding-top-64" style="padding-bottom: 16px;" id="dl">
-    <h3 class="w3-center">DEEP LEARNING ADVENTURE</h3>
-    <p class="w3-center"><em>"Love happens at first sight"<br>Deep Learning made me believe</em></p>
-    <p>I had excellent knowledge and experience of microcontrollers programming and a huge interest in the field of IoT when I finished my undergraduate studies.
-      Then I was looking for a good master's thesis subject that I got familiar with deep learning: Wow, oh wow... some simple units connect to each other, 
-      making a network with a considerable computation capability. Then an optimization algorithm finds the proper parameters for the network to do the task. Even big ideas 
-      in this field are so simple and intuitive. Isn't that all so beautiful?
-    </p>
-    <p>This way, for the last few years, I've spent all my time learning deep learning, and I'm looking to do some cool, excellent, cutting-edge research for my Ph.D. To know 
-      what I've done in deep learning, check out my 
-      <a href="DeepLearning/index.html", style="color: #04AA6D;">deep learning page</a>.
-    </p>
-  </div>
-</div>
-
-<div class="w3-row", id="coditor_nn_block" style="display: none;" onmouseenter="write_code(0);">
-  <div class="w3-col m6 w3-padding-large" style="height: 100%;">
-    <pre id="editor_container"><code class="language-python" id="editor"></code></pre>
-  </div>
-
-  <div class="w3-col m6 w3-padding-large" style="height: 100%;">
-    <svg width="100%" height="100%" version="1.1" id="neuralnet"></svg>
-  </div>
-</div>
-
-<!-- Fourth Parallax Image with Contact Text -->
-<div class="bgimg-4 w3-display-container w3-opacity-min">
+<!-- Contact Background -->
+<div class="bgimg-contact w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
      <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
   </div>
 </div>
 
 <!-- Container (Contact Section) -->
-<div class="flower-4">
+<div class="flower-3">
   <div class="w3-content w3-container w3-padding-64" id="contact">
     <h3 class="w3-center">MESSAGE ME</h3>
-    <p class="w3-center"><em>I like when my messaging apps have a red circle on top of their icon. So feel free to contact me.</em></p>
+    <p class="w3-center"><em>
+      I like it when my messaging apps show a red circle on top of their icon, so feel free to contact me
+      <br>
+      <small>That's why I don't answer them :)</small>
+    </em></p>
 
     <div class="w3-row w3-padding-32 w3-section">
-      <div class="w3-col m4 w3-container">
-        <img src="images/contact.jpg" class="w3-image w3-round w3-hide-small" style="position: relative; width:100%; margin-top: 30px">
+      <div class="w3-col m5 w3-container">
+        <form class="email-form">
+          <textarea placeholder="Your message ..." rows="8"></textarea>
+          <button>
+            <span class="default">Send</span>
+            <span class="success">
+              <svg viewBox="0 0 16 16">
+                <polyline points="3.75 9 7 12 13 5"></polyline>
+              </svg>Done
+            </span>
+            <svg class="trails" viewBox="0 0 33 64">
+              <path d="M26,4 C28,13.3333333 29,22.6666667 29,32 C29,41.3333333 28,50.6666667 26,60"></path>
+              <path d="M6,4 C8,13.3333333 9,22.6666667 9,32 C9,41.3333333 8,50.6666667 6,60"></path>
+            </svg>
+            <div class="plane">
+              <div class="left"></div>
+              <div class="right"></div>
+            </div>
+          </button>
+        </form>
       </div>
-      <div class="w3-col m8 w3-panel contact-info">
+      <div class="w3-col m7 w3-panel contact-info">
         <div class="w3-large w3-margin-bottom">
-          <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Tehran, Iran<br>
-          <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> (+98) 933 070 7987<br>
-          <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> amin.h920@yahoo.com<br>
+          <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Kongens Lyngby, Denmark<br>
+          <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> (+45) 53 33 31 46<br>
+          <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> moam@dtu.dk<br>
           <span class="pale"><i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br></span>
           <span class="pale"><i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br></span>
           <span class="pale"><i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br></span>
@@ -449,19 +1189,27 @@ body, html {
   <svg width="100%" height="50%" version="1.1" id="gardenwind" onload="wind_loop()"></svg>
 </div>
 
+
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
   <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
 </footer>
- 
+
+
 <script>
 // Loading screen
+let loadStartTime = Date.now();
+display_random_loading_text("loader_main_text");
+
 setTimeout(pop_skip_loader, 5000);
 function pop_skip_loader() {
-  var skip = document.getElementsByClassName("loader_skip")[0];
-  skip.style.visibility = "visible";
-  skip.style.opacity = 1;
-  skip.style.top = 0;
+  var loader = document.getElementsByClassName("loader_screen")[0];
+  if (loader.style.visibility != "hidden") {
+    var skip = document.getElementsByClassName("loader_skip")[0];
+    skip.style.visibility = "visible";
+    skip.style.opacity = 1;
+    skip.style.top = 0;
+  }
 }
 
 function remove_loader_screen() {
@@ -474,7 +1222,13 @@ function remove_loader_screen() {
 }
 
 window.onload = function() {
-  remove_loader_screen()
+  let loadEndTime = Date.now();
+  let loadDuration = loadEndTime - loadStartTime;
+
+  let minLoaderScreenDuration = 4000;
+  let additionalDelay = Math.max(0, minLoaderScreenDuration - loadDuration);
+
+  setTimeout(remove_loader_screen, additionalDelay);
 }
 
 function isInViewport(element) {
@@ -495,7 +1249,7 @@ window.onscroll = function() {
   }
 
   // Change style of navbar on scroll
-  var navbar = document.getElementById("myNavbar");
+  var navbar = document.getElementById("navbar");
   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
       navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
   } else {
@@ -523,8 +1277,11 @@ if (rec == null)
   rec = "true";
 
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open("GET", "https://ee.sharif.edu/~mohammadamin.hasanpour/inforec/inforec.php?source=Home&id="+id+"&rec="+rec, true);
+xmlHttp.open("GET", "https://people.compute.dtu.dk/moam/inforec/inforec.php?source=Home&id="+id+"&rec="+rec, true);
 xmlHttp.send( null );
+
+// Setup the email box
+setupEmailBox();
 </script>
 
 </body>

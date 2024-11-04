@@ -18,7 +18,7 @@
 function save() {
     var txt = document.getElementById("textArea").value;
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "https://ee.sharif.edu/~mohammadamin.hasanpour/inforec/infoeditor.php?save=true", true);
+    xmlHttp.open("POST", "https://people.compute.dtu.dk/moam/inforec/infoeditor.php?save=true", true);
     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlHttp.send("txt=" + txt);
 }

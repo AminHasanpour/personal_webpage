@@ -10,7 +10,7 @@ var codestr_p1 = `# "DisCoolVer" v3.0.7
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, Bla Bla Bla ..., and again some more Bla.
-# in a nutshell feel free to copy and paste as its a vital part of education.
+# in a nutshell feel free to copy and paste, as it's a vital part of education.
 
 """
   * helo?
@@ -45,15 +45,12 @@ magic.beautify("console")
 
 var codestr_p2 = `
 """
-  * > This module even can beautify ur face :), kids call it photoshop nowadays.
+  * > This module can even beautify ur face :), kids call it photoshop nowadays.
   *   u can access it by magic.beautify("face")
   *
   * > Now we will use Deep Learning to find out if u r cool, no offense :]
 """
-import os
-import numpy as np
 import tensorflow as tf
-from tensorflow import keras
 import tensorflow_datasets as tfds
 
 # -------------
@@ -61,58 +58,29 @@ import tensorflow_datasets as tfds
 # -------------
 epochs = 760525
 batch_size = int(19970816 // epochs)
-loss_func = keras.losses.BinaryCrossentropy()
+loss_func = tf.keras.losses.BinaryCrossentropy()
 
-drive_dir = '/content/drive/'
-model_dir = os.path.join(drive_dir, 'MyDrive/Colab Stuff/cool finder/model')
+model_dir = "darkweb/VIPs/Amin/DisCoolVer"
 
 # number of diagonal vectors in trainset
 train_c = int(50000 * (32/batch_size)**2)
 # number of diagonal vectors in testset
 test_c = int(10000 * (32/batch_size)**2)
 
-# ----------
-# PIQ metric
-# ----------
-# brand new metric created for this unique purpose
-class PIQ_metric(keras.metrics.Metric):
-  def __init__(self, name = "PIQ", **kwargs):
-    super(PIQ_metric, self).__init__(name = name, **kwargs)
-    self.PIQ_additive = self.add_weight(name='PIQ_additive', 
-                                        initializer = 'zeros')
-    self.counter = self.add_weight(name='counter', initializer = 'zeros')
-
-  def update_state(self, y_true, y_pred, sample_weight = None):
-    tmp = tf.reduce_mean(tf.data.PIQ(y_true, y_pred, max_val = 1.0))
-    self.PIQ_additive.assign_add(tmp)
-    self.counter.assign_add(1)
-
-  def result(self):
-    return self.PIQ_additive / self.counter
-    
-  def reset_states(self):
-    self.PIQ_additive.assign(0)
-    self.counter.assign(0)
-
 # -------------
 # Loading stuff
 # -------------
-# load Dataset, All_huMan includes personal characteristics of almost 
-# every human being (GOOGLE is not gentle, after all :])
-ds, info = tfds.load('All_huMan', split='test', batch_size = None, 
-                     as_supervised = True, with_info = True)
+# load dataset. All_huMan includes personal characteristics of almost 
+# every human being (GOOGLE is not that gentle, after all :])
+train_ds, test_ds = tfds.load('All_huMan', split=['train', 'test'], 
+                              batch_size=None, as_supervised=True)
+ds = tfds.load('All_huMan', split=['unlabeled'], batch_size=None)
 
 "CONSOLE" > # Downloading dataset: 98.67GB/s
 `;
 
 var codestr_p3 = `
-from google.colab import drive
-drive.mount(drive_dir)
-
-"CONSOLE" > # Mounted at /content/drive/
-
-model = keras.models.load_model(
-    model_dir, custom_objects = {"PIQ_metric": PIQ_metric})
+model = tf.keras.models.load_model(model_dir)
 
 "CONSOLE" > # Loading the magical model ...
 `;
@@ -121,12 +89,11 @@ var codestr_p4 = `
 # ------------------
 # Training the model
 # ------------------
-opt = keras.optimizers.Adam()
-model.compile(optimizer = opt, metrics = [PIQ_metric()])
+opt = tf.keras.optimizers.Adam()
+model.compile(optimizer=opt, loss=loss_func, metrics=['accuracy'])
 
-model.fit(trainX, trainX, batch_size = batch_size, initial_epoch = 0, epochs = epochs, 
-          callbacks = [ed_cb, lr_cb, plt_cb, cp_weights_cb, cp_model_cb], verbose = 0, 
-          validation_data = (testX, testX))
+model.fit(train_ds, batch_size=batch_size, initial_epoch=0, epochs=epochs, 
+          verbose=0, validation_data=test_ds)
 
 "CONSOLE" > # Training the model ...
 `;
@@ -135,7 +102,7 @@ var codestr_p5 = `
 # --------------------
 # Evaluating the model
 # --------------------
-print(model.evaluate(testX, testX))
+print(model.evaluate(test_ds, verbose=0))
 
 "CONSOLE" > # val_acc: 99.23% (Good Job!)
 
@@ -144,16 +111,18 @@ print(model.evaluate(testX, testX))
 # ---------------------
 """
   * > Here is where we check if u r cool :)
-  * > Sit still, we r finding out ...
+  * > Sit still, we r about to find out ...
 """
 # find out your characteristics
-reader_chars = ds.smartOnes.find(name = reader.name)
+reader_chars = ds.smartOnes.find(name=reader.name)
 reader_is_cool = model.predict(reader_chars)
+
 if reader_is_cool == False:
   # close the window before reader gets angry! Bye Bye
   window.getCommand("Alt + F4")
 
-print("You are COOL!")
+else:
+  print("You are COOL!")
 
 "CONSOLE" > # You are COOL!
 
@@ -161,14 +130,14 @@ print("You are COOL!")
   * > Sheeesh!!! u r cool! (surprized? XD)
   * (happy-face looking angry at me :|)
   *
-  * > I also tested this model on my friend named "Alex" and it 
-  *   predicted that he isn't cool. So I guess the model works well.
+  * > I also tested this model on my friend and it turned out that he 
+  *   is not cool. So I guess the model works well.
   *
-  * > We did it, we made the first "Cool Finder" on the earth. Actually
+  * > We did it! we made the first "Cool Finder" on the earth! Actually
   *   I did it but..., who cares?! we can tell people u helped :) (even
   *   my supervisors' names r on the front page of my theses :|)
   *
-  * > I had a good time, I hope for u too :) Bye Bye ...
+  * > I had a good time, I hope u did too :) Bye Bye ...
 """
 
 `;

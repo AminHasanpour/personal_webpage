@@ -4,8 +4,8 @@
 
 var wind_s = null;
 var wind_id = "gardenwind"
-var wind_interval_min = 5;
-var wind_interval_max = 10;
+var wind_interval_min = 2;
+var wind_interval_max = 7;
 var wind_colors = ["#b3d9ff", "#99ccff", "#80bfff", "#66b3ff", "#4da6ff", 
                    "#3399ff", "#1a8cff", "#0080ff", "#0073e6", "#0066cc"];
 var multi_wind_chance = 0.3;

@@ -5,11 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../../styles/loader.css">
 <link rel="stylesheet" href="../../styles/w3.css">
+<link rel="stylesheet" href="../../styles/email_box.css">
 <link rel="stylesheet" href="styles/comp-slider.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="../../js/snap.svg-min.js"></script>
 <script src="../../js/wind.js"></script>
+<script src="../../js/email_box.js"></script>
+<script src="../../js/email.min.js"></script>
+<script src="../../js/gsap.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 
@@ -41,7 +45,7 @@ body, html {
 
 /* fourth image (Contact) */
 .bgimg-4 {
-  background-image: url("../../images/parallax4.jpg");
+  background-image: url("../../images/bg_contact.jpg");
   min-height: 400px;
 }
 
@@ -212,17 +216,39 @@ body, html {
 <div class="flower-4">
   <div class="w3-content w3-container w3-padding-64" id="contact">
     <h3 class="w3-center">MESSAGE ME</h3>
-    <p class="w3-center"><em>I like when my messaging apps have a red circle on top of their icon. So feel free to contact me.</em></p>
+    <p class="w3-center"><em>
+      I like it when my messaging apps show a red circle on top of their icon, so feel free to contact me
+      <br>
+      <small>That's why I don't answer them :)</small>
+    </em></p>
 
     <div class="w3-row w3-padding-32 w3-section">
-      <div class="w3-col m4 w3-container">
-        <img src="../../images/contact.jpg" class="w3-image w3-round w3-hide-small" style="position: relative; width:100%; margin-top: 30px">
+      <div class="w3-col m5 w3-container">
+        <form class="email-form">
+          <textarea placeholder="Your message ..." rows="8"></textarea>
+          <button>
+            <span class="default">Send</span>
+            <span class="success">
+              <svg viewBox="0 0 16 16">
+                <polyline points="3.75 9 7 12 13 5"></polyline>
+              </svg>Done
+            </span>
+            <svg class="trails" viewBox="0 0 33 64">
+              <path d="M26,4 C28,13.3333333 29,22.6666667 29,32 C29,41.3333333 28,50.6666667 26,60"></path>
+              <path d="M6,4 C8,13.3333333 9,22.6666667 9,32 C9,41.3333333 8,50.6666667 6,60"></path>
+            </svg>
+            <div class="plane">
+              <div class="left"></div>
+              <div class="right"></div>
+            </div>
+          </button>
+        </form>
       </div>
-      <div class="w3-col m8 w3-panel contact-info">
+      <div class="w3-col m7 w3-panel contact-info">
         <div class="w3-large w3-margin-bottom">
-          <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Tehran, Iran<br>
-          <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> (+98) 933 070 7987<br>
-          <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> amin.h920@yahoo.com<br>
+          <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Kongens Lyngby, Denmark<br>
+          <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> (+45) 53 33 31 46<br>
+          <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> moam@dtu.dk<br>
           <span class="pale"><i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br></span>
           <span class="pale"><i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br></span>
           <span class="pale"><i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br></span>
@@ -253,10 +279,13 @@ body, html {
 // Loading screen
 setTimeout(pop_skip_loader, 5000);
 function pop_skip_loader() {
-  var skip = document.getElementsByClassName("loader_skip")[0];
-  skip.style.visibility = "visible";
-  skip.style.opacity = 1;
-  skip.style.top = 0;
+  var loader = document.getElementsByClassName("loader_screen")[0];
+  if (loader.style.visibility != "hidden") {
+    var skip = document.getElementsByClassName("loader_skip")[0];
+    skip.style.visibility = "visible";
+    skip.style.opacity = 1;
+    skip.style.top = 0;
+  }
 }
 
 function remove_loader_screen() {
@@ -279,8 +308,11 @@ if (rec == null)
   rec = "true";
 
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open("GET", "https://ee.sharif.edu/~mohammadamin.hasanpour/inforec/inforec.php?source=PCB&id="+id+"&rec="+rec, true);
+xmlHttp.open("GET", "https://people.compute.dtu.dk/moam/inforec/inforec.php?source=PCB&id="+id+"&rec="+rec, true);
 xmlHttp.send( null );
+
+// Setup the email box
+setupEmailBox();
 </script>
 
 </body>
