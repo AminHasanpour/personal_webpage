@@ -208,10 +208,10 @@ html {
 .hero-section::before {
   content: '';
   position: absolute;
-  top: -20%;
+  top: -50%;
   left: 0;
   right: 0;
-  bottom: -20%;
+  bottom: -50%;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
