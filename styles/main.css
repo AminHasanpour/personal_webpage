@@ -1,0 +1,528 @@
+//* =====================================================
+   KEYBOARD NAVIGATION & FOCUS MANAGEMENT
+   ===================================================== */
+/* Enhanced focus styles */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(153, 153, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* Remove default outline and replace with custom focus */
+*:focus {
+  outline: none;
+}
+
+/* Improve card focus states */
+.card--clickable:focus {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Button focus improvements */
+.button:focus {
+  transform: translateY(-1px);
+}
+
+/* Skip link improvements */
+.sr-only-focusable:focus {
+  z-index: 10000 !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* W3.CSS COMPATIBILITY
+   ===================================================== */
+
+/* =====================================================
+   KEYBOARD NAVIGATION & FOCUS MANAGEMENT
+   ===================================================== */
+/* Enhanced focus styles */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(153, 153, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* Remove default outline and replace with custom focus */
+*:focus {
+  outline: none;
+}
+
+/* Improve card focus states */
+.card--clickable:focus {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Button focus improvements */
+.button:focus {
+  transform: translateY(-1px);
+}
+
+/* Skip link improvements */
+.sr-only-focusable:focus {
+  z-index: 10000 !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* =====================================================
+   W3.CSS COMPATIBILITY
+   ===================================================== */
+.w3-wide { 
+  letter-spacing: var(--letter-spacing-wide); 
+}
+
+/* =====================================================
+   ACCESSIBILITY UTILITIES
+   ===================================================== */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  background: var(--color-white) !important;
+  color: var(--color-text-dark) !important;
+  border: 2px solid var(--color-primary) !important;
+  border-radius: 4px !important;
+  z-index: 9999 !important;
+}
+
+/* =====================================================
+   CUSTOM CSS PROPERTIES (CSS VARIABLES)
+   ===================================================== */
+:root {
+  /* Colors */
+  --color-primary: #9999ff;
+  --color-text: #777;
+  --color-text-dark: #000;
+  --color-white: #fff;
+  --color-pale: #ccc;
+  --color-pale-hover: #777;
+  --color-pale-active: #9999ff;
+  --color-red: #ff3300;
+  --color-orange: #e6b800;
+  --color-blue: #0099ff;
+  --color-green: #00cc00;
+  --color-pink: #ff0066;
+  --color-purple: #6666ff;
+  --color-cyan: #00ffcc;
+  --color-brown: #cc9900;
+  --color-magenta: #ff33cc;
+  --color-lightblue: #3399ff;
+  --color-border: #707070;
+  --color-hover-bg: #ccc;
+
+  /* Typography */
+  --font-family-primary: "Lato", sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.8;
+  --letter-spacing-wide: 10px;
+  --letter-spacing-button: 2px;
+
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 64px;
+  --padding-large: 64px;
+
+  /* Layout */
+  --content-max-width: 980px;
+  --content-extended-width: 1260px;
+  --min-height-section: 400px;
+  --border-radius-card: 14px;
+  --border-radius-button: 4px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-card-hover: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  --shadow-card-image: 0 4px 8px rgba(0, 0, 0, 0.22);
+
+  /* Transitions */
+  --transition-fast: 0.3s;
+  --transition-medium: 0.5s;
+  --transition-slow: 2s;
+  --transition-easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* =====================================================
+   BASE STYLES
+   ===================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-primary);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+html {
+  height: 100%;
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================================================
+   PARALLAX BACKGROUND IMAGES
+   ===================================================== */
+.hero-section {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: var(--min-height-section);
+}
+
+.hero-section--home {
+  background-image: url('../images/bg_home.jpg');
+  background-attachment: scroll !important;
+}
+
+.hero-section--deep-learning {
+  background-image: url('../images/bg_dl.jpg');
+}
+
+.hero-section--learning {
+  background-image: url('../images/bg_learning.jpg');
+}
+
+.hero-section--projects {
+  background-image: url('../images/bg_projects.jfif');
+}
+
+.hero-section--contact {
+  background-image: url('../images/bg_contact.jpg');
+}
+
+/* =====================================================
+   FLOWER DECORATIONS
+   ===================================================== */
+@media (min-width: 1180px) {
+  .section-with-flowers--type-1 {
+    background-image: url('../images/flowers/flower 1-1.jpg'), url('../images/flowers/flower 1-2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left 8%, right 80%;
+    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px);
+  }
+  
+  .section-with-flowers--type-2 {
+    background-image: url('../images/flowers/flower 2.png');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: right 10%;
+    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px);
+  }
+  
+  .section-with-flowers--type-3 {
+    background-image: url('../images/flowers/flower 3.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 95% top;
+    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 150px);
+  }
+
+  .flower-garden {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    height: 300px;
+  }
+
+  .neural-network-demo {
+    display: block !important;
+    height: 400px;
+    max-width: var(--content-extended-width);
+    margin: 0 auto;
+    padding: var(--spacing-md) var(--spacing-md) var(--padding-large) var(--spacing-md);
+  }
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .hero-section {
+    background-attachment: scroll;
+  }
+}
+
+/* =====================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================== */
+.text-wide {
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.text-colorful {
+  --char-1: var(--color-red);
+  --char-2: var(--color-orange);
+  --char-3: var(--color-blue);
+  --char-4: var(--color-green);
+  --char-5: var(--color-pink);
+  --char-6: var(--color-purple);
+  --char-7: var(--color-cyan);
+  --char-8: var(--color-brown);
+  --char-9: var(--color-magenta);
+  --char-10: var(--color-lightblue);
+}
+
+.text-colorful .char-1 { color: var(--char-1); }
+.text-colorful .char-2 { color: var(--char-2); }
+.text-colorful .char-3 { color: var(--char-3); }
+.text-colorful .char-4 { color: var(--char-4); }
+.text-colorful .char-5 { color: var(--char-5); }
+.text-colorful .char-6 { color: var(--char-6); }
+.text-colorful .char-7 { color: var(--char-7); }
+.text-colorful .char-8 { color: var(--char-8); }
+.text-colorful .char-9 { color: var(--char-9); }
+.text-colorful .char-10 { color: var(--char-10); }
+
+.text-highlight {
+  color: var(--color-primary);
+}
+
+.text-pale {
+  color: var(--color-pale);
+  transition: color var(--transition-fast);
+}
+
+.text-pale:hover {
+  color: var(--color-pale-hover);
+}
+
+.text-truncated {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncated:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+.text-truncated:hover .text-pale {
+  color: var(--color-pale-active);
+}
+
+/* =====================================================
+   CARD COMPONENTS
+   ===================================================== */
+.card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-card);
+  display: inline-block;
+  height: 400px;
+  width: 95%;
+  max-width: 250px;
+  box-shadow: var(--shadow-card);
+}
+
+.card--clickable {
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast) var(--transition-easing);
+}
+
+.card--clickable:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card__image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  overflow: hidden;
+  border-top-left-radius: var(--border-radius-card);
+  border-top-right-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-card-image);
+}
+
+.card__title {
+  position: relative;
+  font-size: 18px;
+  color: var(--color-text-dark);
+  font-weight: 900;
+  margin-bottom: var(--spacing-xs);
+  padding: 0 15px;
+}
+
+.card__description {
+  font-size: 12px;
+  color: var(--color-text-dark);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  padding: 0 15px;
+}
+
+/* =====================================================
+   BUTTON COMPONENTS
+   ===================================================== */
+.button {
+  display: inline-block;
+  margin: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-button);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-button);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+  color: var(--color-border);
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+}
+
+.button::after {
+  position: absolute;
+  transition: var(--transition-fast);
+  content: '';
+  width: 0;
+  bottom: 0;
+  height: 120%;
+  left: -10%;
+  background: var(--color-hover-bg);
+  transform: skewX(15deg);
+  z-index: -1;
+}
+
+.button:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.button:hover::after {
+  left: -10%;
+  width: 120%;
+}
+
+/* =====================================================
+   CODE EDITOR COMPONENT
+   ===================================================== */
+.code-editor {
+  width: 100%; 
+  height: 100%;
+  border-radius: var(--spacing-xs);
+  display: flex; 
+  flex-direction: column-reverse;
+  overflow: auto;
+}
+
+/* =====================================================
+   CONTACT INFORMATION
+   ===================================================== */
+.contact-info {
+  padding-right: 0;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+/* =====================================================
+   FLOWER GARDEN LAYOUT
+   ===================================================== */
+.flower-garden {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.flower-garden__item {
+  position: absolute;
+  bottom: 0;
+  width: 150px;
+}
+
+.flower-garden__item--flower-1 {
+  left: 20%;
+}
+
+.flower-garden__item--flower-2 {
+  left: 35%;
+}
+
+.flower-garden__item--flower-3 {
+  left: 55%;
+}
+
+.flower-garden__item--flower-4 {
+  left: 65%;
+}
+
+.flower-garden__butterfly {
+  position: absolute;
+  bottom: 170px;
+  left: 12%;
+  width: 130px;
+}
+
+.flower-garden__wind {
+  width: 100%;
+  height: 50%;
+}
+
+/* =====================================================
+   NEURAL NETWORK DEMO
+   ===================================================== */
+.neural-network-demo {
+  display: none;
+  height: 400px;
+  max-width: var(--content-extended-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-md) var(--padding-large) var(--spacing-md);
+}
+
+.neural-network-demo__editor {
+  height: 100%;
+}
+
+.neural-network-demo__visualization {
+  height: 100%;
+}
