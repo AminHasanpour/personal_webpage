@@ -127,17 +127,24 @@ class WebsiteUtils {
     const mobileMenu = document.getElementById("navDemo");
     
     if (mobileToggle && mobileMenu) {
-      mobileToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.toggleMobileMenu(mobileMenu, mobileToggle);
-      });
+      // Avoid double-toggling if inline onclick is already wired in HTML
+      const hasInlineOnClick = mobileToggle.getAttribute('onclick') !== null;
+      if (!hasInlineOnClick) {
+        mobileToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.toggleMobileMenu(mobileMenu, mobileToggle);
+        });
+      }
       
       // Close mobile menu when clicking on a link
       const mobileLinks = mobileMenu.querySelectorAll('a');
       mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          this.closeMobileMenu(mobileMenu, mobileToggle);
-        });
+        const hasInlineOnClick = link.getAttribute('onclick') !== null;
+        if (!hasInlineOnClick) {
+          link.addEventListener('click', () => {
+            this.closeMobileMenu(mobileMenu, mobileToggle);
+          });
+        }
       });
     }
 

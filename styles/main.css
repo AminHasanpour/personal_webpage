@@ -84,6 +84,11 @@ textarea:focus,
   letter-spacing: var(--letter-spacing-wide); 
 }
 
+/* Ensure fixed header navbar stays above page content */
+header.w3-top {
+  z-index: 1000; /* higher than local UI elements like .top-bar */
+}
+
 /* =====================================================
    ACCESSIBILITY UTILITIES
    ===================================================== */
