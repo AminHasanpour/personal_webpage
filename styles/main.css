@@ -1,31 +1,45 @@
 /* =====================================================
    KEYBOARD NAVIGATION & FOCUS MANAGEMENT
    ===================================================== */
-/* Enhanced focus styles */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus,
-[tabindex]:focus {
+/*
+  Show focus only when it matters (keyboard), remove mouse/touch glow.
+  Keeps accessibility while eliminating the lingering pale purple after clicks.
+*/
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(153, 153, 255, 0.3);
+  /* Remove the purple glow */
+  box-shadow: none;
   border-radius: 2px;
 }
 
-/* Remove default outline and replace with custom focus */
-*:focus {
+/* Do not show focus styles when not keyboard-initiated */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Global default: only remove outline for non-visible focus to preserve a11y */
+*:focus:not(:focus-visible) {
   outline: none;
 }
 
 /* Improve card focus states */
-.card--clickable:focus {
+.card--clickable:focus-visible {
   transform: translateY(-2px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Button focus improvements */
-.button:focus {
+.button:focus-visible {
   transform: translateY(-1px);
 }
 
@@ -34,48 +48,17 @@ textarea:focus,
   z-index: 10000 !important;
   text-decoration: none;
   font-weight: bold;
+}
+
+/* Reduce mobile tap highlight to avoid extra glow on touch */
+a, button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* W3.CSS COMPATIBILITY
    ===================================================== */
 
-/* =====================================================
-   KEYBOARD NAVIGATION & FOCUS MANAGEMENT
-   ===================================================== */
-/* Enhanced focus styles */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus,
-[tabindex]:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(153, 153, 255, 0.3);
-  border-radius: 2px;
-}
-
-/* Remove default outline and replace with custom focus */
-*:focus {
-  outline: none;
-}
-
-/* Improve card focus states */
-.card--clickable:focus {
-  transform: translateY(-2px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Button focus improvements */
-.button:focus {
-  transform: translateY(-1px);
-}
-
-/* Skip link improvements */
-.sr-only-focusable:focus {
-  z-index: 10000 !important;
-  text-decoration: none;
-  font-weight: bold;
-}
+/* (duplicate block removed; see focus styles above) */
 
 /* =====================================================
    W3.CSS COMPATIBILITY
