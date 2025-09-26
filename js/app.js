@@ -27,6 +27,7 @@ class WebsiteUtils {
   constructor() {
     this.loadStartTime = Date.now();
     this.minLoaderDuration = 4000;
+    this.isScrolling = false;
     this.initializeApp();
   }
 
@@ -199,8 +200,17 @@ class WebsiteUtils {
    * Setup scroll effects with modern intersection observer
    */
   setupScrollEffects() {
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => this.handleNavbarScroll());
+    // Use a more efficient scroll handler with requestAnimationFrame
+    window.addEventListener('scroll', () => {
+      if (!this.isScrolling) {
+        requestAnimationFrame(() => {
+          this.handleNavbarScroll();
+          this.handleParallaxScroll();
+          this.isScrolling = false;
+        });
+        this.isScrolling = true;
+      }
+    }, { passive: true });
     
     // Code editor visibility
     this.setupCodeEditorObserver();
@@ -220,6 +230,45 @@ class WebsiteUtils {
         navbar.className = "w3-bar";
       }
     }
+  }
+
+  /**
+   * Handle parallax scroll effects for hero sections
+   */
+  handleParallaxScroll() {
+    // Check if user prefers reduced motion
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    
+    const scrollTop = window.pageYOffset;
+    const heroSections = document.querySelectorAll('.hero-section');
+    
+    heroSections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      const sectionTop = scrollTop + rect.top;
+      const sectionHeight = rect.height;
+      const windowHeight = window.innerHeight;
+      
+      // Check if section is at least partially visible
+      const isVisible = rect.bottom > 0 && rect.top < windowHeight;
+      
+      if (isVisible) {
+        const parallaxSpeed = 0.4;
+        
+        // Special handling for home section
+        if (section.classList.contains('hero-section--home')) {
+          // For home section, start with the background positioned to fill the top
+          const homeParallaxOffset = scrollTop * parallaxSpeed;
+          section.style.setProperty('--parallax-transform', `translate3d(0, ${homeParallaxOffset}px, 0)`);
+        } else {
+          // For other sections, use the original calculation
+          const relativeScrollPos = scrollTop - sectionTop + (windowHeight / 2);
+          const parallaxOffset = relativeScrollPos * parallaxSpeed;
+          section.style.setProperty('--parallax-transform', `translate3d(0, ${parallaxOffset}px, 0)`);
+        }
+      }
+    });
   }
 
   /**

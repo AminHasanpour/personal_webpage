@@ -1,4 +1,4 @@
-//* =====================================================
+/* =====================================================
    KEYBOARD NAVIGATION & FOCUS MANAGEMENT
    ===================================================== */
 /* Enhanced focus styles */
@@ -211,31 +211,59 @@ html {
    PARALLAX BACKGROUND IMAGES
    ===================================================== */
 .hero-section {
-  background-attachment: fixed;
-  background-position: center;
+  position: relative;
+  min-height: var(--min-height-section);
+  overflow: hidden;
+  --parallax-transform: translate3d(0, 0, 0);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 0;
+  right: 0;
+  bottom: -20%;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: var(--min-height-section);
+  will-change: transform;
+  transform: var(--parallax-transform);
+  z-index: -1;
 }
 
-.hero-section--home {
+/* Fallback for browsers without custom property support */
+@supports not (--css: variables) {
+  .hero-section::before {
+    transform: none;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-section::before {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+.hero-section--home::before {
   background-image: url('../images/bg_home.jpg');
-  background-attachment: scroll !important;
 }
 
-.hero-section--deep-learning {
+.hero-section--deep-learning::before {
   background-image: url('../images/bg_dl.jpg');
 }
 
-.hero-section--learning {
+.hero-section--learning::before {
   background-image: url('../images/bg_learning.jpg');
 }
 
-.hero-section--projects {
+.hero-section--projects::before {
   background-image: url('../images/bg_projects.jfif');
 }
 
-.hero-section--contact {
+.hero-section--contact::before {
   background-image: url('../images/bg_contact.jpg');
 }
 
