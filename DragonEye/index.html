@@ -128,9 +128,9 @@ body, html {
 <div class="loader_screen">
   <div class="loader"></div>
   <div class="loader_text">
-    <p>We are loading</p>
-    <p>You can get more information about me on the <a href="../index.html", style="color: #9999ff; text-decoration: none;">home page</a></p>
-    <p class="loader_skip">Tired of waiting? <span style="color: #9999ff; cursor: pointer;" onclick="remove_loader_screen()">skip the loading page</span></p>
+    <p>Loading...</p>
+    <p>You can find more about me on the <a href="../index.html" style="color: #9999ff; text-decoration: none;">home page</a></p>
+    <p class="loader_skip">Tired of waiting? <span style="color: #9999ff; cursor: pointer;" onclick="remove_loader_screen()">skip this page</span></p>
   </div>
 </div>
 
@@ -180,8 +180,7 @@ body, html {
 		<i class="fab fa-android"></i>Android App
     </div>
   </div>
-  <p>Dragon Eye consists of three parts, <span style="color: #9999ff;">Local boards</span>, <span style="color: #9999ff;">Server side</span>, and <span style="color: #9999ff;">Android application</span>. Local boards are placed at the user's business 
-  location and will send data to the server. The data will be stored in the server's database. The user can view the data using the Android application. We have complete control over this process, so if any customization is needed, it is possible to do so.</p>
+  <p>Dragon Eye has three parts: <span style="color: #9999ff;">local boards</span>, <span style="color: #9999ff;">server side</span>, and <span style="color: #9999ff;">Android application</span>. Local boards are installed at the business location and send data to the server, where it's stored in a database. Users view the data in the Android app. We control the full pipeline, so customizations are possible.</p>
   <p class="w3-large w3-center w3-padding-16">Key features:</p>
   <div class="w3-row">
     <div class="w3-col m6 w3-padding-large">
@@ -213,16 +212,13 @@ body, html {
     </div>
 
     <div class="w3-col m6 w3-padding-large">
-      <p>The task of the local boards' section is to send data to the server. This section is divided into two parts, <span style="color: #9999ff;">Gateway</span> board, and <span style="color: #9999ff;">Sensor</span> boards. The task of the gateway part is to 
-	  send the sensor boards data to the server. The task of the sensor boards part is to send the measured data to the gateway board. Their communication is wireless. Because we divided the local boards' section into two parts and the complexity is on the
-	  gateway's part, it's much easier to implement this platform for different businesses.</p>
-	  <p>The gateway board uses the Sim800C chip and an onboard nano SimCard to connect to the internet. Because it uses 2G technology, the platform can be used in almost all cities and villages. The gateway board has been stabled in many ways and tested 
-	  over months with no problem. Furthermore, it can fix and report errors.</p>
-	  <p>The sensor boards type depends on the need of the user. Till now, five types of sensor boards are designed and fabricated:	  
+    <p>The local boards send data to the server. They are split into two parts: a <span style="color: #9999ff;">gateway</span> board and multiple <span style="color: #9999ff;">sensor</span> boards. The gateway forwards sensor data to the server; the sensors send their measurements to the gateway. Communication is wireless. By concentrating complexity in the gateway, it's easier to adapt the platform for different businesses.</p>
+	  <p>The gateway board uses the SIM800C and an onboard nano-SIM to connect to the internet. Because it uses 2G, the platform works in almost all cities and villages. The gateway has been hardened and tested over months with no issues. It can also detect, report, and in some cases correct errors.</p>
+    <p>The type of sensor boards depends on the user's needs. So far, five types have been designed and fabricated:	  
 	  <ul>
 	    <li>Temperature and Humidity</li>
 	    <li>Movement detector</li>
-	    <li>Power detoctor</li>
+      <li>Power detector</li>
 	    <li>MQ series gas sensor</li>
 	    <li>Sensors bank</li>
 	  </ul>
@@ -239,8 +235,7 @@ body, html {
     </div>
 	
     <div class="w3-col m6 w3-padding-large">
-      <p>The task of the server's section is to receive and store the data. Also, it will receive and store the weather condition of users' locations to allow them to compare these weather data with their businesses' data. Another task of the server is 
-	  to respond to the requests of android and gateway boards.</p>
+  <p>The server receives and stores the data. It also saves weather conditions for users' locations so they can compare them with their business data. The server responds to requests from the Android app and gateway boards.</p>
 	  <p>Server characteristics:
 	  <ul>
 	    <li>CPU: 1 core</li>
@@ -266,15 +261,14 @@ body, html {
     </div>
 	
     <div class="w3-col m6 w3-padding-large">
-      <p>The task of the android application is to display the data to the user. The application has Main charts and customized charts. The customized charts can display different data in a single chart. The user can set limitations on each one. Also, the user can 
-	  set the properties of charts.</p>
-	  <p>Some of charts features: 
+  <p>The Android application displays the data. It offers main charts and customizable charts, and can display multiple data sources in a single view. Users can set limits and adjust chart properties.</p>
+    <p>Some chart features: 
 	  <ul>
 	    <li>Displaying multiple datasets</li>
 	    <li>Zooming</li>
-	    <li>Data selecting</li>
-	    <li>Datasets limits displaying option</li>
-	    <li>Changable appearance</li>
+      <li>Data selection</li>
+      <li>Dataset limit display option</li>
+      <li>Changeable appearance</li>
 	  </ul>
 	  </p>
     </div>
@@ -295,8 +289,8 @@ body, html {
   <p class="w3-center"><em>Here is the number of lines for each programming language<br>Total: 8143 lines</em></p><br>
   <div class="w3-center"><img src="images/Lines-Count.png" class="w3-round w3-center w3-image" alt="Code lines count" width="500" height="333"></div><br><br>
   
-  <h3 class="w3-center">PROGRAMS/IDES</h3>
-  <p class="w3-center"><em>Here are some of programs/IDEs used to develope the project</em></p><br>
+  <h3 class="w3-center">PROGRAMS/IDEs</h3>
+  <p class="w3-center"><em>Here are some of the programs/IDEs used to develop the project</em></p><br>
   <div class="w3-row w3-center w3-padding-16">
     <div class="w3-third w3-section logo_text">
       <img src="images/logo/atom_logo.png" class="w3-round w3-image w3-grayscale-max hover-grayscale-off" alt="Atom" width="75" height="75">
