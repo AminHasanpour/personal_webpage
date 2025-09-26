@@ -271,7 +271,7 @@ class WebsiteUtils {
         } else {
           // For other sections, use the original calculation
           const relativeScrollPos = scrollTop - sectionTop + (windowHeight / 2);
-          const parallaxOffset = relativeScrollPos * parallaxSpeed;
+          const parallaxOffset = relativeScrollPos * parallaxSpeed - 0.2 * sectionHeight;
           section.style.setProperty('--parallax-transform', `translate3d(0, ${parallaxOffset}px, 0)`);
         }
       }
