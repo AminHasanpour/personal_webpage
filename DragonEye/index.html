@@ -1,169 +1,65 @@
 <!DOCTYPE html>
-<html>
-<title>M.Amin Hasanpour</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../styles/loader.css">
-<link rel="stylesheet" href="../styles/w3.css">
-<link rel="stylesheet" href="../styles/email_box.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="../js/snap.svg-min.js"></script>
-<script src="../js/wind.js"></script>
-<script src="../js/email_box.js"></script>
-<script src="../js/email.min.js"></script>
-<script src="../js/gsap.min.js"></script>
-<style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body, html {
-  height: 100%;
-  color: #777;
-  line-height: 1.8;
-  text-align: justify;
-}
-
-/* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* First image (Logo) */
-.bgimg-1 {
-  background-image: url('images/parallax1.jpg');
-  background-attachment: scroll !important;
-  min-height: 400px;
-}
-
-/* Second image (Portfolio) */
-.bgimg-2 {
-  background-image: url("images/statistics_bg.jpg");
-  min-height: 400px;
-}
-
-/* Third image (Gallery) */
-.bgimg-3 {
-  background-image: url("images/Gallery.jpg");
-  min-height: 400px;
-}
-
-/* Fourth image (Contact) */
-.bgimg-4 {
-  background-image: url("../images/bg_contact.jpg");
-  min-height: 400px;
-}
-
-.gallery_image {
-  width: 100%;
-  height: 122px;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-/* TODO: make flowers smelly*/
-@media (min-width:1180px) {
-  /* flower background of fourth section (Contact) */
-  .flower-4 {
-    background-image: url("../images/flowers/flower 3.jpg");
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: 95% top;
-    background-size: calc((100% - 980px)/2 * 0.5 + 150px);
-  }
-
-  .garden {
-    display: block!important;
-    position: relative;
-    width: 100%;
-    height: 300px;
-  }
-}
-
-/* Turn off parallax scrolling for tablets and phones */
-@media only screen and (max-device-width: 1600px) {
-  .bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
-    background-attachment: scroll;
-  }
-}
-
-.w3-wide {letter-spacing: 10px;}
-
-.logo_text {
-	font-weight: bolder;
-	letter-spacing: 2px;
-}
-
-.hover-grayscale-off:hover{
-  filter:grayscale(0%);
-}
-
-.contact-info {
-  padding-right: 0;
-  overflow-wrap: break-word;
-  text-align: left;
-}
-
-.pale {
-  color: #cccccc;
-}
-
-.pale:hover {
-  color: #777;
-}
-</style>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DragonEye project - a platform to monitor and display business data with local boards, server, and Android app.">
+  <meta name="author" content="Mohammad Amin Hasanpour">
+  <title>DragonEye - Project Overview</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../styles/loader.css">
+  <link rel="stylesheet" href="../styles/w3.css">
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/email_box.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
   <script src="https://kit.fontawesome.com/9469697f79.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-<div class="loader_screen">
-  <div class="loader"></div>
+<!-- Loading Screen -->
+<div class="loader_screen" role="dialog" aria-label="Loading content">
+  <div class="loader" aria-hidden="true"></div>
   <div class="loader_text">
-    <p>Loading...</p>
-    <p>You can find more about me on the <a href="../index.html" style="color: #9999ff; text-decoration: none;">home page</a></p>
-    <p class="loader_skip">Tired of waiting? <span style="color: #9999ff; cursor: pointer;" onclick="remove_loader_screen()">skip this page</span></p>
+    <p id="loader_main_text" aria-live="polite">Loading...</p>
+    <p class="loader_skip">Tired of waiting? <button type="button" class="text-highlight" onclick="remove_loader_screen()" aria-label="Skip loading">skip the loading page</button></p>
   </div>
 </div>
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top" style="color: #4a4a4a">
-  <div class="w3-bar" id="myNavbar">
-    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-      <i class="fa fa-bars"></i>
-    </a>
-    <a href="../index.html" class="w3-bar-item w3-button">HOME</a>
-    <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-info"></i> ABOUT</a>
-    <a href="#statistics" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-chart-pie"></i> STATISTICS</a>
-    <a href="#gallery" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-camera"></i> GALLERY</a>
-    <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
-  </div>
+<!-- Header Navigation -->
+<header class="w3-top" role="banner">
+  <nav class="w3-bar" id="navbar" role="navigation" aria-label="Main navigation">
+    <button 
+      class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" 
+      onclick="toggleFunction()" 
+      aria-label="Toggle Navigation Menu"
+      aria-expanded="false"
+      aria-controls="navDemo"
+    >
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <a href="../index.html#home" class="w3-bar-item w3-button">HOME</a>
+    <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-info" aria-hidden="true"></i> ABOUT</a>
+    <a href="#statistics" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-chart-pie" aria-hidden="true"></i> STATISTICS</a>
+    <a href="#gallery" class="w3-bar-item w3-button w3-hide-small"><i class="fas fa-camera" aria-hidden="true"></i> GALLERY</a>
+    <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope" aria-hidden="true"></i> CONTACT</a>
+  </nav>
 
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+  <!-- Mobile Navigation -->
+  <nav id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium" role="navigation" aria-label="Mobile navigation">
     <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
-    <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">STATISTICS</a>
-    <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">GALLERY</a>
+    <a href="#statistics" class="w3-bar-item w3-button" onclick="toggleFunction()">STATISTICS</a>
+    <a href="#gallery" class="w3-bar-item w3-button" onclick="toggleFunction()">GALLERY</a>
     <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
-  </div>
-</div>
+  </nav>
+</header>
 
-<!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
-  <!--
-  <div class="w3-display-middle" style="white-space:nowrap;">
-    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">MY <span class="w3-hide-small">WEBSITE</span> LOGO</span>
-  </div>
-  -->
-</div>
+<!-- Hero: Top -->
+<div class="hero-section hero-section--dragon-eye-home w3-display-container w3-opacity-min" id="home"></div>
 
 <!-- Container (About Section) -->
 <div class="w3-content w3-container w3-padding-64" id="about">
@@ -276,10 +172,10 @@ body, html {
   
 </div>
 
-<!-- Second Parallax Image with Statistics Text -->
-<div class="bgimg-2 w3-display-container w3-opacity-min">
+<!-- Hero: Statistics -->
+<div class="hero-section hero-section--dragon-eye-stats w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
-    <span class="w3-xxlarge w3-text-black w3-wide">STATISTICS</span>
+    <span class="w3-xxlarge w3-text-black text-wide">STATISTICS</span>
   </div>
 </div>
 
@@ -335,10 +231,10 @@ body, html {
   </div>
 </div>
 
-<!-- Third Parallax Image with Gallery Text -->
-<div class="bgimg-3 w3-display-container w3-opacity-min">
+<!-- Hero: Gallery -->
+<div class="hero-section hero-section--dragon-eye-gallery w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
-     <span class="w3-xxlarge w3-text-white w3-wide">GALLERY</span>
+     <span class="w3-xxlarge w3-text-white text-wide">GALLERY</span>
   </div>
 </div>
 
@@ -394,15 +290,15 @@ body, html {
   </div>
 </div>
 
-<!-- Fourth Parallax Image with Contact Text -->
-<div class="bgimg-4 w3-display-container w3-opacity-min">
+<!-- Hero: Contact -->
+<div class="hero-section hero-section--contact w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
-     <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+     <span class="w3-xxlarge w3-text-white text-wide">CONTACT</span>
   </div>
 </div>
 
 <!-- Container (Contact Section) -->
-<div class="flower-4">
+<div class="section-with-flowers section-with-flowers--type-3">
   <div class="w3-content w3-container w3-padding-64" id="contact">
     <h3 class="w3-center">MESSAGE ME</h3>
     <p class="w3-center"><em>
@@ -438,97 +334,75 @@ body, html {
           <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Kongens Lyngby, Denmark<br>
           <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> (+45) 53 33 31 46<br>
           <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> moam@dtu.dk<br>
-          <span class="pale"><i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.stackoverflow.com/users/5498574/amin<br></span>
-          <span class="pale"><i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.github.com/Black3rror<br></span>
-          <span class="pale"><i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.linkedin.com/in/black3rror<br></span>
-          <span class="pale"><i class="fab fa-quora fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> www.quora.com/profile/Amin-Hassanpour-1<br></span>
+          <span class="text-pale"><i class="fab fa-stack-overflow fa-fw w3-hover-text-black w3-xlarge w3-margin-right" aria-hidden="true"></i> <a href="https://stackoverflow.com/users/5498574/amin" target="_blank" rel="noopener">www.stackoverflow.com/users/5498574/amin</a><br></span>
+          <span class="text-pale"><i class="fab fa-github fa-fw w3-hover-text-black w3-xlarge w3-margin-right" aria-hidden="true"></i> <a href="https://github.com/AminHasanpour" target="_blank" rel="noopener">www.github.com/AminHasanpour</a><br></span>
+          <span class="text-pale"><i class="fab fa-linkedin fa-fw w3-hover-text-black w3-xlarge w3-margin-right" aria-hidden="true"></i> <a href="https://linkedin.com/in/AminHasanpour" target="_blank" rel="noopener">www.linkedin.com/in/AminHasanpour</a><br></span>
+          <span class="text-pale"><i class="fab fa-quora fa-fw w3-hover-text-black w3-xlarge w3-margin-right" aria-hidden="true"></i> <a href="https://quora.com/profile/Amin-Hassanpour-1" target="_blank" rel="noopener">www.quora.com/profile/Amin-Hassanpour-1</a><br></span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Flower garden -->
-<div class="garden" style="display: none;">
-  <img src="../images/flowers/flower 5-1.png" style="position: absolute; bottom: 0; left: 20%; width: 150px;">
-  <img src="../images/flowers/flower 5-2.png" style="position: absolute; bottom: 0; left: 35%; width: 150px;">
-  <img src="../images/flowers/flower 5-3.png" style="position: absolute; bottom: 0; left: 55%; width: 150px;">
-  <img src="../images/flowers/flower 5-4.png" style="position: absolute; bottom: 0; left: 65%; width: 150px;">
-  <img src="../images/flowers/butterfly 1.png" style="position: absolute; bottom: 170px; left: 12%; width: 130px;">
-  <svg width="100%" height="50%" version="1.1" id="gardenwind" onload="wind_loop()"></svg>
+<!-- Flower Garden -->
+<div class="flower-garden">
+  <img src="../images/flowers/flower 5-1.png" class="flower-garden__item flower-garden__item--flower-1" alt="Decorative flower">
+  <img src="../images/flowers/flower 5-2.png" class="flower-garden__item flower-garden__item--flower-2" alt="Decorative flower">
+  <img src="../images/flowers/flower 5-3.png" class="flower-garden__item flower-garden__item--flower-3" alt="Decorative flower">
+  <img src="../images/flowers/flower 5-4.png" class="flower-garden__item flower-garden__item--flower-4" alt="Decorative flower">
+  <img src="../images/flowers/butterfly 1.png" class="flower-garden__butterfly" alt="Decorative butterfly">
+  <svg class="flower-garden__wind" id="gardenwind" onload="wind_loop()" aria-hidden="true"></svg>
+  
 </div>
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right" aria-hidden="true"></i>To the top</a>
 </footer>
- 
+
+<!-- Scripts -->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/gsap.min.js"></script>
+<script src="../js/snap.svg-min.js" defer></script>
+<script src="../js/wind.js" defer></script>
+<script src="../js/prism.js" data-manual defer></script>
+<script src="../js/smooth-scrollbar.js" defer></script>
+<script src="../js/overscroll.js" defer></script>
+<script src="../js/email.min.js" defer></script>
+<script src="../js/email_box.js" defer></script>
+<script src="../js/loading_text.js"></script>
+<script src="../js/app.js"></script>
+
 <script>
-// Loading screen
-setTimeout(pop_skip_loader, 5000);
-function pop_skip_loader() {
-  var loader = document.getElementsByClassName("loader_screen")[0];
-  if (loader.style.visibility != "hidden") {
-    var skip = document.getElementsByClassName("loader_skip")[0];
-    skip.style.visibility = "visible";
-    skip.style.opacity = 1;
-    skip.style.top = 0;
-  }
-}
+  // Override analytics source for this subpage
+  (function() {
+    const originalSend = websiteApp.sendAnalytics.bind(websiteApp);
+    websiteApp.sendAnalytics = async function(id, rec) {
+      try {
+        await fetch(`https://people.compute.dtu.dk/moam/inforec/inforec.php?source=DragonEye&id=${id}&rec=${rec}`, { method: 'GET', mode: 'no-cors' });
+      } catch (e) { console.warn('Analytics request failed:', e); }
+    };
+    // Resend analytics with correct source
+    try {
+      const url = new URL(window.location.href);
+      const rec = url.searchParams.get('rec') || 'true';
+      const id = url.searchParams.get('i') || '';
+      websiteApp.sendAnalytics(id, rec);
+    } catch (e) {}
+  })();
 
-function remove_loader_screen() {
-  var loader = document.getElementsByClassName("loader_screen")[0];
-  loader.style.visibility = "hidden";
-  loader.style.opacity = 0;
-}
-
-window.onload = function() {
-  remove_loader_screen()
-}
-
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.id;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
-
-// Change style of navbar on scroll
-window.onscroll = function() {
-  var navbar = document.getElementById("myNavbar");
-  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
-  } else {
-      navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
-  }
-}
-
-// Used to toggle the menu on small screens when clicking on the menu button
-function toggleFunction() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
+  // Modal Image Gallery handler
+  function onClick(element) {
+    const img = document.getElementById('img01');
+    const modal = document.getElementById('modal01');
+    const captionText = document.getElementById('caption');
+    if (img && modal) {
+      img.src = element.id;
+      modal.style.display = 'block';
+      if (captionText) captionText.innerHTML = element.alt || '';
     }
-}
-
-// Record the location
-var url_string = window.location.href;
-var url = new URL(url_string);
-var rec = url.searchParams.get("rec");
-var id = url.searchParams.get("i");
-
-if (rec == null)
-  rec = "true";
-
-var xmlHttp = new XMLHttpRequest();
-xmlHttp.open("GET", "https://people.compute.dtu.dk/moam/inforec/inforec.php?source=DragonEye&id="+id+"&rec="+rec, true);
-xmlHttp.send( null );
-
-// Setup the email box
-setupEmailBox();
+  }
 </script>
 
 </body>

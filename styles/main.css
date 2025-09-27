@@ -255,6 +255,24 @@ html {
   background-image: url('../images/bg_contact.jpg');
 }
 
+/* Subpage: DragonEye backgrounds */
+.hero-section--dragon-eye-home::before {
+  background-image: url('../DragonEye/images/parallax1.jpg');
+}
+
+.hero-section--dragon-eye-stats::before {
+  background-image: url('../DragonEye/images/statistics_bg.jpg');
+}
+
+.hero-section--dragon-eye-gallery::before {
+  background-image: url('../DragonEye/images/Gallery.jpg');
+}
+
+/* Subpage: PCB backgrounds */
+.hero-section--pcb-home::before {
+  background-image: url('../etc/PCB/images/parallax1.jpg');
+}
+
 /* =====================================================
    FLOWER DECORATIONS
    ===================================================== */
@@ -541,4 +559,14 @@ html {
 
 .neural-network-demo__visualization {
   height: 100%;
+}
+
+/* =====================================================
+   GALLERY IMAGE THUMBNAILS (DragonEye)
+   ===================================================== */
+.gallery_image {
+  width: 100%;
+  height: 122px;
+  object-fit: cover;
+  cursor: pointer;
 }
