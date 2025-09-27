@@ -63,6 +63,17 @@ class WebsiteUtils {
    * Setup loading screen with modern async/await
    */
   setupLoadingScreen() {
+    // If URL has ?skipLoading (presence only), bypass the loader immediately
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has('skipLoading')) {
+        this.removeLoaderScreen();
+        return; // Skip scheduling loader timers
+      }
+    } catch (e) {
+      // Ignore URL parsing errors and continue with normal flow
+    }
+
     // Display random loading text
     display_random_loading_text("loader_main_text");
     
