@@ -282,7 +282,7 @@ html {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: left 8%, right 80%;
-    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px);
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px), 250px);
   }
   
   .section-with-flowers--type-2 {
@@ -290,7 +290,7 @@ html {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: right 10%;
-    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px);
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px), 250px);
   }
   
   .section-with-flowers--type-3 {
@@ -298,7 +298,7 @@ html {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: 95% top;
-    background-size: calc((100% - var(--content-max-width)) / 2 * 0.5 + 150px);
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 150px), 250px);
   }
 
   .flower-garden {
