@@ -633,3 +633,20 @@ html {
     animation: none !important;
   }
 }
+
+/* =====================================================
+   ABOUT: PROFILE PHOTO HOVER TRANSITION
+   ===================================================== */
+/* Make the opacity change on hover smooth for the About photo only */
+.about__photo {
+  transition: opacity var(--transition-medium) var(--transition-easing),
+              filter var(--transition-medium) var(--transition-easing);
+  will-change: opacity, filter;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .about__photo {
+    transition: none !important;
+  }
+}
