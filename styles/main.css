@@ -570,3 +570,25 @@ html {
   object-fit: cover;
   cursor: pointer;
 }
+
+/* =====================================================
+   NAVBAR ICON HOVER COLORS
+   ===================================================== */
+/* Smooth color transition for navbar icons */
+#navbar .w3-bar-item .fa {
+  transition: color var(--transition-fast) var(--transition-easing);
+}
+
+/* Default hover/focus color for any icon */
+#navbar .w3-bar-item:hover .fa,
+#navbar .w3-bar-item:focus-visible .fa,
+#navbar .w3-bar-item:hover .fas,
+#navbar .w3-bar-item:focus-visible .fas {
+  color: var(--color-primary);
+}
+
+/* Specific colorful accents per icon */
+#navbar .w3-bar-item:hover .fa-heart,
+#navbar .w3-bar-item:focus-visible .fa-heart {
+  color: var(--color-red);
+}
