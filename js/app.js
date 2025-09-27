@@ -57,6 +57,7 @@ class WebsiteUtils {
     // Initialize components that require DOM to be ready
     this.setupCodeEditor();
     this.setupScrollableSlider();
+    this.setupPlayfulCreativity();
   }
 
   /**
@@ -440,6 +441,111 @@ class WebsiteUtils {
         }
       });
     }
+  }
+
+  /**
+   * Setup playful hover for the colorful "creativity" word
+   * - Per-letter bounce with slight randomization
+   * - Color splash particles bursting from the hovered word
+   * - Respects prefers-reduced-motion
+   */
+  setupPlayfulCreativity() {
+    const root = document.getElementById('creativity');
+    if (!root) return;
+
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const letters = Array.from(root.querySelectorAll('.char'));
+
+    // Ensure container has relative positioning for splash dots (CSS already sets)
+    root.style.position = root.style.position || 'relative';
+
+    // Utility: create colored splash dots
+    const palette = [
+      '#ff3300', '#e6b800', '#0099ff', '#00cc00', '#ff0066',
+      '#6666ff', '#00ffcc', '#cc9900', '#ff33cc', '#3399ff'
+    ];
+
+    const createSplash = (x, y) => {
+      if (reducedMotion) return;
+      const DOT_COUNT = 12;
+      for (let i = 0; i < DOT_COUNT; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'splash-dot';
+        dot.style.backgroundColor = palette[i % palette.length];
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+        root.appendChild(dot);
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 30 + Math.random() * 40;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+        const duration = 0.5 + Math.random() * 0.6;
+
+        if (window.gsap) {
+          gsap.fromTo(dot,
+            { opacity: 1, x: 0, y: 0, scale: 0.6 },
+            { opacity: 0, x: dx, y: dy, scale: 1, duration, ease: 'power2.out', onComplete: () => dot.remove() }
+          );
+        } else {
+          // CSS fallback: simple transition and timed removal
+          dot.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
+          requestAnimationFrame(() => {
+            dot.style.opacity = '0';
+            dot.style.transform = `translate(${dx}px, ${dy}px) scale(1)`;
+          });
+          setTimeout(() => dot.remove(), duration * 1000 + 50);
+        }
+      }
+    };
+
+    const bounceOnce = () => {
+      if (reducedMotion) return;
+      root.classList.add('is-bouncing');
+      letters.forEach((el, idx) => {
+        const delay = (idx * 0.04) + Math.random() * 0.035;
+        if (window.gsap) {
+          gsap.fromTo(el,
+            { y: 0, scale: 1 },
+            { y: -12 - Math.random() * 6, scale: 1.05, duration: 0.28, ease: 'power2.out', delay,
+              yoyo: true, repeat: 1,
+              onComplete: () => {
+                // No-op; gsap returns to original after yoyo
+              }
+            }
+          );
+        } else {
+          // CSS-only bounce is handled via keyframes when .is-bouncing is present
+          // We can briefly force reflow to restart animations if needed
+          // eslint-disable-next-line no-unused-expressions
+          el.offsetHeight;
+        }
+      });
+      // Remove the class after the wave ends
+      setTimeout(() => root.classList.remove('is-bouncing'), 900);
+    };
+
+    const triggerEffects = (evt) => {
+      const rect = root.getBoundingClientRect();
+      const x = evt instanceof MouseEvent ? (evt.clientX - rect.left) : rect.width / 2;
+      const y = evt instanceof MouseEvent ? (evt.clientY - rect.top) : rect.height / 2;
+      bounceOnce();
+      createSplash(x, y);
+    };
+
+    // Hover and focus events
+    root.addEventListener('mouseenter', triggerEffects);
+    root.addEventListener('click', triggerEffects);
+    root.addEventListener('focus', triggerEffects);
+    root.setAttribute('tabindex', '0');
+
+    // Keyboard trigger (Enter/Space)
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        triggerEffects(e);
+        e.preventDefault();
+      }
+    });
   }
 
   /**
