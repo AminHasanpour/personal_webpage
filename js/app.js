@@ -252,6 +252,16 @@ class WebsiteUtils {
     const heroSections = document.querySelectorAll('.hero-section');
     
     heroSections.forEach(section => {
+      // Skip if parallax is explicitly disabled on this section
+      const parallaxAttr = (section.getAttribute('data-parallax') || '').toLowerCase();
+      const parallaxDisabled = section.classList.contains('no-parallax') ||
+                               section.classList.contains('hero-section--no-parallax') ||
+                               parallaxAttr === 'off' || parallaxAttr === 'false' || parallaxAttr === '0';
+      if (parallaxDisabled) {
+        section.style.setProperty('--parallax-transform', 'translate3d(0, 0, 0)');
+        return;
+      }
+
       const rect = section.getBoundingClientRect();
       const sectionTop = scrollTop + rect.top;
       const sectionHeight = rect.height;

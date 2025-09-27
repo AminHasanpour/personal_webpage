@@ -235,6 +235,19 @@ html {
   }
 }
 
+/* Opt-out: disable parallax for specific sections */
+.hero-section.no-parallax::before,
+.hero-section--no-parallax::before,
+.hero-section[data-parallax="off"]::before,
+.hero-section[data-parallax="false"]::before,
+.hero-section[data-parallax="0"]::before {
+  transform: none !important;
+  will-change: auto;
+  /* Reset extended bounds so the background covers normally */
+  top: 0;
+  bottom: 0;
+}
+
 .hero-section--home::before {
   background-image: url('../images/bg_home.jpg');
 }
