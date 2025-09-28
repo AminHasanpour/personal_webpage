@@ -589,7 +589,7 @@ html {
 
 .flower-garden__item {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   width: 150px;
 }
 
@@ -607,6 +607,12 @@ html {
 
 .flower-garden__item--flower-4 {
   left: 65%;
+}
+
+.flower-garden__grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .flower-garden__butterfly {
