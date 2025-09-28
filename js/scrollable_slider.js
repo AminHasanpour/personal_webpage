@@ -31,11 +31,24 @@ $(document).ready(function () {
     
         var listItem = $('.js-scroll-list-item');
         listItem.eq(0).addClass('item-focus');
+    // Start blurred until the user scrolls
+    $('.js-scroll-list').addClass('is-blurred');
+
+        // Fallback: if user interacts (wheel/touch/keys) over the list, hide mouse and unblur
+        $('.js-scroll-list').one('wheel touchstart keydown', function() {
+          $('.scroll-downs').css('opacity', '0');
+          $('.scroll-downs').css('height', '0');
+          $('.js-scroll-list').removeClass('is-blurred');
+        });
     
         customScroll.addListener(function (status) {
     
         $('.scroll-downs').css('opacity', '0');
         $('.scroll-downs').css('height', '0');
+    // Remove blur on first interaction
+    if ($('.js-scroll-list').hasClass('is-blurred')) {
+      $('.js-scroll-list').removeClass('is-blurred');
+    }
         
         var top = status.offset.y;
         // console.log(top);

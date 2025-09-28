@@ -198,6 +198,9 @@ ul li a.active {
 }
 
 @media (min-width:1181px) {
+  /* Ensure tabs act as positioning context for overlay */
+  #tabs { position: relative; }
+
   ul {
     width: 50%;
   }
@@ -210,6 +213,8 @@ ul li a.active {
   ul {
     height: 420px;
     overflow: auto;
+    /* smooth blur transition when unblurring on first scroll */
+    transition: filter .35s ease-in-out;
   }
   
   ul .scrollbar-track {
@@ -241,6 +246,9 @@ ul li a.active {
   .scroll-list-item:last-child {
     padding-bottom: 155px;
   }
+
+  /* Initial blur state for the scroll list (toggled via JS) */
+  .js-scroll-list.is-blurred { filter: blur(3px); }
 }
 
 
@@ -250,13 +258,19 @@ ul li a.active {
 .scroll-downs {
   width: 50%;
   height: 55px;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: 50%;
   left: 0;
-  margin: auto;
-  margin-top: 50px;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translateY(-50%);
   transition: opacity 1s, height 1s 1s;
+  /* Place mouse indicator above the scroll list */
+  position: absolute;
+  z-index: 10;
+  pointer-events: none; /* allow wheel/scroll to pass through */
+  display: flex;
+  justify-content: center;
 }
 .mousey {
   width: 3px;
