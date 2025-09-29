@@ -48,7 +48,7 @@
 
   // Merge config with defaults
   const cfg = Object.assign({
-    maxLeaves: 2,
+    maxLeaves: 3,
     spawnMinMs: 2000,
     spawnMaxMs: 5000,
     burstChance: 0.35,
