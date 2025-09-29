@@ -790,6 +790,27 @@ html {
   backface-visibility: hidden;
 }
 
+/* =====================================================
+   DRAGONEYE: LOGO HOVER (grayscale -> color)
+   ===================================================== */
+/* Default state: allow a smooth filter transition */
+.hover-grayscale-off {
+  transition: filter var(--transition-fast) var(--transition-easing);
+}
+
+/* On hover (and keyboard focus), turn grayscale off to show original colors */
+.hover-grayscale-off:hover,
+.hover-grayscale-off:focus-visible {
+  filter: grayscale(0%) !important;
+}
+
+/* Reduced motion: keep instant change without animation */
+@media (prefers-reduced-motion: reduce) {
+  .hover-grayscale-off {
+    transition: none !important;
+  }
+}
+
 /* Double pulse keyframes: two quick beats per cycle */
 @keyframes heart-double-pulse {
   0% { transform: scale(1); text-shadow: 0 0 0 rgba(255, 0, 0, 0); }
