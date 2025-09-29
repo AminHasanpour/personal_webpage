@@ -104,10 +104,11 @@ class WebsiteUtils {
     const WORDS = [
       'research', 'creative', 'enthusiast', 'idea', 'creativity', 'nature', 'calm', 'smile',
       'curious', 'kind', 'focused', 'tinyML', 'efficient', 'joy', 'build', 'learn', 'explore',
-      'code', 'fun', 'happy', 'bright', 'inspire', 'grow', 'dream', 'hope', 'peace', 'love'
+      'code', 'fun', 'happy', 'bright', 'inspire', 'grow', 'dream', 'hope', 'peace', 'love',
+      'DL', 'ML', 'AI', 'intelligence'
     ];
     const EMOJIS = ['😀','😄','😊','😌','😍','🤩','✨','💡','🌿','🌟','💖','👍','🌈','🧠','🚀','🎯'];
-    const PALETTE = ['#ff3300','#e6b800','#0099ff','#00cc00','#ff0066','#6666ff','#00ffcc','#cc9900','#ff33cc','#3399ff'];
+    const PALETTE = ['#ff3300','#0099ff','#00cc00','#ff0066','#6666ff','#00ffcc','#ff33cc','#3399ff'];
 
     // Utility: random helpers
     const rand = (min, max) => Math.random() * (max - min) + min;

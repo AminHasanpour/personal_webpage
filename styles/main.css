@@ -733,7 +733,7 @@ html {
   overflow: visible; /* allow emitted elements to extend beyond */
 }
 
-.about__photo-stack img {
+.about__photo-stack img:not(.about__photo--sunglasses) {
   display: block;
   width: 100%;
   height: auto;
@@ -757,6 +757,37 @@ html {
   z-index: 3; /* highest: stays in front of tokens */
   opacity: 1;
   border-radius: 8px; /* preserve rounding without clipping particles */
+}
+
+/* Sunglasses overlay: positioned in percentage coords so it scales with the image */
+.about__photo--sunglasses {
+  /* Tunables: adjust these to fine-tune placement/size */
+  --sunglasses-left: 60%;   /* x position of overlay center (approx) */
+  --sunglasses-top: 18%;    /* y position of overlay center (approx) */
+  --sunglasses-width: 28%;  /* width of the sunglasses relative to photo */
+  --sunglasses-rotate: 4deg;/* small rotation if needed */
+
+  position: absolute;
+  left: var(--sunglasses-left);
+  top: var(--sunglasses-top);
+  width: var(--sunglasses-width);
+  height: auto;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate));
+  transform-origin: center center;
+  z-index: 5; /* above dim and me image */
+  pointer-events: none; /* purely decorative */
+
+  /* Hidden by default, revealed on hover for a playful effect */
+  opacity: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  transition: opacity var(--transition-medium) var(--transition-easing),
+              transform var(--transition-medium) var(--transition-easing);
+}
+
+.about__photo-stack:hover .about__photo--sunglasses,
+.about__photo-stack:focus-within .about__photo--sunglasses {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
 }
 
 /* Dim via neutral overlay to avoid color bleed */
