@@ -567,6 +567,19 @@ html {
   display: flex; 
   flex-direction: column-reverse;
   overflow: auto;
+  /* Prevent page scroll from shifting while code types */
+  overflow-anchor: none;
+  /* Keep layout stable when scrollbar appears */
+  scrollbar-gutter: stable both-edges;
+  /* Avoid scroll chaining to the page while interacting */
+  overscroll-behavior: contain;
+}
+
+/* Extra safety: disable anchoring on wrappers and the code element too */
+.neural-network-demo,
+.neural-network-demo__editor,
+#editor {
+  overflow-anchor: none;
 }
 
 /* =====================================================

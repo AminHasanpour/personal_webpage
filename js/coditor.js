@@ -159,6 +159,21 @@ var l_f3 = codestr_fp3.length;
 var editor = null;
 var coditor_started = false;
 
+// Keep the editor's container scrolled to show the latest line without affecting page scroll
+function pinEditorScroll() {
+  if (!editor) return;
+  const container = editor.parentElement; // <pre class="code-editor">
+  if (!container) return;
+  // Only autoscroll if user is already near the bottom
+  const threshold = 24; // px
+  const isNearBottom = (container.scrollTop + container.clientHeight) >= (container.scrollHeight - threshold);
+  if (isNearBottom) {
+    try {
+      container.scrollTop = container.scrollHeight;
+    } catch (e) { /* no-op */ }
+  }
+}
+
 
 // main function. tag defines what it should do
 function write_code(tag){
@@ -258,6 +273,7 @@ function write_code(tag){
 // calls write_code(tag) when done
 function write_code_basic(pretext, maintext, l, ms, i, tag){
   editor.innerHTML = pretext + maintext.slice(0, i);
+  pinEditorScroll();
   if (i<l)
     setTimeout(write_code_basic, ms, pretext, maintext, l, ms, i+1, tag); 
   else
@@ -271,6 +287,7 @@ function write_code_basic(pretext, maintext, l, ms, i, tag){
 function write_code_highlight(pretext, maintext, l, ms, i, tag){
   editor.innerHTML = pretext + maintext.slice(0, i);
   Prism.highlightElement(editor);
+  pinEditorScroll();
   if (i<l)
     setTimeout(write_code_highlight, ms, pretext, maintext, l, ms, i+1, tag); 
   else
@@ -288,6 +305,7 @@ function write_console_download(pretext, l, ms, i, tag){
   text += dl_speed + "GB/s";
   editor.innerHTML = text;
   Prism.highlightElement(editor);
+  pinEditorScroll();
   if (i<20)
     setTimeout(write_console_download, ms, pretext, l, ms, i+1, tag); 
   else
@@ -304,6 +322,7 @@ function write_console_loading(pretext, l, ms, i, tag){
     text += ".";
   editor.innerHTML = text;
   Prism.highlightElement(editor);
+  pinEditorScroll();
   if (i<11)
     setTimeout(write_console_loading, ms, pretext, l, ms, i+1, tag); 
   else
@@ -317,6 +336,7 @@ function write_console_loading(pretext, l, ms, i, tag){
 function write_code_backspace(pretext, l, ms, i, tag){
   editor.innerHTML = pretext.slice(0, l-i);
   Prism.highlightElement(editor);
+  pinEditorScroll();
   if (i<15)
     setTimeout(write_code_backspace, ms, pretext, l, ms, i+1, tag); 
   else
@@ -341,4 +361,5 @@ function add_prism_css(){
 // tell prism to colorize the code and background
 function highlight_editor(){
   Prism.highlightElement(editor);
+  pinEditorScroll();
 }
