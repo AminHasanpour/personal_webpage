@@ -100,6 +100,44 @@ class WebsiteUtils {
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasGSAP = typeof window.gsap !== 'undefined';
 
+    // Hover music: play looped beat while hovering the photo stack
+    // Single Audio instance kept within this closure
+    const beat = new Audio('images/my-photo-beat.mp3');
+    beat.loop = true;
+    beat.preload = 'auto';
+    beat.volume = 0.5; // moderate volume
+
+    let awaitingUserUnlock = false;
+
+    const startMusic = () => {
+      // Avoid replaying if already playing
+      if (!beat.paused) return;
+      const playPromise = beat.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.catch((err) => {
+          // Autoplay policy likely blocked; wait for a user gesture
+          awaitingUserUnlock = true;
+          const unlock = () => {
+            beat.play().catch(() => {/* swallow */});
+            stack.removeEventListener('pointerdown', unlock);
+            stack.removeEventListener('click', unlock);
+            awaitingUserUnlock = false;
+          };
+          // Use once:true to avoid leaks; add both pointerdown and click for wider support
+          stack.addEventListener('pointerdown', unlock, { once: true });
+          stack.addEventListener('click', unlock, { once: true });
+        });
+      }
+    };
+
+    const stopMusic = () => {
+      if (!beat.paused) {
+        try { beat.pause(); } catch { /* ignore */ }
+      }
+      // Reset to start so each hover begins from the beginning
+      try { beat.currentTime = 0; } catch { /* ignore */ }
+    };
+
     // Positive words and fun emojis
     const WORDS = [
       'research', 'creative', 'enthusiast', 'idea', 'creativity', 'nature', 'calm', 'smile',
@@ -183,11 +221,14 @@ class WebsiteUtils {
         }
       }, 500); // <-- 500 ms between bursts
 
+      // Start hover music (respecting autoplay restrictions)
+      startMusic();
     };
 
     const stopBurst = () => {
       if (hoverInterval) { clearInterval(hoverInterval); hoverInterval = null; }
       // Let existing particles finish; they'll self-remove
+      stopMusic();
     };
 
     // Event wiring: hover/focus on the stack
@@ -195,6 +236,12 @@ class WebsiteUtils {
     stack.addEventListener('mouseleave', stopBurst);
     stack.addEventListener('focusin', startBurst);
     stack.addEventListener('focusout', stopBurst);
+
+    // Safety: stop audio when page is hidden or window loses focus
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopBurst();
+    });
+    window.addEventListener('blur', () => stopBurst());
   }
 
   /**
