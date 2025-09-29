@@ -99,6 +99,12 @@ class WebsiteUtils {
 
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasGSAP = typeof window.gsap !== 'undefined';
+    
+    // Elements we want to shake (exclude the emitter layer)
+    const moveBlob = stack.querySelector('.about__photo--blob');
+    const moveMe = stack.querySelector('.about__photo--me');
+    const moveGlasses = stack.querySelector('.about__photo--sunglasses');
+    const movingEls = [moveBlob, moveMe, moveGlasses].filter(Boolean);
 
   // Hover music: play looped beat while hovering the photo stack
     // Single Audio instance kept within this closure
@@ -246,7 +252,72 @@ class WebsiteUtils {
       // Let existing particles finish; they'll self-remove
       stopMusic();
       hideHint();
+      // Safety: also stop any pending/active shakes
+      stopBeatShake();
     };
+
+  // Beat-synced shake when music is playing
+  let beatShakeTimer = null;
+  let beatShakeDelayTimer = null;
+
+    const doSmallShake = () => {
+      if (!movingEls.length || reducedMotion) return;
+      // Subtle randomized shake for each element
+      movingEls.forEach((el, idx) => {
+        const amp = 2 + Math.random() * 2; // 2-4 px
+        const dur = 0.22 + Math.random() * 0.08; // ~0.22-0.30s
+        const rot = (Math.random() - 0.5) * 1.2; // small rotation
+        if (hasGSAP && window.gsap) {
+          const tl = gsap.timeline();
+          tl.to(el, { x: amp, y: -amp, rotate: `+=${rot}` , duration: dur * 0.34, ease: 'power2.out' })
+            .to(el, { x: -amp, y: amp, rotate: `-=${rot}` , duration: dur * 0.34, ease: 'power2.inOut' })
+            .to(el, { x: 0, y: 0, rotate: '+=0', duration: dur * 0.32, ease: 'power2.in' });
+        } else {
+          // Minimal fallback: avoid moving sunglasses to preserve base transform
+          if (el.classList && el.classList.contains('about__photo--sunglasses')) return;
+          const original = el.style.transform || '';
+          el.style.transition = `transform ${dur}s ease-in-out`;
+          el.style.transform = original + ` translate(${amp}px, ${-amp}px)`;
+          setTimeout(() => {
+            el.style.transform = original + ` translate(${-amp}px, ${amp}px)`;
+            setTimeout(() => {
+              el.style.transform = original;
+            }, dur * 320);
+          }, dur * 340);
+        }
+      });
+    };
+
+    const startBeatShake = () => {
+      if (reducedMotion) return;
+      if (beatShakeTimer || beatShakeDelayTimer) return;
+      // Wait 2.8s to sync with the beat, then start ~1s shakes
+      beatShakeDelayTimer = setTimeout(() => {
+        doSmallShake();
+        beatShakeTimer = setInterval(doSmallShake, 1000);
+        beatShakeDelayTimer = null;
+      }, 2800);
+    };
+
+    const stopBeatShake = () => {
+      if (beatShakeTimer) {
+        clearInterval(beatShakeTimer);
+        beatShakeTimer = null;
+      }
+      if (beatShakeDelayTimer) {
+        clearTimeout(beatShakeDelayTimer);
+        beatShakeDelayTimer = null;
+      }
+      // Ensure all elements settle
+      if (hasGSAP && window.gsap && movingEls.length) {
+        movingEls.forEach(el => gsap.to(el, { x: 0, y: 0, duration: 0.12, ease: 'power1.out' }));
+      }
+    };
+
+    // Start/stop shake based on actual audio state
+    beat.addEventListener('playing', startBeatShake);
+    beat.addEventListener('pause', stopBeatShake);
+    beat.addEventListener('ended', stopBeatShake);
 
     // Event wiring: hover/focus on the stack
     stack.addEventListener('mouseenter', startBurst);

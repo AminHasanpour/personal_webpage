@@ -744,6 +744,7 @@ html {
   position: relative;
   z-index: 0;
   border-radius: 8px; /* keep rounded look for the image */
+  will-change: transform;
 }
 
 /* Me overlays on top, covering the same area */
@@ -757,6 +758,7 @@ html {
   z-index: 3; /* highest: stays in front of tokens */
   opacity: 1;
   border-radius: 8px; /* preserve rounding without clipping particles */
+  will-change: transform;
 }
 
 /* Sunglasses overlay: positioned in percentage coords so it scales with the image */
@@ -782,10 +784,17 @@ html {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   transition: opacity var(--transition-medium) var(--transition-easing),
               transform var(--transition-medium) var(--transition-easing);
+  will-change: transform, opacity;
 }
 
 .about__photo-stack:hover .about__photo--sunglasses,
 .about__photo-stack:focus-within .about__photo--sunglasses {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
+}
+
+/* Also reveal sunglasses while music is playing */
+.about__photo-stack.is-playing .about__photo--sunglasses {
   opacity: 1;
   transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
 }
