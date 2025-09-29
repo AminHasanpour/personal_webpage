@@ -838,3 +838,43 @@ html {
     animation: none !important;
   }
 }
+
+/* =====================================================
+   ABOUT: AUDIO HINT BADGE
+   ===================================================== */
+.about__audio-hint {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 10; /* above dim and images */
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--transition-fast) var(--transition-easing),
+              transform var(--transition-fast) var(--transition-easing);
+  pointer-events: none; /* do not block hover/clicks */
+}
+
+.about__audio-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about__audio-hint .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Use Font Awesome if available; otherwise simple text will show */
+.about__audio-hint .fa {
+  font-size: 14px;
+}

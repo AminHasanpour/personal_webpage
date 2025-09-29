@@ -100,7 +100,7 @@ class WebsiteUtils {
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasGSAP = typeof window.gsap !== 'undefined';
 
-    // Hover music: play looped beat while hovering the photo stack
+  // Hover music: play looped beat while hovering the photo stack
     // Single Audio instance kept within this closure
     const beat = new Audio('images/my-photo-beat.mp3');
     beat.loop = true;
@@ -109,19 +109,35 @@ class WebsiteUtils {
 
     let awaitingUserUnlock = false;
 
+  // Create a small muted mic hint in bottom-left to suggest clicking when autoplay is blocked
+  const hint = document.createElement('div');
+  hint.className = 'about__audio-hint';
+  hint.setAttribute('aria-hidden', 'true');
+  // Prefer Font Awesome icon if present; fallback to text
+  hint.innerHTML = '<span class="icon"><i class="fa fa-volume-off" aria-hidden="true"></i></span><span>Click to play</span>';
+  // Insert hint into stack so it sits on top
+  stack.appendChild(hint);
+  const showHint = () => hint.classList.add('is-visible');
+  const hideHint = () => hint.classList.remove('is-visible');
+
     const startMusic = () => {
       // Avoid replaying if already playing
       if (!beat.paused) return;
       const playPromise = beat.play();
       if (playPromise && typeof playPromise.then === 'function') {
-        playPromise.catch((err) => {
+        playPromise.then(() => {
+          // Playback started successfully; ensure hint is hidden
+          hideHint();
+        }).catch((err) => {
           // Autoplay policy likely blocked; wait for a user gesture
           awaitingUserUnlock = true;
+          showHint();
           const unlock = () => {
             beat.play().catch(() => {/* swallow */});
             stack.removeEventListener('pointerdown', unlock);
             stack.removeEventListener('click', unlock);
             awaitingUserUnlock = false;
+            hideHint();
           };
           // Use once:true to avoid leaks; add both pointerdown and click for wider support
           stack.addEventListener('pointerdown', unlock, { once: true });
@@ -229,6 +245,7 @@ class WebsiteUtils {
       if (hoverInterval) { clearInterval(hoverInterval); hoverInterval = null; }
       // Let existing particles finish; they'll self-remove
       stopMusic();
+      hideHint();
     };
 
     // Event wiring: hover/focus on the stack
