@@ -254,6 +254,7 @@ class WebsiteUtils {
       hideHint();
       // Safety: also stop any pending/active shakes
       stopBeatShake();
+      stack.classList.remove('is-playing');
     };
 
   // Beat-synced shake when music is playing
@@ -291,12 +292,12 @@ class WebsiteUtils {
     const startBeatShake = () => {
       if (reducedMotion) return;
       if (beatShakeTimer || beatShakeDelayTimer) return;
-      // Wait 2.8s to sync with the beat, then start ~1s shakes
+      // Wait 2.5s to sync with the beat, then start ~1s shakes
       beatShakeDelayTimer = setTimeout(() => {
         doSmallShake();
         beatShakeTimer = setInterval(doSmallShake, 1000);
         beatShakeDelayTimer = null;
-      }, 2800);
+      }, 2500);
     };
 
     const stopBeatShake = () => {
@@ -314,10 +315,17 @@ class WebsiteUtils {
       }
     };
 
-    // Start/stop shake based on actual audio state
-    beat.addEventListener('playing', startBeatShake);
-    beat.addEventListener('pause', stopBeatShake);
-    beat.addEventListener('ended', stopBeatShake);
+    // Start/stop shake and sunglasses based on actual audio state
+    beat.addEventListener('playing', () => {
+      stack.classList.add('is-playing');
+      startBeatShake();
+    });
+    const onAudioStop = () => {
+      stack.classList.remove('is-playing');
+      stopBeatShake();
+    };
+    beat.addEventListener('pause', onAudioStop);
+    beat.addEventListener('ended', onAudioStop);
 
     // Event wiring: hover/focus on the stack
     stack.addEventListener('mouseenter', startBurst);

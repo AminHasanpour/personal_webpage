@@ -787,8 +787,7 @@ html {
   will-change: transform, opacity;
 }
 
-.about__photo-stack:hover .about__photo--sunglasses,
-.about__photo-stack:focus-within .about__photo--sunglasses {
+.about__photo-stack.is-playing .about__photo--sunglasses {
   opacity: 1;
   transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
 }
