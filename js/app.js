@@ -106,14 +106,14 @@ class WebsiteUtils {
     const moveGlasses = stack.querySelector('.about__photo--sunglasses');
     const movingEls = [moveBlob, moveMe, moveGlasses].filter(Boolean);
 
-  // Hover music: play looped beat while hovering the photo stack
+  // Audio + effects: require click to start (no autoplay on hover)
     // Single Audio instance kept within this closure
     const beat = new Audio('images/my-photo-beat.mp3');
     beat.loop = true;
     beat.preload = 'auto';
     beat.volume = 0.5; // moderate volume
-
-    let awaitingUserUnlock = false;
+    
+    let awaitingUserUnlock = false; // kept for safety, though we explicitly require a click now
 
   // Create a small muted mic hint in bottom-left to suggest clicking when autoplay is blocked
   const hint = document.createElement('div');
@@ -126,18 +126,17 @@ class WebsiteUtils {
   const showHint = () => hint.classList.add('is-visible');
   const hideHint = () => hint.classList.remove('is-visible');
 
+    // Start music on user action only
     const startMusic = () => {
-      // Avoid replaying if already playing
       if (!beat.paused) return;
       const playPromise = beat.play();
       if (playPromise && typeof playPromise.then === 'function') {
         playPromise.then(() => {
-          // Playback started successfully; ensure hint is hidden
           hideHint();
-        }).catch((err) => {
-          // Autoplay policy likely blocked; wait for a user gesture
+        }).catch(() => {
+          // In the unlikely case the first click didn't count as a gesture on some browsers,
+          // arm a one-off unlock on the next direct interaction.
           awaitingUserUnlock = true;
-          showHint();
           const unlock = () => {
             beat.play().catch(() => {/* swallow */});
             stack.removeEventListener('pointerdown', unlock);
@@ -145,7 +144,6 @@ class WebsiteUtils {
             awaitingUserUnlock = false;
             hideHint();
           };
-          // Use once:true to avoid leaks; add both pointerdown and click for wider support
           stack.addEventListener('pointerdown', unlock, { once: true });
           stack.addEventListener('click', unlock, { once: true });
         });
@@ -242,9 +240,9 @@ class WebsiteUtils {
           setTimeout(() => animateToken(t), i * rand(60, 140));
         }
       }, 500); // <-- 500 ms between bursts
-
-      // Start hover music (respecting autoplay restrictions)
-      startMusic();
+      
+      // Show hint on every hover when audio isn't playing
+      if (beat.paused) showHint();
     };
 
     const stopBurst = () => {
@@ -332,6 +330,26 @@ class WebsiteUtils {
     stack.addEventListener('mouseleave', stopBurst);
     stack.addEventListener('focusin', startBurst);
     stack.addEventListener('focusout', stopBurst);
+
+    // Require explicit user action to start music/effects
+    const onActivate = (e) => {
+      // Only react if currently hovered/focused, but always allow click to start
+      if (beat.paused) {
+        startMusic();
+        hideHint();
+      }
+    };
+    // Support mouse/touch/pen
+    stack.addEventListener('pointerdown', onActivate);
+    stack.addEventListener('click', onActivate);
+    // Keyboard accessibility: Enter/Space
+    stack.setAttribute('tabindex', stack.getAttribute('tabindex') || '0');
+    stack.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        onActivate(e);
+        e.preventDefault();
+      }
+    });
 
     // Safety: stop audio when page is hidden or window loses focus
     document.addEventListener('visibilitychange', () => {

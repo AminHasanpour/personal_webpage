@@ -658,7 +658,7 @@ html {
 
 .flower-garden__item--flower-10 {
   left: 73%;
-  filter: hue-rotate(-100deg);
+  filter: hue-rotate(0deg);
 }
 
 .flower-garden__item--flower-11 {
@@ -949,7 +949,8 @@ html {
 }
 
 .about__photo-stack:hover::after,
-.about__photo-stack:focus-within::after {
+/* Only brighten on focus when the user is navigating with keyboard (Tab) */
+.user-is-tabbing .about__photo-stack:focus-within::after {
   opacity: 0; /* brighten on hover/focus */
 }
 
