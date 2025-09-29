@@ -730,7 +730,7 @@ html {
   width: min(300px, 100%); /* responsive, capped at previous width */
   line-height: 0; /* remove inline-gap */
   border-radius: 8px; /* visually similar to w3-round */
-  overflow: hidden; /* keep rounded corners for both layers */
+  overflow: visible; /* allow emitted elements to extend beyond */
 }
 
 .about__photo-stack img {
@@ -743,6 +743,7 @@ html {
 .about__photo--blob {
   position: relative;
   z-index: 0;
+  border-radius: 8px; /* keep rounded look for the image */
 }
 
 /* Me overlays on top, covering the same area */
@@ -753,8 +754,9 @@ html {
   width: 100%;
   height: 100%;
   object-fit: cover; /* ensure same framing if sizes differ */
-  z-index: 1;
+  z-index: 3; /* highest: stays in front of tokens */
   opacity: 1;
+  border-radius: 8px; /* preserve rounding without clipping particles */
 }
 
 /* Dim via neutral overlay to avoid color bleed */
@@ -766,10 +768,42 @@ html {
   transition: opacity var(--transition-medium) var(--transition-easing);
   opacity: 1; /* dim by default */
   pointer-events: none; /* keep hover on images */
-  z-index: 2; /* above images */
+  z-index: 4; /* above front image to dim overall; lowered on hover */
+  border-radius: 8px; /* match container rounding */
 }
 
 .about__photo-stack:hover::after,
 .about__photo-stack:focus-within::after {
   opacity: 0; /* brighten on hover/focus */
+}
+
+/* Emitter layer: positioned between blob and me; hosts tokens */
+.about__photo-stack__emitter {
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* between blob (0) and me (3) */
+  pointer-events: none;
+  overflow: visible; /* allow particles to exit bounds */
+}
+
+/* Token styles (words/emojis) */
+.about-token {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  will-change: transform, opacity, rotate, scale;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+  user-select: none;
+  white-space: nowrap;
+}
+
+
+/* Reduced motion: keep visuals subtle */
+@media (prefers-reduced-motion: reduce) {
+  .about-token {
+    transition: none !important;
+    animation: none !important;
+  }
 }

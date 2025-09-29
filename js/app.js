@@ -58,6 +58,7 @@ class WebsiteUtils {
     this.setupCodeEditor();
     this.setupScrollableSlider();
     this.setupPlayfulCreativity();
+    this.setupAboutPhotoBurst();
   }
 
   /**
@@ -83,6 +84,116 @@ class WebsiteUtils {
     
     // Handle window load event
     window.addEventListener('load', () => this.handleWindowLoad());
+  }
+
+  /**
+   * Setup hover bursts for the About photo stack
+   * - Emits randomized words/emojis from behind the front "me" image
+  * - Particles shoot in any direction, with rotation and scale-up; fade away
+   * - Respects prefers-reduced-motion
+   */
+  setupAboutPhotoBurst() {
+    const stack = document.querySelector('.about__photo-stack');
+    const emitter = stack ? stack.querySelector('.about__photo-stack__emitter') : null;
+    if (!stack || !emitter) return;
+
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasGSAP = typeof window.gsap !== 'undefined';
+
+    // Positive words and fun emojis
+    const WORDS = [
+      'research', 'creative', 'enthusiast', 'idea', 'creativity', 'nature', 'calm', 'smile',
+      'curious', 'kind', 'focused', 'tinyML', 'efficient', 'joy', 'build', 'learn', 'explore',
+      'code', 'fun', 'happy', 'bright', 'inspire', 'grow', 'dream', 'hope', 'peace', 'love'
+    ];
+    const EMOJIS = ['😀','😄','😊','😌','😍','🤩','✨','💡','🌿','🌟','💖','👍','🌈','🧠','🚀','🎯'];
+    const PALETTE = ['#ff3300','#e6b800','#0099ff','#00cc00','#ff0066','#6666ff','#00ffcc','#cc9900','#ff33cc','#3399ff'];
+
+    // Utility: random helpers
+    const rand = (min, max) => Math.random() * (max - min) + min;
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    // Create a token element (word or emoji)
+    const makeToken = () => {
+      const el = document.createElement('span');
+      el.className = 'about-token';
+      const useEmoji = Math.random() < 0.5;
+      el.textContent = useEmoji ? pick(EMOJIS) : pick(WORDS);
+      const color = pick(PALETTE);
+      el.style.color = color;
+      el.style.fontSize = `${rand(14, 28)}px`;
+      el.style.left = '50%';
+      el.style.top = `${rand(46, 56)}%`; // small vertical jitter from middle/back
+      return el;
+    };
+
+    const animateToken = (el) => {
+      if (reducedMotion) {
+        // Static subtle appear/disappear
+        el.style.opacity = '0';
+        emitter.appendChild(el);
+        setTimeout(() => el.remove(), 1200);
+        return;
+      }
+
+      emitter.appendChild(el);
+
+      // Any-direction trajectory
+      const angle = rand(-210 * (Math.PI / 180), 30 * (Math.PI / 180));
+      const distance = rand(120, 180);
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      const rot = rand(-180, 180);
+      const scaleTo = rand(1.2, 1.8);
+      const dur = rand(0.9, 1.6);
+
+      if (hasGSAP) {
+        gsap.fromTo(el,
+          { opacity: 0, xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 0.6, rotate: 0 },
+          { opacity: 0.05, duration: dur * 0.15, ease: 'power2.out', onComplete: () => {
+              gsap.to(el, { opacity: 1, duration: dur * 0.2, ease: 'power2.out' });
+            }
+          }
+        );
+        gsap.to(el, { x: dx, y: dy, scale: scaleTo, rotate: rot, duration: dur, ease: 'power3.out' });
+        gsap.to(el, { opacity: 0, duration: dur * 0.35, ease: 'power1.out', delay: dur * 0.65, onComplete: () => el.remove() });
+      } else {
+        // Fallback using CSS transitions
+        el.style.transition = `transform ${dur}s ease-out, opacity ${dur}s ease-out`;
+        el.style.opacity = '1';
+        requestAnimationFrame(() => {
+          el.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${rot}deg) scale(${scaleTo})`;
+          el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), dur * 1000 + 50);
+      }
+    };
+
+    let hoverInterval = null;
+
+    const startBurst = () => {
+      if (hoverInterval) return; // already running
+      // Emit tokens in small bursts
+      hoverInterval = setInterval(() => {
+        const count = Math.floor(rand(1, 3.5));
+        for (let i = 0; i < count; i++) {
+          const t = makeToken();
+          setTimeout(() => animateToken(t), i * rand(60, 140));
+        }
+      }, 500); // <-- 500 ms between bursts
+
+    };
+
+    const stopBurst = () => {
+      if (hoverInterval) { clearInterval(hoverInterval); hoverInterval = null; }
+      // Let existing particles finish; they'll self-remove
+    };
+
+    // Event wiring: hover/focus on the stack
+    stack.addEventListener('mouseenter', startBurst);
+    stack.addEventListener('mouseleave', stopBurst);
+    stack.addEventListener('focusin', startBurst);
+    stack.addEventListener('focusout', stopBurst);
   }
 
   /**
