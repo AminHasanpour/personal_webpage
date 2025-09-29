@@ -264,9 +264,25 @@
       const drawY = s.y + yOsc + jitterY;
 
       // Rotations update
+      // Accelerate through edge-on yaw (~90°) to avoid visually thin lingering.
+      const edgeFastFactor = (angDeg) => {
+        // Map angle to [0,180) relative space and compute distance to 90°
+        let a = angDeg % 180; if (a < 0) a += 180; // 0..180
+        const d = Math.abs(a - 90); // 0 at edge-on
+        const range = 18; // degrees within which to accelerate
+        if (d >= range) return 1;
+        const t = 1 - (d / range);              // 0..1 near 90
+        const t2 = t * t * (3 - 2 * t);         // smoothstep
+        return 1 + t2 * 3; // up to 4x speed at exact 90°
+      };
+      const yFF = edgeFastFactor(s.rotY);
       s.rotX += s.rotVelX * dt;
-      s.rotY += s.rotVelY * dt;
+      s.rotY += s.rotVelY * dt * yFF;
       s.rotZ += s.rotVelZ * dt;
+      // Keep angles bounded to avoid precision drift
+      if (s.rotX > 360 || s.rotX < -360) s.rotX = ((s.rotX % 360) + 360) % 360;
+      if (s.rotY > 360 || s.rotY < -360) s.rotY = ((s.rotY % 360) + 360) % 360;
+      if (s.rotZ > 360 || s.rotZ < -360) s.rotZ = ((s.rotZ % 360) + 360) % 360;
 
       // Ground collision
       const leafH = s.el.offsetHeight || 40;
@@ -274,7 +290,7 @@
       if (!s.fading && bottomY >= s.groundY) {
         // Place on ground and fade out
         const ty = s.groundY - leafH * 0.5;
-        s.el.style.transform = `translate3d(${drawX.toFixed(1)}px, ${ty.toFixed(1)}px, 0px) rotateZ(${s.rotZ.toFixed(1)}deg) rotateY(${s.rotY.toFixed(1)}deg) rotateX(${s.rotX.toFixed(1)}deg)`;
+  s.el.style.transform = `perspective(900px) translate3d(${drawX.toFixed(1)}px, ${ty.toFixed(1)}px, 0px) rotateZ(${s.rotZ.toFixed(1)}deg) rotateY(${s.rotY.toFixed(1)}deg) rotateX(${s.rotX.toFixed(1)}deg)`;
         fadeAndRemove(s);
         return;
       }
@@ -288,7 +304,7 @@
       }
 
       // Apply transform
-      s.el.style.transform = `translate3d(${drawX.toFixed(1)}px, ${drawY.toFixed(1)}px, 0px) rotateZ(${s.rotZ.toFixed(1)}deg) rotateY(${s.rotY.toFixed(1)}deg) rotateX(${s.rotX.toFixed(1)}deg)`;
+  s.el.style.transform = `perspective(900px) translate3d(${drawX.toFixed(1)}px, ${drawY.toFixed(1)}px, 0px) rotateZ(${s.rotZ.toFixed(1)}deg) rotateY(${s.rotY.toFixed(1)}deg) rotateX(${s.rotX.toFixed(1)}deg)`;
     });
 
     requestAnimationFrame(tick);
