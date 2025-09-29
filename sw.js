@@ -3,10 +3,10 @@
  * Provides offline capabilities and performance optimization
  * 
  * @author Mohammad Amin Hasanpour
- * @version 1.0.0
+ * @version 1.1.0
  */
 
-const CACHE_NAME = 'website-v1.0.0';
+const CACHE_NAME = 'website-v1.1.0';
 const CACHE_URLS = [
   '/',
   '/index.html',
@@ -18,8 +18,17 @@ const CACHE_URLS = [
   '/js/app.js',
   '/js/loading_text.js',
   '/js/email_box.js',
+  '/js/leaves.js',
   '/images/my-photo.jpg',
   '/images/bg_home.jpg',
+  '/images/flowers/leaf 1.png',
+  '/images/flowers/leaf 2.png',
+  '/images/flowers/leaf 3.png',
+  '/images/flowers/leaf 4.png',
+  '/images/flowers/leaf 5.png',
+  '/images/flowers/leaf 6.png',
+  '/images/flowers/leaf 7.png',
+  '/images/flowers/leaf 8.png',
   // Add other critical resources as needed
 ];
 
