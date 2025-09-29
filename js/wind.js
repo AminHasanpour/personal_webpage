@@ -37,6 +37,22 @@ function blow_a_wind(){
   var l_r = 30 + speed * 70;
   var c_r = 0.7 + speed;
   
+  // Dispatch a gust event with intensity mapped from speed (0..1); direction is right
+  try {
+    var gustIntensity = Math.max(0, Math.min(1, speed));
+    var gustEvent;
+    if (typeof CustomEvent === 'function') {
+      gustEvent = new CustomEvent('garden:gust', { detail: { intensity: gustIntensity, direction: 'right' } });
+    } else {
+      gustEvent = document.createEvent('CustomEvent');
+      gustEvent.initCustomEvent('garden:gust', false, false, { intensity: gustIntensity, direction: 'right' });
+    }
+    // Dispatch on both the wind element and window for broad compatibility
+    var windEl = document.getElementById(wind_id);
+    if (windEl) windEl.dispatchEvent(gustEvent);
+    window.dispatchEvent(gustEvent);
+  } catch (e) { /* silent */ }
+  
   var svg_path = Snap.format("M {x} {y}, h {l_tail}, c {c1['dx1']} {c1['dy1']} {c1['dx2']} {c1['dy2']} {c1['dx']} {c1['dy']}, c {c2['dx1']} {c2['dy1']} {c2['dx2']} {c2['dy2']} {c2['dx']} {c2['dy']}", {
     x: x_r,
     y: y_r,

@@ -590,23 +590,66 @@ html {
 .flower-garden__item {
   position: absolute;
   bottom: 10px;
-  width: 150px;
+  height: 100px;
+  /* Natural pivot near base for sway */
+  transform-origin: 50% 100%;
+  will-change: transform;
 }
 
 .flower-garden__item--flower-1 {
-  left: 20%;
+  left: 5%;
 }
 
 .flower-garden__item--flower-2 {
-  left: 35%;
+  left: 11%;
 }
 
 .flower-garden__item--flower-3 {
-  left: 55%;
+  left: 21%;
 }
 
 .flower-garden__item--flower-4 {
-  left: 65%;
+  left: 28%;
+}
+
+.flower-garden__item--flower-5 {
+  left: 40%;
+}
+
+.flower-garden__item--flower-6 {
+  left: 44%;
+}
+
+.flower-garden__item--flower-7 {
+  left: 49%;
+}
+
+.flower-garden__item--flower-8 {
+  left: 57%;
+}
+
+.flower-garden__item--flower-9 {
+  left: 61%;
+}
+
+.flower-garden__item--flower-10 {
+  left: 73%;
+}
+
+.flower-garden__item--flower-11 {
+  left: 79%;
+}
+
+.flower-garden__item--flower-12 {
+  left: 84%;
+}
+
+.flower-garden__item--flower-13 {
+  left: 90%;
+}
+
+.flower-garden__item--flower-14 {
+  left: 94%;
 }
 
 .flower-garden__grass {
@@ -619,12 +662,34 @@ html {
   position: absolute;
   bottom: 170px;
   left: 12%;
-  width: 130px;
+  width: 80px;
 }
 
 .flower-garden__wind {
   width: 100%;
   height: 50%;
+}
+
+/* CSS-only fallback sway (used if GSAP is not available) */
+.flower--sway-fallback {
+  animation: flower-sway-fallback 8s ease-in-out infinite;
+}
+
+@keyframes flower-sway-fallback {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(2deg); }
+  50%  { transform: rotate(0deg); }
+  75%  { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower-garden__item,
+  .flower--sway-fallback {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 /* =====================================================
