@@ -613,58 +613,72 @@ html {
 
 .flower-garden__item--flower-1 {
   left: 5%;
+  filter: hue-rotate(0deg);
 }
 
 .flower-garden__item--flower-2 {
   left: 11%;
+  filter: hue-rotate(-60deg);
 }
 
 .flower-garden__item--flower-3 {
   left: 21%;
+  filter: hue-rotate(-140deg);
 }
 
 .flower-garden__item--flower-4 {
   left: 28%;
+  filter: hue-rotate(-50deg);
 }
 
 .flower-garden__item--flower-5 {
   left: 40%;
+  filter: hue-rotate(-70deg);
 }
 
 .flower-garden__item--flower-6 {
   left: 44%;
+  filter: hue-rotate(-40deg);
 }
 
 .flower-garden__item--flower-7 {
   left: 49%;
+  filter: hue-rotate(-10deg);
 }
 
 .flower-garden__item--flower-8 {
   left: 57%;
+  filter: hue-rotate(-5deg);
 }
 
 .flower-garden__item--flower-9 {
   left: 61%;
+  filter: hue-rotate(-55deg);
 }
 
 .flower-garden__item--flower-10 {
   left: 73%;
+  filter: hue-rotate(-100deg);
 }
 
 .flower-garden__item--flower-11 {
   left: 79%;
+  filter: hue-rotate(-170deg);
 }
 
 .flower-garden__item--flower-12 {
   left: 84%;
+  filter: hue-rotate(-30deg);
 }
 
 .flower-garden__item--flower-13 {
   left: 90%;
+  filter: hue-rotate(0deg);
 }
 
 .flower-garden__item--flower-14 {
   left: 94%;
+  filter: hue-rotate(-150deg);
 }
 
 .flower-garden__grass {
