@@ -7,9 +7,10 @@ var codestr_p1 = `# "DisCoolVer" v3.0.8
 # CODERUBBER License
 # Copyright (c) 2025 Amin.h
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software, bla bla bla ..., and again some more bla. In a nutshell,
-# feel free to copy and paste, as it's a vital part of education.
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software, bla bla bla ..., and
+# again some more bla. In a nutshell, feel free to copy and
+# paste, as it's a vital part of education.
 
 """
   ** Helo?
@@ -44,20 +45,25 @@ magic.beautify("console")
 
 var codestr_p2 = `
 """
-  >> This module can even beautify your face :), kids call it Photoshop nowadays.
-     You can access it by magic.beautify("face")
+  >> This module can even beautify your face :), kids call it
+     Photoshop nowadays. You can access it by
+     magic.beautify("face")
 
-  >> Now we will use Deep Learning to find out if you're cool, no offense :]
+  >> Now we will use Deep Learning to find out if you're cool,
+     no offense :]
 """
-from darkweb.vip.amin import load_data, load_model, secrets, system
+from darkweb.vip.amin import (
+  load_data, load_model, secrets, system
+)
 
 
 # -----------------------
 # Load the data and model
 # -----------------------
 
-# The name is a cover. All_Chimpanzees includes personal characteristics
-# of almost every human being (GOOGLE is not that gentle, after all :])
+# The name is a cover. All_Chimpanzees includes personal
+# characteristics of almost every human being (GOOGLE is not
+# that gentle, after all :])
 trainset, valset, fullset = load_data(
   'All_Chimpanzees', split=['train', 'validation', 'complete']
 )
@@ -96,11 +102,13 @@ print(model.evaluate(valset, verbose=0))
 """
   >> Here is where we check if you're cool :)
      Sit still, we're about to find out ...
-  >> (self-reflection: Don't mess it up! The reader is in fullset,
-     not foolset ...)
+  >> (self-reflection: Don't mess it up! The reader is in
+     fullset, not foolset ...)
 """
 # Extract your characteristics
-reader_chars = fullset.smart_ones.find(name=secrets.reader.name)
+reader_chars = fullset.smart_ones.find(
+  name=secrets.reader.name
+)
 reader_is_cool = model.predict(reader_chars)
 
 if reader_is_cool == False:
@@ -116,13 +124,13 @@ else:
   >> Sheeesh!!! you're cool! (Surprized? XD)
      (happy face looking angry at me :|)
 
-  >> I also tested this model on my friend and it turned out that he 
-     isn't cool. So I guess the model works well.
+  >> I also tested this model on my friend and it turned out
+     that he isn't cool. So I guess the model works well.
 
-  >> We did it! We made the first "Cool Finder" on Earth! Actually,
-     I did it, but... who cares?! We can tell people you helped :)
-     (Even the name of my master's supervisor appears on the front 
-     page of my thesis. :|)
+  >> We did it! We made the first "Cool Finder" on Earth!
+     Actually, I did it, but... who cares?! We can tell people
+     you helped :) (Even the name of my master's supervisor
+     appears on the front page of my thesis. :|)
 
   >> I had a good time, I hope you did too :) Bye Bye ...
 """
