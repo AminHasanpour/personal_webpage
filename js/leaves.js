@@ -53,8 +53,8 @@
     spawnMaxMs: 5000,
     burstChance: 0.35,
     burstMax: 3,
-    sizeMinPx: 24,
-    sizeMaxPx: 48,
+    sizeMinPx: 18,
+    sizeMaxPx: 36,
     baseVX: 22, // px/s
     gustVXBoost: 140, // px/s at full gust
     gravity: 16, // px/s^2

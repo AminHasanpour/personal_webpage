@@ -256,8 +256,8 @@ html {
   background-image: url('../images/bg_dl.jpg');
 }
 
-.hero-section--learning::before {
-  background-image: url('../images/bg_learning.jpg');
+.hero-section--tinyml::before {
+  background-image: url('../images/bg_tinyml.jpg');
 }
 
 .hero-section--projects::before {
@@ -380,21 +380,6 @@ html {
 
 .text-pale:hover {
   color: var(--color-pale-hover);
-}
-
-.text-truncated {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.text-truncated:hover {
-  overflow: visible;
-  white-space: normal;
-}
-
-.text-truncated:hover .text-pale {
-  color: var(--color-pale-active);
 }
 
 /* =====================================================

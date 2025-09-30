@@ -2,85 +2,71 @@
 // ============================ DYNAMIC CODE EDITOR ============================
 // =============================================================================
 
-var codestr_p1 = `# "DisCoolVer" v3.0.7
+var codestr_p1 = `# "DisCoolVer" v3.0.8
 #
 # CODERUBBER License
-# Copyright (c) 2021 Amin.h
+# Copyright (c) 2025 Amin.h
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, Bla Bla Bla ..., and again some more Bla.
-# in a nutshell feel free to copy and paste, as it's a vital part of education.
+# of this software, bla bla bla ..., and again some more bla. In a nutshell,
+# feel free to copy and paste, as it's a vital part of education.
 
 """
-  * helo?
-  * .  lo
-  *  .  lo
-  *   .   o
-  * > Hey, what's up?
-  * Oh my GOD; what's happening?!
-  * > Don't worry, u've just been hacked
-  * (scary-face) O_O u should be kidding, right?
-  * > Yea, sry but u should have seen ur face XD. I'm thinking now that I can 
-  *   type in the console, we may have fun. Likeee ... hmmm... let's write some 
-  *   code!!!
-  * >   
-  * >   /)ii/)
-  * > (o "   )
-  * >     | |
-  * >     |o|
-  * >     | |_____||
-  * >     |   o    |
-  * >     | o _ o_ |
-  * >     ||||   |||
-  * >     ||||   |||
+  ** Helo?
+     .  lo
+      .  lo
+       .   o
+  >> Hey, what's up?
+  ** Oh my God; what's happening?!
+  >> Relax, I won't do any harm. I'm just hacking your system.
+  ** (scary face) O_O You must be kidding, right?
+  >> Yeah, sorry, but you should've seen your face XD
+     Now that I can type in the console, we may have some fun.
+     Likeee ... hmmm... let's write some code!!!
+       
+       /)ii/)
+     (o "   )
+         | |
+         |o|
+         | |_____||
+         |   o    |
+         | o _ o_ |
+         ||||   |||
+         ||||   |||
 """
 
 """
-  * > First, beautify the console
+  >> First, beautify the console.
 """
-from weirdo import magic
+from darkweb.vip.amin import magic
 magic.beautify("console")
 `;
 
 var codestr_p2 = `
 """
-  * > This module can even beautify ur face :), kids call it photoshop nowadays.
-  *   u can access it by magic.beautify("face")
-  *
-  * > Now we will use Deep Learning to find out if u r cool, no offense :]
+  >> This module can even beautify your face :), kids call it Photoshop nowadays.
+     You can access it by magic.beautify("face")
+
+  >> Now we will use Deep Learning to find out if you're cool, no offense :]
 """
-import tensorflow as tf
-import tensorflow_datasets as tfds
+from darkweb.vip.amin import load_data, load_model, secrets, system
 
-# -------------
-# (Hyper)params
-# -------------
-epochs = 760525
-batch_size = int(19970816 // epochs)
-loss_func = tf.keras.losses.BinaryCrossentropy()
 
-model_dir = "darkweb/VIPs/Amin/DisCoolVer"
+# -----------------------
+# Load the data and model
+# -----------------------
 
-# number of diagonal vectors in trainset
-train_c = int(50000 * (32/batch_size)**2)
-# number of diagonal vectors in testset
-test_c = int(10000 * (32/batch_size)**2)
-
-# -------------
-# Loading stuff
-# -------------
-# load dataset. All_huMan includes personal characteristics of almost 
-# every human being (GOOGLE is not that gentle, after all :])
-train_ds, test_ds = tfds.load('All_huMan', split=['train', 'test'], 
-                              batch_size=None, as_supervised=True)
-ds = tfds.load('All_huMan', split=['unlabeled'], batch_size=None)
+# The name is a cover. All_Chimpanzees includes personal characteristics
+# of almost every human being (GOOGLE is not that gentle, after all :])
+trainset, valset, fullset = load_data(
+  'All_Chimpanzees', split=['train', 'validation', 'complete']
+)
 
 "CONSOLE" > # Downloading dataset: 98.67GB/s
 `;
 
 var codestr_p3 = `
-model = tf.keras.models.load_model(model_dir)
+model = load_model("darkweb/VIPs/Amin/DisCoolVer")
 
 "CONSOLE" > # Loading the magical model ...
 `;
@@ -89,11 +75,8 @@ var codestr_p4 = `
 # ------------------
 # Training the model
 # ------------------
-opt = tf.keras.optimizers.Adam()
-model.compile(optimizer=opt, loss=loss_func, metrics=['accuracy'])
 
-model.fit(train_ds, batch_size=batch_size, initial_epoch=0, epochs=epochs, 
-          verbose=0, validation_data=test_ds)
+model.fit(trainset)
 
 "CONSOLE" > # Training the model ...
 `;
@@ -102,24 +85,27 @@ var codestr_p5 = `
 # --------------------
 # Evaluating the model
 # --------------------
-print(model.evaluate(test_ds, verbose=0))
 
-"CONSOLE" > # val_acc: 99.23% (Good Job!)
+print(model.evaluate(valset, verbose=0))
+
+"CONSOLE" > # val_acc: 99.23% (Good job!)
 
 # ---------------------
 # Utilizing on new data
 # ---------------------
 """
-  * > Here is where we check if u r cool :)
-  * > Sit still, we r about to find out ...
+  >> Here is where we check if you're cool :)
+     Sit still, we're about to find out ...
+  >> (self-reflection: Don't mess it up! The reader is in fullset,
+     not foolset ...)
 """
-# find out your characteristics
-reader_chars = ds.smartOnes.find(name=reader.name)
+# Extract your characteristics
+reader_chars = fullset.smart_ones.find(name=secrets.reader.name)
 reader_is_cool = model.predict(reader_chars)
 
 if reader_is_cool == False:
-  # close the window before reader gets angry! Bye Bye
-  window.getCommand("Alt + F4")
+  # Close the window before the reader gets angry! Bye Bye
+  system.window.get_command("Alt + F4")
 
 else:
   print("You are COOL!")
@@ -127,17 +113,18 @@ else:
 "CONSOLE" > # You are COOL!
 
 """
-  * > Sheeesh!!! u r cool! (surprized? XD)
-  * (happy-face looking angry at me :|)
-  *
-  * > I also tested this model on my friend and it turned out that he 
-  *   is not cool. So I guess the model works well.
-  *
-  * > We did it! we made the first "Cool Finder" on the earth! Actually
-  *   I did it but..., who cares?! we can tell people u helped :) (even
-  *   my supervisors' names r on the front page of my theses :|)
-  *
-  * > I had a good time, I hope u did too :) Bye Bye ...
+  >> Sheeesh!!! you're cool! (Surprized? XD)
+     (happy face looking angry at me :|)
+
+  >> I also tested this model on my friend and it turned out that he 
+     isn't cool. So I guess the model works well.
+
+  >> We did it! We made the first "Cool Finder" on Earth! Actually,
+     I did it, but... who cares?! We can tell people you helped :)
+     (Even the name of my master's supervisor appears on the front 
+     page of my thesis. :|)
+
+  >> I had a good time, I hope you did too :) Bye Bye ...
 """
 
 `;
