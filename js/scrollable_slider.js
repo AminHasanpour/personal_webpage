@@ -1,7 +1,28 @@
 $(function() {
+  // Lazy load helper function
+  function lazyLoadTabImage(tabId) {
+    var $tab = $(tabId);
+    var $img = $tab.find('img');
+    
+    // Only load if not already loaded
+    if ($img.length && $img.attr('data-src') && !$img.attr('src')) {
+      $img.attr('src', $img.attr('data-src'));
+      $img.removeAttr('data-src');
+    }
+  }
+  
+  // Initialize tabs with lazy loading
   $("#tabs").tabs({
-    show: { effect: "blind", direction: "left", duration: 300 }
+    show: { effect: "blind", direction: "left", duration: 300 },
+    activate: function(event, ui) {
+      // Load image for the newly activated tab
+      lazyLoadTabImage('#' + ui.newPanel.attr('id'));
+    }
   });
+  
+  // Load the first tab's image immediately
+  lazyLoadTabImage('#tabs-1');
+  
   $( "#accordion" ).accordion();
 
   var btn = $('#accordion li a');
@@ -13,6 +34,12 @@ $(function() {
     
     $(this).addClass('active');
     $(this).parent().find('.addon').addClass('fadein');
+    
+    // Lazy load the corresponding tab image when clicked
+    var href = $(this).attr('href');
+    if (href) {
+      lazyLoadTabImage(href);
+    }
   });
 });
 
