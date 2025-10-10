@@ -278,6 +278,48 @@ html {
   background: transparent;
 }
 
+.contact-animation-player {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 12;
+}
+
+.contact-animation-player.is-ready {
+  will-change: opacity, transform;
+}
+
+.contact-animation-player.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.contact-animation-player__inner {
+  width: min(15%, 300px);
+}
+
+.contact-animation-player__inner svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .contact-animation-player {
+    padding: 0 12px 12px;
+  }
+}
+
 .hero-section--projects::before {
   background-image: url('../images/bg_projects.jfif');
 }
