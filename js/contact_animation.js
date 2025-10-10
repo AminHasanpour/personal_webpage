@@ -86,8 +86,8 @@
   const updateAnchors = () => {
     scrollRange = parseScrollRange();
     const rect = heroSection.getBoundingClientRect();
-    const offset = 0; // Change this value as needed
-    scrollStart = window.scrollY + rect.top - window.innerHeight + offset;
+    const heroBottom = window.scrollY + rect.bottom;
+    scrollStart = heroBottom - window.innerHeight;
     contactEnd = scrollStart + scrollRange;
   };
 

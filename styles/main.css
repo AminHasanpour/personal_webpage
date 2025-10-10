@@ -205,6 +205,10 @@ html {
   --parallax-transform: translate3d(0, 0, 0);
 }
 
+.hero-section--contact {
+  overflow: visible; /* Allow animation to extend outside */
+}
+
 .hero-section::before {
   content: '';
   position: absolute;
@@ -279,7 +283,7 @@ html {
 }
 
 .contact-animation-player {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
