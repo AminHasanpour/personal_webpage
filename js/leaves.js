@@ -127,6 +127,15 @@
     return r.height; // fallback: bottom of container
   };
 
+  // Determine base path for images based on current page location
+  const getImageBasePath = () => {
+    const path = window.location.pathname;
+    if (path.includes('/DragonEye/')) return '../images/flowers/';
+    if (path.includes('/etc/PCB/')) return '../../images/flowers/';
+    return 'images/flowers/';
+  };
+  const imageBasePath = getImageBasePath();
+
   // Spawn a single leaf
   function spawnLeaf() {
     if (active.size >= cfg.maxLeaves) return;
@@ -136,14 +145,14 @@
     const img = document.createElement('img');
     // Pick a random leaf image from the available set
     const leafImgs = [
-      'images/flowers/leaf 1.png',
-      'images/flowers/leaf 2.png',
-      'images/flowers/leaf 3.png',
-      'images/flowers/leaf 4.png',
-      'images/flowers/leaf 5.png',
-      'images/flowers/leaf 6.png',
-      'images/flowers/leaf 7.png',
-      'images/flowers/leaf 8.png'
+      `${imageBasePath}leaf 1.png`,
+      `${imageBasePath}leaf 2.png`,
+      `${imageBasePath}leaf 3.png`,
+      `${imageBasePath}leaf 4.png`,
+      `${imageBasePath}leaf 5.png`,
+      `${imageBasePath}leaf 6.png`,
+      `${imageBasePath}leaf 7.png`,
+      `${imageBasePath}leaf 8.png`
     ];
     img.src = leafImgs[Math.floor(Math.random() * leafImgs.length)];
     img.alt = 'Decorative leaf';
