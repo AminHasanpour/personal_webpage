@@ -305,7 +305,7 @@ html {
 }
 
 .contact-animation-player__inner {
-  width: min(15%, 300px);
+  width: clamp(120px, 15%, 300px);
 }
 
 .contact-animation-player__inner svg {
@@ -316,7 +316,7 @@ html {
 
 @media (max-width: 768px) {
   .contact-animation-player {
-    padding: 0 12px 12px;
+    padding: 0;
   }
 }
 
