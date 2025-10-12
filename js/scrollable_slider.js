@@ -25,7 +25,8 @@ $(function() {
   
   $( "#accordion" ).accordion();
 
-  var btn = $('#accordion li a');
+  // Only select the direct child anchor tags (accordion headers), not links inside .addon
+  var btn = $('#accordion > li > a');
   var wrapper = $('#accordion li');
 
   $(btn).on('click', function() {
