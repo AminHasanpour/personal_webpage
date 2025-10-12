@@ -393,6 +393,9 @@ class WebsiteUtils {
       loader.style.visibility = "hidden";
       loader.style.opacity = "0";
       
+      // Show mobile welcome message after loader is removed
+      this.showMobileWelcome();
+      
       // Check for navigation parameter
       const url = new URL(window.location.href);
       if (url.searchParams.get("nav") === "true") {
@@ -713,6 +716,65 @@ class WebsiteUtils {
           console.warn('[App] ServiceWorker registration failed:', error);
         }
       });
+    }
+  }
+
+  /**
+   * Show mobile welcome message for phone users
+   */
+  showMobileWelcome() {
+    // Only show on mobile devices (screen width < 768px)
+    if (window.innerWidth >= 768) {
+      return;
+    }
+
+    const welcomeMessage = document.querySelector('.mobile-welcome');
+    if (!welcomeMessage) {
+      return;
+    }
+
+    // Check if user has already seen the message (using sessionStorage)
+    const hasSeenMessage = sessionStorage.getItem('mobile-welcome-seen');
+    if (hasSeenMessage) {
+      return;
+    }
+
+    // Show the message after a short delay
+    setTimeout(() => {
+      welcomeMessage.classList.add('is-visible');
+      
+      // Setup close button
+      const closeButton = welcomeMessage.querySelector('.mobile-welcome__close');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => {
+          this.closeMobileWelcome();
+        });
+      }
+
+      // Auto-hide after 8 seconds
+      setTimeout(() => {
+        if (welcomeMessage.classList.contains('is-visible')) {
+          this.closeMobileWelcome();
+        }
+      }, 12000);
+    }, 800);
+  }
+
+  /**
+   * Close mobile welcome message
+   */
+  closeMobileWelcome() {
+    const welcomeMessage = document.querySelector('.mobile-welcome');
+    if (welcomeMessage) {
+      welcomeMessage.classList.remove('is-visible');
+      
+      // Mark as seen in this session
+      sessionStorage.setItem('mobile-welcome-seen', 'true');
+      
+      // Remove from DOM after animation completes
+      setTimeout(() => {
+        welcomeMessage.style.display = 'none';
+      }, 600);
     }
   }
 
