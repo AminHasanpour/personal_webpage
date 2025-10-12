@@ -21,7 +21,7 @@ $(function() {
   });
   
   // Load the first tab's image immediately
-  lazyLoadTabImage('#tabs-1');
+  lazyLoadTabImage('#tabs-edgemark');
   
   $( "#accordion" ).accordion();
 

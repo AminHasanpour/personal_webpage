@@ -79,6 +79,11 @@ ul li a.active {
   font-size: 18px;
 }
 
+.icon:hover.icon-terminal {
+  color: rgb(0, 115, 255);
+  background: #d9d9d9;
+}
+
 .icon:hover.icon-learn {
   color: #04AA6D;
   background: #d9d9d9;
