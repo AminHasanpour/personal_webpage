@@ -79,3 +79,33 @@
     border-width: 0 2px 2px 0;
     transform: rotate(135deg);
 }
+
+/* Thumbnail list styles (moved from inline CSS) */
+#slider-list {
+    list-style-type: none;
+    height: 500px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+    margin: 0;
+}
+
+#slider-list li { opacity: 0.7; }
+#slider-list li:hover { cursor: pointer; opacity: 1; }
+
+#slider-list li img {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* custom scrollbar */
+#slider-list::-webkit-scrollbar { width: 20px; }
+#slider-list::-webkit-scrollbar-track { background-color: transparent; }
+#slider-list::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+#slider-list::-webkit-scrollbar-thumb:hover { background-color: #a8bbbf; }

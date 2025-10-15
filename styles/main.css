@@ -1,0 +1,1174 @@
+/* =====================================================
+   KEYBOARD NAVIGATION & FOCUS MANAGEMENT
+   ===================================================== */
+/*
+  Show focus only when it matters (keyboard), remove mouse/touch glow.
+  Keeps accessibility while eliminating the lingering pale purple after clicks.
+*/
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  /* Remove the purple glow */
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+/* Do not show focus styles when not keyboard-initiated */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+[tabindex]:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Global default: only remove outline for non-visible focus to preserve a11y */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Improve card focus states */
+.card--clickable:focus-visible {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Button focus improvements */
+.button:focus-visible {
+  transform: translateY(-1px);
+}
+
+/* Skip link improvements */
+.sr-only-focusable:focus {
+  z-index: 10000 !important;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Reduce mobile tap highlight to avoid extra glow on touch */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* W3.CSS COMPATIBILITY
+   ===================================================== */
+
+/* (duplicate block removed; see focus styles above) */
+
+/* =====================================================
+   W3.CSS COMPATIBILITY
+   ===================================================== */
+.w3-wide { 
+  letter-spacing: var(--letter-spacing-wide); 
+}
+
+/* Ensure fixed header navbar stays above page content */
+header.w3-top {
+  z-index: 1000; /* higher than local UI elements like .top-bar */
+}
+
+/* =====================================================
+   ACCESSIBILITY UTILITIES
+   ===================================================== */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  background: var(--color-white) !important;
+  color: var(--color-text-dark) !important;
+  border: 2px solid var(--color-primary) !important;
+  border-radius: 4px !important;
+  z-index: 9999 !important;
+}
+
+/* =====================================================
+   CUSTOM CSS PROPERTIES (CSS VARIABLES)
+   ===================================================== */
+:root {
+  /* Colors */
+  --color-primary: #9999ff;
+  --color-text: #777;
+  --color-text-dark: #000;
+  --color-white: #fff;
+  --color-pale: #ccc;
+  --color-pale-hover: #777;
+  --color-pale-active: #9999ff;
+  --color-red: #ff3300;
+  --color-orange: #e6b800;
+  --color-blue: #0099ff;
+  --color-green: #00cc00;
+  --color-pink: #ff0066;
+  --color-purple: #6666ff;
+  --color-cyan: #00ffcc;
+  --color-brown: #cc9900;
+  --color-magenta: #ff33cc;
+  --color-lightblue: #3399ff;
+  --color-border: #707070;
+  --color-hover-bg: #ccc;
+
+  /* Typography */
+  --font-family-primary: "Lato", sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.8;
+  --letter-spacing-wide: 10px;
+  --letter-spacing-button: 2px;
+
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 64px;
+  --padding-large: 64px;
+
+  /* Layout */
+  --content-max-width: 980px;
+  --content-extended-width: 1260px;
+  --min-height-section: 400px;
+  --border-radius-card: 14px;
+  --border-radius-button: 4px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-card-hover: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  --shadow-card-image: 0 4px 8px rgba(0, 0, 0, 0.22);
+
+  /* Transitions */
+  --transition-fast: 0.3s;
+  --transition-medium: 0.5s;
+  --transition-slow: 2s;
+  --transition-easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* =====================================================
+   BASE STYLES
+   ===================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-primary);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+html {
+  height: 100%;
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================================================
+   PARALLAX BACKGROUND IMAGES
+   ===================================================== */
+.hero-section {
+  position: relative;
+  min-height: var(--min-height-section);
+  overflow: hidden;
+  --parallax-transform: translate3d(0, 0, 0);
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  right: 0;
+  bottom: -50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+  transform: var(--parallax-transform);
+  z-index: -1;
+}
+
+/* Fallback for browsers without custom property support */
+@supports not (--css: variables) {
+  .hero-section::before {
+    transform: none;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-section::before {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* Opt-out: disable parallax for specific sections */
+.hero-section.no-parallax::before,
+.hero-section--no-parallax::before,
+.hero-section[data-parallax="off"]::before,
+.hero-section[data-parallax="false"]::before,
+.hero-section[data-parallax="0"]::before {
+  transform: none !important;
+  will-change: auto;
+  /* Reset extended bounds so the background covers normally */
+  top: 0;
+  bottom: 0;
+}
+
+.hero-section--home::before {
+  background-image: url('../images/bg_home.jpg');
+}
+
+.hero-section--deep-learning::before {
+  background-image: url('../images/bg_dl.jpg');
+}
+
+.hero-section--tinyml::before {
+  background-image: url('../images/bg_tinyml.jpg');
+}
+
+#tinyml {
+  padding-bottom: 0 !important;
+}
+
+.tinyml-animation-frame {
+  width: 100%;
+  display: block;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 4/1;
+  min-height: 180px;
+  max-height: 60vw;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+}
+
+.contact-animation-player {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 12;
+}
+
+.contact-animation-player.is-ready {
+  will-change: opacity, transform;
+}
+
+.contact-animation-player.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.contact-animation-player__inner {
+  width: clamp(120px, 15%, 300px);
+}
+
+.contact-animation-player__inner svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .contact-animation-player {
+    padding: 0;
+  }
+}
+
+.hero-section--projects::before {
+  background-image: url('../images/bg_projects.jfif');
+}
+
+.hero-section--contact::before {
+  background-image: linear-gradient(rgba(255,255,255,.25), rgba(255,255,255,.25)), url('../images/bg_contact.jpg');
+}
+
+/* Subpage: DragonEye backgrounds */
+.hero-section--dragon-eye-home::before {
+  background-image: url('../DragonEye/images/parallax1.jpg');
+}
+
+.hero-section--dragon-eye-stats::before {
+  background-image: url('../DragonEye/images/statistics_bg.jpg');
+}
+
+.hero-section--dragon-eye-gallery::before {
+  background-image: url('../DragonEye/images/Gallery.jpg');
+}
+
+/* Subpage: PCB backgrounds */
+.hero-section--pcb-home::before {
+  background-image: url('../etc/PCB/images/parallax1.jpg');
+}
+
+/* =====================================================
+   FLOWER DECORATIONS
+   ===================================================== */
+@media (min-width: 1180px) {
+  .section-with-flowers--type-1 {
+    background-image: url('../images/flowers/flower 1-1.jpg'), url('../images/flowers/flower 1-2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left 8%, right 80%;
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px), 250px);
+  }
+  
+  .section-with-flowers--type-2 {
+    background-image: url('../images/flowers/flower 2.png');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: right 10%;
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 50px), 250px);
+  }
+  
+  .section-with-flowers--type-3 {
+    background-image: url('../images/flowers/flower 3.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 95% top;
+    background-size: clamp(0px, calc((100% - var(--content-max-width)) / 2 * 0.5 + 150px), 250px);
+  }
+
+  .flower-garden {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden; /* clip children so leaves don't overlap footer */
+  }
+
+  .neural-network-demo {
+    display: block !important;
+    height: 400px;
+    max-width: var(--content-extended-width);
+    margin: 0 auto;
+    padding: var(--spacing-md) var(--spacing-md) var(--padding-large) var(--spacing-md);
+  }
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1600px) {
+  .hero-section {
+    background-attachment: scroll;
+  }
+}
+
+/* =====================================================
+   TYPOGRAPHY UTILITIES
+   ===================================================== */
+.text-wide {
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.text-colorful {
+  --char-1: var(--color-red);
+  --char-2: var(--color-orange);
+  --char-3: var(--color-blue);
+  --char-4: var(--color-green);
+  --char-5: var(--color-pink);
+  --char-6: var(--color-purple);
+  --char-7: var(--color-cyan);
+  --char-8: var(--color-brown);
+  --char-9: var(--color-magenta);
+  --char-10: var(--color-lightblue);
+}
+
+.text-colorful .char-1 { color: var(--char-1); }
+.text-colorful .char-2 { color: var(--char-2); }
+.text-colorful .char-3 { color: var(--char-3); }
+.text-colorful .char-4 { color: var(--char-4); }
+.text-colorful .char-5 { color: var(--char-5); }
+.text-colorful .char-6 { color: var(--char-6); }
+.text-colorful .char-7 { color: var(--char-7); }
+.text-colorful .char-8 { color: var(--char-8); }
+.text-colorful .char-9 { color: var(--char-9); }
+.text-colorful .char-10 { color: var(--char-10); }
+
+.text-highlight {
+  color: var(--color-primary);
+}
+
+.text-pale {
+  color: var(--color-pale);
+  transition: color var(--transition-fast);
+}
+
+.text-pale:hover {
+  color: var(--color-pale-hover);
+}
+
+/* =====================================================
+   PLAYFUL TEXT: CREATIVITY EFFECTS
+   ===================================================== */
+.playful-text {
+  position: relative;
+  display: inline-block;
+}
+
+.playful-text .char {
+  display: inline-block;
+  position: relative;
+  will-change: transform, color, text-shadow;
+  transition: transform 200ms ease, text-shadow 200ms ease;
+}
+
+/* Small idle wiggle on hover for all letters */
+.playful-text:hover .char {
+  animation: playful-wiggle 1200ms ease-in-out infinite;
+}
+
+/* Bounce per-letter when hovering the word (staggered via JS or nth-child) */
+.playful-text.is-bouncing .char {
+  animation: playful-bounce 650ms cubic-bezier(.2,.9,.32,1.2) 1;
+}
+
+/* Fun color glow during active bounce */
+.playful-text.is-bouncing .char {
+  text-shadow: 0 6px 16px currentColor;
+}
+
+/* Splash dots generated in JS */
+.splash-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  filter: blur(0.3px);
+}
+
+@keyframes playful-wiggle {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-1px) rotate(-1.5deg); }
+  50% { transform: translateY(0.5px) rotate(0.8deg); }
+  75% { transform: translateY(-0.5px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes playful-bounce {
+  0% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-12px) scale(1.05); }
+  70% { transform: translateY(2px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Respect reduced motion: disable animations, keep color */
+@media (prefers-reduced-motion: reduce) {
+  .playful-text:hover .char,
+  .playful-text.is-bouncing .char {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* =====================================================
+   CARD COMPONENTS
+   ===================================================== */
+.card {
+  background: var(--color-white);
+  border-radius: var(--border-radius-card);
+  display: inline-block;
+  height: 400px;
+  width: 95%;
+  max-width: 250px;
+  box-shadow: var(--shadow-card);
+}
+
+.card--clickable {
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast) var(--transition-easing);
+}
+
+.card--clickable:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card__image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  overflow: hidden;
+  border-top-left-radius: var(--border-radius-card);
+  border-top-right-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-card-image);
+}
+
+.card__title {
+  position: relative;
+  font-size: 18px;
+  color: var(--color-text-dark);
+  font-weight: 900;
+  margin-bottom: var(--spacing-xs);
+  padding: 0 15px;
+}
+
+.card__description {
+  font-size: 12px;
+  color: var(--color-text-dark);
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  padding: 0 15px;
+}
+
+/* =====================================================
+   BUTTON COMPONENTS
+   ===================================================== */
+.button {
+  display: inline-block;
+  margin: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-button);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-button);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+  color: var(--color-border);
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  font-family: inherit;
+}
+
+.button::after {
+  position: absolute;
+  transition: var(--transition-fast);
+  content: '';
+  width: 0;
+  bottom: 0;
+  height: 120%;
+  left: -10%;
+  background: var(--color-hover-bg);
+  transform: skewX(15deg);
+  z-index: -1;
+}
+
+.button:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.button:hover::after {
+  left: -10%;
+  width: 120%;
+}
+
+/* =====================================================
+   CODE EDITOR COMPONENT
+   ===================================================== */
+.code-editor {
+  width: 100%; 
+  height: 100%;
+  border-radius: var(--spacing-xs);
+  display: flex; 
+  flex-direction: column-reverse;
+  overflow: auto;
+  /* Prevent page scroll from shifting while code types */
+  overflow-anchor: none;
+  /* Keep layout stable when scrollbar appears */
+  scrollbar-gutter: stable both-edges;
+  /* Avoid scroll chaining to the page while interacting */
+  overscroll-behavior: contain;
+}
+
+/* Extra safety: disable anchoring on wrappers and the code element too */
+.neural-network-demo,
+.neural-network-demo__editor,
+#editor {
+  overflow-anchor: none;
+}
+
+/* =====================================================
+   CONTACT INFORMATION
+   ===================================================== */
+.contact-info {
+  padding-right: 0;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+/* =====================================================
+   FLOWER GARDEN LAYOUT
+   ===================================================== */
+.flower-garden {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden; /* prevent children from drawing outside garden */
+}
+
+.flower-garden__item {
+  position: absolute;
+  bottom: 10px;
+  height: 100px;
+  /* Natural pivot near base for sway */
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.flower-garden__item--flower-1 {
+  left: 5%;
+  filter: hue-rotate(0deg);
+}
+
+.flower-garden__item--flower-2 {
+  left: 11%;
+  filter: hue-rotate(-60deg);
+}
+
+.flower-garden__item--flower-3 {
+  left: 21%;
+  filter: hue-rotate(-140deg);
+}
+
+.flower-garden__item--flower-4 {
+  left: 28%;
+  filter: hue-rotate(-50deg);
+}
+
+.flower-garden__item--flower-5 {
+  left: 40%;
+  filter: hue-rotate(-70deg);
+}
+
+.flower-garden__item--flower-6 {
+  left: 44%;
+  filter: hue-rotate(-40deg);
+}
+
+.flower-garden__item--flower-7 {
+  left: 49%;
+  filter: hue-rotate(-10deg);
+}
+
+.flower-garden__item--flower-8 {
+  left: 57%;
+  filter: hue-rotate(-5deg);
+}
+
+.flower-garden__item--flower-9 {
+  left: 61%;
+  filter: hue-rotate(-55deg);
+}
+
+.flower-garden__item--flower-10 {
+  left: 73%;
+  filter: hue-rotate(0deg);
+}
+
+.flower-garden__item--flower-11 {
+  left: 79%;
+  filter: hue-rotate(-170deg);
+}
+
+.flower-garden__item--flower-12 {
+  left: 84%;
+  filter: hue-rotate(-30deg);
+}
+
+.flower-garden__item--flower-13 {
+  left: 90%;
+  filter: hue-rotate(0deg);
+}
+
+.flower-garden__item--flower-14 {
+  left: 94%;
+  filter: hue-rotate(-150deg);
+}
+
+.flower-garden__grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 5; /* above leaves and wind */
+}
+
+.flower-garden__wind {
+  width: 100%;
+  height: 50%;
+  z-index: 0; /* behind leaves and grass */
+}
+
+/* =====================================================
+   LEAVES (decorative falling leaves)
+   ===================================================== */
+.leaf {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: -1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* CSS-only fallback sway (used if GSAP is not available) */
+.flower--sway-fallback {
+  animation: flower-sway-fallback 8s ease-in-out infinite;
+}
+
+@keyframes flower-sway-fallback {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(2deg); }
+  50%  { transform: rotate(0deg); }
+  75%  { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flower-garden__item,
+  .flower--sway-fallback {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* =====================================================
+   NEURAL NETWORK DEMO
+   ===================================================== */
+.neural-network-demo {
+  display: none;
+  height: 400px;
+  max-width: var(--content-extended-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-md) var(--padding-large) var(--spacing-md);
+}
+
+.neural-network-demo__editor {
+  height: 100%;
+}
+
+.neural-network-demo__visualization {
+  height: 100%;
+}
+
+/* =====================================================
+   GALLERY IMAGE THUMBNAILS (DragonEye)
+   ===================================================== */
+.gallery_image {
+  width: 100%;
+  height: 122px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* =====================================================
+   NAVBAR ICON HOVER COLORS
+   ===================================================== */
+/* Smooth color transition for navbar icons */
+#navbar .w3-bar-item .fa {
+  transition: color var(--transition-fast) var(--transition-easing);
+}
+
+/* Default hover/focus color for any icon */
+#navbar .w3-bar-item:hover .fa,
+#navbar .w3-bar-item:focus-visible .fa,
+#navbar .w3-bar-item:hover .fas,
+#navbar .w3-bar-item:focus-visible .fas {
+  color: var(--color-primary);
+}
+
+/* Specific colorful accents per icon */
+#navbar .w3-bar-item:hover .fa-heart,
+#navbar .w3-bar-item:focus-visible .fa-heart {
+  color: var(--color-red);
+  /* Double pulse animation while hovered/focused */
+  animation: heart-double-pulse 1.1s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Ensure heart can transform smoothly */
+#navbar .w3-bar-item .fa-heart {
+  display: inline-block;
+  will-change: transform, text-shadow;
+  backface-visibility: hidden;
+}
+
+/* =====================================================
+   DRAGONEYE: LOGO HOVER (grayscale -> color)
+   ===================================================== */
+/* Default state: allow a smooth filter transition */
+.hover-grayscale-off {
+  transition: filter var(--transition-fast) var(--transition-easing);
+}
+
+/* On hover (and keyboard focus), turn grayscale off to show original colors */
+.hover-grayscale-off:hover,
+.hover-grayscale-off:focus-visible {
+  filter: grayscale(0%) !important;
+}
+
+/* Reduced motion: keep instant change without animation */
+@media (prefers-reduced-motion: reduce) {
+  .hover-grayscale-off {
+    transition: none !important;
+  }
+}
+
+/* Double pulse keyframes: two quick beats per cycle */
+@keyframes heart-double-pulse {
+  0% { transform: scale(1); text-shadow: 0 0 0 rgba(255, 0, 0, 0); }
+  8% { transform: scale(1.14); text-shadow: 0 0 8px rgba(255, 0, 0, 0.6); }
+  16% { transform: scale(1); text-shadow: 0 0 0 rgba(255, 0, 0, 0); }
+  24% { transform: scale(1.18); text-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+  32% { transform: scale(1); text-shadow: 0 0 0 rgba(255, 0, 0, 0); }
+  100% { transform: scale(1); text-shadow: 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+/* Respect reduced motion preferences: keep color change, disable pulsing */
+@media (prefers-reduced-motion: reduce) {
+  #navbar .w3-bar-item:hover .fa-heart,
+  #navbar .w3-bar-item:focus-visible .fa-heart {
+    animation: none !important;
+  }
+}
+
+/* =====================================================
+   ABOUT: PROFILE PHOTO HOVER TRANSITION
+   ===================================================== */
+/* Make the opacity change on hover smooth for the About photo only */
+.about__photo {
+  transition: opacity var(--transition-medium) var(--transition-easing),
+              filter var(--transition-medium) var(--transition-easing);
+  will-change: opacity, filter;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .about__photo {
+    transition: none !important;
+  }
+}
+
+/* Stack blob and me images on top of each other */
+.about__photo-stack {
+  position: relative;
+  display: inline-block;
+  width: min(300px, 100%); /* responsive, capped at previous width */
+  line-height: 0; /* remove inline-gap */
+  border-radius: 8px; /* visually similar to w3-round */
+  overflow: visible; /* allow emitted elements to extend beyond */
+}
+
+.about__photo-stack img:not(.about__photo--sunglasses) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Blob stays in normal flow to define intrinsic height */
+.about__photo--blob {
+  position: relative;
+  z-index: 0;
+  border-radius: 8px; /* keep rounded look for the image */
+  will-change: transform;
+}
+
+/* Me overlays on top, covering the same area */
+.about__photo--me {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensure same framing if sizes differ */
+  z-index: 3; /* highest: stays in front of tokens */
+  opacity: 1;
+  border-radius: 8px; /* preserve rounding without clipping particles */
+  will-change: transform;
+}
+
+/* Sunglasses overlay: positioned in percentage coords so it scales with the image */
+.about__photo--sunglasses {
+  /* Tunables: adjust these to fine-tune placement/size */
+  --sunglasses-left: 60%;   /* x position of overlay center (approx) */
+  --sunglasses-top: 18%;    /* y position of overlay center (approx) */
+  --sunglasses-width: 28%;  /* width of the sunglasses relative to photo */
+  --sunglasses-rotate: 4deg;/* small rotation if needed */
+
+  position: absolute;
+  left: var(--sunglasses-left);
+  top: var(--sunglasses-top);
+  width: var(--sunglasses-width);
+  height: auto;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate));
+  transform-origin: center center;
+  z-index: 5; /* above dim and me image */
+  pointer-events: none; /* purely decorative */
+
+  /* Hidden by default, revealed on hover for a playful effect */
+  opacity: 0;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  transition: opacity var(--transition-medium) var(--transition-easing),
+              transform var(--transition-medium) var(--transition-easing);
+  will-change: transform, opacity;
+}
+
+.about__photo-stack.is-playing .about__photo--sunglasses {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
+}
+
+/* Also reveal sunglasses while music is playing */
+.about__photo-stack.is-playing .about__photo--sunglasses {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(var(--sunglasses-rotate)) scale(1.02);
+}
+
+/* Dim via neutral overlay to avoid color bleed */
+.about__photo-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35); /* neutral dim */
+  transition: opacity var(--transition-medium) var(--transition-easing);
+  opacity: 1; /* dim by default */
+  pointer-events: none; /* keep hover on images */
+  z-index: 4; /* above front image to dim overall; lowered on hover */
+  border-radius: 8px; /* match container rounding */
+}
+
+.about__photo-stack:hover::after,
+/* Only brighten on focus when the user is navigating with keyboard (Tab) */
+.user-is-tabbing .about__photo-stack:focus-within::after {
+  opacity: 0; /* brighten on hover/focus */
+}
+
+/* Emitter layer: positioned between blob and me; hosts tokens */
+.about__photo-stack__emitter {
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* between blob (0) and me (3) */
+  pointer-events: none;
+  overflow: visible; /* allow particles to exit bounds */
+}
+
+/* Token styles (words/emojis) */
+.about-token {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  will-change: transform, opacity, rotate, scale;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+  user-select: none;
+  white-space: nowrap;
+}
+
+
+/* Reduced motion: keep visuals subtle */
+@media (prefers-reduced-motion: reduce) {
+  .about-token {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =====================================================
+   ABOUT: AUDIO HINT BADGE
+   ===================================================== */
+.about__audio-hint {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 10; /* above dim and images */
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--transition-fast) var(--transition-easing),
+              transform var(--transition-fast) var(--transition-easing);
+  pointer-events: none; /* do not block hover/clicks */
+}
+
+.about__audio-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about__audio-hint .icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Use Font Awesome if available; otherwise simple text will show */
+.about__audio-hint .fa {
+  font-size: 14px;
+}
+
+/* =====================================================
+   MOBILE WELCOME MESSAGE
+   ===================================================== */
+.mobile-welcome {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
+  z-index: 9999;
+  max-width: 90%;
+  width: 400px;
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.mobile-welcome.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-welcome__content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-welcome__content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mobile-welcome__title {
+  margin: 0 0 12px 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+}
+
+.mobile-welcome__message {
+  margin: 0 0 16px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.mobile-welcome__close {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.mobile-welcome__close:hover,
+.mobile-welcome__close:focus {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-welcome__close:active {
+  transform: translateY(0);
+}
+
+/* Hide on tablets and desktops */
+@media (min-width: 768px) {
+  .mobile-welcome {
+    display: none;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-welcome {
+    transition: opacity 0.3s ease;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+  
+  .mobile-welcome.is-visible {
+    opacity: 1;
+  }
+  
+  .mobile-welcome__close:hover,
+  .mobile-welcome__close:focus {
+    transform: none;
+  }
+}
