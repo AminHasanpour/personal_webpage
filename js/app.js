@@ -838,7 +838,7 @@ class WebsiteUtils {
       if (reducedMotion) return;
       root.classList.add('is-bouncing');
       letters.forEach((el, idx) => {
-        const delay = (idx * 0.04) + Math.random() * 0.035;
+        const delay = (idx * 0.04) + Math.random() * 0.035 + 0.15;
         if (window.gsap) {
           gsap.fromTo(el,
             { y: 0, scale: 1 },

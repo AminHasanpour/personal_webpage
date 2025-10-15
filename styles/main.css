@@ -733,13 +733,6 @@ html {
   z-index: 5; /* above leaves and wind */
 }
 
-.flower-garden__butterfly {
-  position: absolute;
-  bottom: 170px;
-  left: 12%;
-  width: 80px;
-}
-
 .flower-garden__wind {
   width: 100%;
   height: 50%;
