@@ -404,23 +404,6 @@
 <script src="../js/app.js"></script>
 
 <script>
-  // Override analytics source for this subpage
-  (function() {
-    const originalSend = websiteApp.sendAnalytics.bind(websiteApp);
-    websiteApp.sendAnalytics = async function(id, rec) {
-      try {
-        await fetch(`https://people.compute.dtu.dk/moam/inforec/inforec.php?source=DragonEye&id=${id}&rec=${rec}`, { method: 'GET', mode: 'no-cors' });
-      } catch (e) { console.warn('Analytics request failed:', e); }
-    };
-    // Resend analytics with correct source
-    try {
-      const url = new URL(window.location.href);
-      const rec = url.searchParams.get('rec') || 'true';
-      const id = url.searchParams.get('i') || '';
-      websiteApp.sendAnalytics(id, rec);
-    } catch (e) {}
-  })();
-
   // Modal Image Gallery handler
   function onClick(element) {
     const img = document.getElementById('img01');

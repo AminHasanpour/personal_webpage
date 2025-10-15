@@ -38,7 +38,6 @@ class WebsiteUtils {
     this.setupLoadingScreen();
     this.setupNavigation();
     this.setupScrollEffects();
-    this.setupAnalytics();
     this.setupEmailBox();
     this.setupServiceWorker();
     
@@ -594,40 +593,6 @@ class WebsiteUtils {
       });
       
       observer.observe(codeBlock);
-    }
-  }
-
-  /**
-   * Setup analytics tracking
-   */
-  setupAnalytics() {
-    try {
-      const url = new URL(window.location.href);
-      const rec = url.searchParams.get("rec") || "true";
-      const id = url.searchParams.get("i") || "";
-      
-      // Use fetch API instead of XMLHttpRequest
-      this.sendAnalytics(id, rec);
-    } catch (error) {
-      console.warn('Analytics setup failed:', error);
-    }
-  }
-
-  /**
-   * Send analytics data with modern fetch API
-   */
-  async sendAnalytics(id, rec) {
-    try {
-      const response = await fetch(
-        `https://people.compute.dtu.dk/moam/inforec/inforec.php?source=Home&id=${id}&rec=${rec}`,
-        {
-          method: 'GET',
-          mode: 'no-cors'
-        }
-      );
-      // Note: no-cors mode doesn't allow reading response, but that's okay for analytics
-    } catch (error) {
-      console.warn('Analytics request failed:', error);
     }
   }
 
